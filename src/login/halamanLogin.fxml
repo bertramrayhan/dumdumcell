@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #caf0f8;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.halamanLoginController">
+   <children>
+      <AnchorPane layoutX="580.0" prefHeight="720.0" prefWidth="700.0" style="-fx-background-color: #0077b6;">
+         <children>
+            <Label layoutX="175.0" layoutY="252.0" text="Username">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtUsername" layoutX="175.0" layoutY="290.0" prefHeight="38.0" prefWidth="380.0" promptText="Username" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;" />
+            <Label layoutX="175.0" layoutY="360.0" text="Password">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="420.0" layoutY="450.0" text="Lupa Password?">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnLogin" layoutX="456.0" layoutY="490.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="37.0" prefWidth="100.0" styleClass="button-effect" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <PasswordField fx:id="txtPassword" layoutX="175.0" layoutY="398.0" prefHeight="38.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="50.0" layoutY="150.0" text="Selamat Datang" textFill="#353499">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="230.0" text="di DumDumCellular" textFill="#353499">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="865.0" layoutY="135.0" text="LOGIN">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
