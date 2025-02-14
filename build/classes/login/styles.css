@@ -10,6 +10,7 @@
 
 .button-effect {
     -fx-background-color: #023e8a; /* Warna default */
+    -fx-cursor: hand;
 }
 
 .button-effect:hover {
