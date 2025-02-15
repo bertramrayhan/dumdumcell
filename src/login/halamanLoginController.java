@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import main.DumdumKasir;
 import main.Koneksi;
 
 public class halamanLoginController implements Initializable {
@@ -35,6 +36,8 @@ public class halamanLoginController implements Initializable {
             if(result.next()){
                 System.out.println(result.getString("id_admin"));
                 System.out.println(result.getString("role"));
+                
+                DumdumKasir.switchToBeranda();
             }
             
             result.close();
