@@ -15,13 +15,14 @@ import javafx.util.Duration;
 
 public class HalamanUtamaKController implements Initializable {
     final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
+    final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
     String pathNow = pathBeranda;
     
     @FXML private StackPane halamanUtama;
     
     @FXML private Pane indikatorBeranda, indikatorStok;
     
-    @FXML private Button btnBeranda, btnStok;
+    @FXML private Button btnBeranda, btnStok, btnProfil;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -40,9 +41,16 @@ public class HalamanUtamaKController implements Initializable {
     }
     
     @FXML
+    void goToProfil(){
+        resetIndikator();
+        loadPane(pathHalamanProfil);
+    }
+    
+    @FXML
     void goToBeranda(){
         resetIndikator();
         animateIndikator(indikatorBeranda);
+        loadPane(pathBeranda);
     }
     
     @FXML

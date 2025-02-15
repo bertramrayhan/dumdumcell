@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -14,9 +15,9 @@
    <children>
       <AnchorPane prefHeight="760.0" prefWidth="280.0" style="-fx-background-color: #0077b6;">
          <children>
-            <Circle fill="#caf0f8" layoutX="148.0" layoutY="108.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="108.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-            <Button layoutX="99.0" layoutY="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 25; -fx-background-color: #02045e;" text="Karyawan" textFill="#caf0f8">
+            <Circle fill="#caf0f8" layoutX="140.0" layoutY="104.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="100.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnProfil" layoutX="90.0" layoutY="200.0" mnemonicParsing="false" onAction="#goToProfil" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 25; -fx-background-color: #02045e;" text="Karyawan" textFill="#caf0f8">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
