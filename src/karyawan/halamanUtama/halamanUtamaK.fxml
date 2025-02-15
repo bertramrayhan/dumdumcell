@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1280.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanUtama.HalamanUtamaKController">
+   <children>
+      <AnchorPane prefHeight="760.0" prefWidth="280.0" style="-fx-background-color: #0077b6;">
+         <children>
+            <Circle fill="#caf0f8" layoutX="148.0" layoutY="108.0" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="108.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+            <Button layoutX="99.0" layoutY="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 25; -fx-background-color: #02045e;" text="Karyawan" textFill="#caf0f8">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <VBox layoutY="308.0" prefHeight="200.0" prefWidth="280.0">
+               <children>
+                  <HBox prefHeight="45.0" prefWidth="200.0">
+                     <children>
+                        <Pane fx:id="indikatorBeranda" prefHeight="200.0" prefWidth="5.0" style="-fx-background-color: #caf0f8;" />
+                        <Button fx:id="btnBeranda" mnemonicParsing="false" onAction="#goToBeranda" prefHeight="45.0" prefWidth="275.0" style="-fx-background-color: transparent;" text="Beranda" textFill="#02045e">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children></HBox>
+                  <HBox prefHeight="45.0" prefWidth="280.0">
+                     <children>
+                        <Pane fx:id="indikatorStok" prefHeight="200.0" prefWidth="5.0" style="-fx-background-color: #caf0f8; -fx-scale-y: 0;" />
+                        <Button fx:id="btnStok" mnemonicParsing="false" onAction="#goToStok" prefHeight="45.0" prefWidth="275.0" style="-fx-background-color: transparent;" text="Stok" textFill="#02045e">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <StackPane fx:id="halamanUtama" layoutX="280.0" prefHeight="760.0" prefWidth="1000.0" />
+   </children>
+</AnchorPane>
