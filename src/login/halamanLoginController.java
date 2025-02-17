@@ -9,20 +9,32 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import main.DumdumKasir;
 import main.Koneksi;
 
 public class halamanLoginController implements Initializable {
+    private String RFIDId = "";
+    private long lastTime = 0;
+    private final long RFID_THRESHOLD = 100;
     
-    @FXML TextField txtUsername;
+    @FXML TextField txtUsername, txtPasswordVisible;
     @FXML PasswordField txtPassword;
-    
     @FXML Button btnLogin;
-        
+    @FXML ImageView btnShowPassword;
+    
+    boolean showPassword = false;
+    
     @FXML
-    private void handleButtonAction(MouseEvent event) {
+    private void btnLogin(MouseEvent event) {
         String username = txtUsername.getText();
+        
+        if(showPassword){
+            txtPassword.setText(txtPasswordVisible.getText());
+        }
+        
         String password = txtPassword.getText();
         
         try {
@@ -45,11 +57,93 @@ public class halamanLoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        txtUsername.requestFocus();
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        setupRFIDListener(txtUsername);
+        setupRFIDListener(txtPassword);
+        
+        txtPasswordVisible.setManaged(false);
+    }  
     
+    private void setupRFIDListener(TextField field) {
+        field.setOnKeyTyped(event -> {
+            long currentTime = System.currentTimeMillis();
+            char c = event.getCharacter().charAt(0);
+
+            // Reset RFIDId kalau inputnya lambat
+            if (lastTime != 0 && (currentTime - lastTime) > RFID_THRESHOLD) {
+                RFIDId = "";
+            }
+
+            RFIDId += c;
+            lastTime = currentTime;
+
+//            if (RFIDId.length() == 1) { 
+//                // Kalau RFID mulai ke-detect, clear input field biar gak ketumpuk
+//                field.clear();
+//            }
+            
+            if (c == '\n' || c == '\r') { // RFID biasanya diakhiri Enter
+                if (RFIDId.length() >= 9) {
+                    System.out.println("Scan RFID Terdeteksi: " + RFIDId);
+                    RFIDId = RFIDId.replace("\n", "").replace("\r", "");
+                    loginDenganRFID();
+                }
+                RFIDId = ""; 
+                field.clear();
+            }
+            
+        });
+    }
+    
+    private void loginDenganRFID(){
+        try {
+            String query = "select id_admin, role from admin where kode_kartu=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, RFIDId);
+            
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()){
+                System.out.println(result.getString("id_admin"));
+                System.out.println(result.getString("role"));
+                
+                DumdumKasir.switchToBeranda();
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void showOrHidePassword(MouseEvent evt){
+        showPassword = !showPassword;
+
+        if(showPassword){
+            txtPasswordVisible.setText(txtPassword.getText());
+            txtPasswordVisible.setVisible(true);
+            txtPasswordVisible.setManaged(true);
+            txtPasswordVisible.requestFocus();
+            txtPasswordVisible.positionCaret(txtPasswordVisible.getText().length()); // Set kursor di akhir
+            txtPassword.setVisible(false);
+            txtPassword.setManaged(false);
+            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye-off36px.png")));
+        }else{
+            txtPassword.setText(txtPasswordVisible.getText());
+            txtPassword.setVisible(true);
+            txtPassword.setManaged(true);
+            txtPassword.requestFocus();
+            txtPassword.positionCaret(txtPassword.getText().length()); // Set kursor di akhir
+            txtPasswordVisible.setVisible(false);
+            txtPasswordVisible.setManaged(false);
+            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye36px.png")));
+        }
+    }
 }
