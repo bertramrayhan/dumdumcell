@@ -5,7 +5,9 @@
         <group>
             <file>file:/E:/java/dumdumKasir/src/karyawan/halamanProfil/halamanProfilK.fxml</file>
             <file>file:/E:/java/dumdumKasir/src/karyawan/halamanProfil/HalamanProfilKController.java</file>
+            <file>file:/E:/java/dumdumKasir/src/login/halamanLogin.fxml</file>
             <file>file:/E:/java/dumdumKasir/src/main/DumdumKasir.java</file>
+            <file>file:/E:/java/dumdumKasir/src/login/halamanLoginController.java</file>
             <file>file:/E:/java/dumdumKasir/src/karyawan/halamanUtama/halamanUtamaK.fxml</file>
             <file>file:/E:/java/dumdumKasir/src/karyawan/halamanUtama/HalamanUtamaKController.java</file>
         </group>
