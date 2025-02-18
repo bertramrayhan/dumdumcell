@@ -10,8 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="karyawan.halamanProfil.HalamanProfilKController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanProfil.HalamanProfilKController">
    <children>
       <Label layoutX="19.0" layoutY="25.0" text="Profil Karyawan">
          <font>
@@ -24,7 +23,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="214.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;" text="Bertram Naqa Rayhan Indratno">
+      <Label fx:id="lblNama" alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="214.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
@@ -37,7 +36,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="311.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;" text="Bertram Naqa Rayhan Indratno">
+      <Label fx:id="lblAlamat" alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="311.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
@@ -55,7 +54,7 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="408.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;" text="Bertram Naqa Rayhan Indratno">
+      <Label fx:id="lblNomorHP" alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="408.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
@@ -63,7 +62,7 @@
             <Insets left="6.0" />
          </padding>
       </Label>
-      <Label alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="504.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;" text="Bertram Naqa Rayhan Indratno">
+      <Label fx:id="lblUsername" alignment="BOTTOM_LEFT" layoutX="490.0" layoutY="504.0" prefHeight="44.0" prefWidth="458.0" style="-fx-border-color: #0077b6; -fx-border-radius: 5; -fx-border-width: 2;">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
@@ -71,12 +70,7 @@
             <Insets left="6.0" />
          </padding>
       </Label>
-      <Label layoutX="826.0" layoutY="556.0" text="Ganti Password">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Button alignment="CENTER_RIGHT" layoutX="865.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Logout">
+      <Button fx:id="btnLogout" alignment="CENTER_RIGHT" layoutX="865.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#logout" prefHeight="25.0" prefWidth="130.0" style="-fx-background-color: transparent;" text="Logout">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>
@@ -89,5 +83,13 @@
             <Image url="@../../assets/icons/logout28px.png" />
          </image>
       </ImageView>
+      <Button fx:id="btnGantiPassword" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="816.0" layoutY="556.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Ganti Password">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <padding>
+            <Insets left="9.0" />
+         </padding>
+      </Button>
    </children>
 </AnchorPane>
