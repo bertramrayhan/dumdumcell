@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="230.0" prefWidth="490.0" style="-fx-background-color: #caf0f8; -fx-border-color: #0077b6; -fx-border-width: 3;" stylesheets="@../../../main/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="share.logout.LogoutController">
+   <children>
+      <Label layoutX="99.0" layoutY="72.0" text="Apakah anda ingin keluar?">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnIya" layoutX="99.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#switchToLogin" prefHeight="37.0" prefWidth="100.0" styleClass="button-effect" text="Iya" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnTidak" layoutX="291.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#logoutCancel" prefHeight="37.0" prefWidth="100.0" styleClass="button-effect" text="Tidak" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
