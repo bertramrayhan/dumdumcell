@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import main.DumdumKasir;
 import main.Koneksi;
+import main.Session;
 
 public class halamanLoginController implements Initializable {
     private String RFIDId = "";
@@ -29,13 +30,13 @@ public class halamanLoginController implements Initializable {
     
     @FXML
     private void btnLogin(MouseEvent event) {
-        String username = txtUsername.getText();
+        String username = txtUsername.getText().trim();
         
         if(showPassword){
             txtPassword.setText(txtPasswordVisible.getText());
         }
         
-        String password = txtPassword.getText();
+        String password = txtPassword.getText().trim();
         
         try {
             String query = "select id_admin, role from admin where username=? and password=?";
@@ -46,9 +47,7 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
-                System.out.println(result.getString("id_admin"));
-                System.out.println(result.getString("role"));
-                
+                Session.setIdAdmin(result.getString("id_admin"));
                 DumdumKasir.switchToBeranda();
             }
             
@@ -81,11 +80,6 @@ public class halamanLoginController implements Initializable {
 
             RFIDId += c;
             lastTime = currentTime;
-
-//            if (RFIDId.length() == 1) { 
-//                // Kalau RFID mulai ke-detect, clear input field biar gak ketumpuk
-//                field.clear();
-//            }
             
             if (c == '\n' || c == '\r') { // RFID biasanya diakhiri Enter
                 if (RFIDId.length() >= 9) {
@@ -109,9 +103,7 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
-                System.out.println(result.getString("id_admin"));
-                System.out.println(result.getString("role"));
-                
+                Session.setIdAdmin(result.getString("id_admin"));
                 DumdumKasir.switchToBeranda();
             }
             
