@@ -8,12 +8,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class DumdumKasir extends Application {
-    private static Stage halamanUtama;
+    public static Stage halamanUtama;
+
     
     @Override
     public void start(Stage stage) throws Exception {
         halamanUtama = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("/karyawan/halamanUtama/halamanUtamaK.fxml")); // /login/halamanLogin.fxml
+        Parent root = FXMLLoader.load(getClass().getResource(Session.getPathHalamanLogin()));
         
         Scene scene = new Scene(root);
         
@@ -22,7 +23,6 @@ public class DumdumKasir extends Application {
         stage.centerOnScreen();
         //stage.setMaximized(true);
         stage.show();
-        
     }
 
     @Override
@@ -35,10 +35,11 @@ public class DumdumKasir extends Application {
         Stage newStage = new Stage();
         newStage.initStyle(StageStyle.UNDECORATED); // Hilangin title bar
 
-        Parent root = FXMLLoader.load(DumdumKasir.class.getResource("/karyawan/halamanUtama/halamanUtamaK.fxml"));
+        Parent root = FXMLLoader.load(DumdumKasir.class.getResource(Session.getPathHalamanUtama()));
         Scene scene = new Scene(root);
 
         newStage.setScene(scene);
+        newStage.centerOnScreen();
         newStage.show();
         halamanUtama.close(); // Tutup login setelah sukses
         
