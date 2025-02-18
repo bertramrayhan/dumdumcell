@@ -12,11 +12,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import main.Session;
 
 public class HalamanUtamaKController implements Initializable {
-    final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
-    final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
-    String pathNow = pathBeranda;
+    String pathNow = Session.getPathBeranda();
     
     @FXML private StackPane halamanUtama;
     
@@ -26,7 +25,7 @@ public class HalamanUtamaKController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadPane(pathBeranda);
+        loadPane(Session.getPathBeranda());
     }    
     
     private void loadPane(String pathPane) {
@@ -43,14 +42,14 @@ public class HalamanUtamaKController implements Initializable {
     @FXML
     void goToProfil(){
         resetIndikator();
-        loadPane(pathHalamanProfil);
+        loadPane(Session.getPathHalamanProfil());
     }
     
     @FXML
     void goToBeranda(){
         resetIndikator();
         animateIndikator(indikatorBeranda);
-        loadPane(pathBeranda);
+        loadPane(Session.getPathBeranda());
     }
     
     @FXML
