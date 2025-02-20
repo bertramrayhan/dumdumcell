@@ -17,7 +17,7 @@ public class LogoutController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Bisa dipake kalau perlu inisialisasi tambahan
+        
     }
 
     public void setDialogStage(Stage dialogStage) {
