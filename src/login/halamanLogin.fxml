@@ -17,7 +17,10 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtUsername" layoutX="175.0" layoutY="290.0" prefHeight="38.0" prefWidth="380.0" promptText="Username" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;" />
+            <TextField fx:id="txtUsername" layoutX="175.0" layoutY="290.0" prefHeight="38.0" prefWidth="380.0" promptText="Username" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;">
+               <font>
+                  <Font size="16.0" />
+               </font></TextField>
             <Label layoutX="175.0" layoutY="360.0" text="Password">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -28,16 +31,31 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <TextField fx:id="txtPasswordVisible" layoutX="175.0" layoutY="398.0" prefHeight="38.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;" visible="false" />
-            <PasswordField fx:id="txtPassword" layoutX="175.0" layoutY="398.0" prefHeight="38.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;" />
+            <TextField fx:id="txtPasswordVisible" layoutX="175.0" layoutY="398.0" prefHeight="38.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;" visible="false">
+               <font>
+                  <Font size="16.0" />
+               </font></TextField>
+            <PasswordField fx:id="txtPassword" layoutX="175.0" layoutY="398.0" prefHeight="38.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: #caf0f8; -fx-prompt-text-fill: black;">
+               <font>
+                  <Font size="16.0" />
+               </font></PasswordField>
             <ImageView fx:id="btnShowPassword" fitHeight="36.0" fitWidth="36.0" layoutX="568.0" layoutY="398.0" onMouseClicked="#showOrHidePassword" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/assets/icons/eye36px.png" />
+                  <Image url="@../assets/icons/eye-off36px.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
+            <StackPane fx:id="panePesan" layoutX="190.0" layoutY="640.0" opacity="0.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #FF6666; -fx-border-color: #CC3333; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;">
+               <children>
+                  <Label fx:id="lblPesan" alignment="CENTER" prefWidth="370.0" style="-fx-text-fill: #800000;" text="Username atau Password salah" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
          </children>
       </AnchorPane>
       <Label layoutX="50.0" layoutY="150.0" text="Selamat Datang" textFill="#353499">

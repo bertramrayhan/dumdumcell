@@ -4,14 +4,22 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import main.DumdumKasir;
 import main.Koneksi;
 import main.Session;
@@ -25,8 +33,18 @@ public class halamanLoginController implements Initializable {
     @FXML PasswordField txtPassword;
     @FXML Button btnLogin;
     @FXML ImageView btnShowPassword;
+    @FXML StackPane panePesan;
+    @FXML Label lblPesan;
     
     boolean showPassword = false;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setupRFIDListener(txtUsername);
+        setupRFIDListener(txtPassword);
+        
+        txtPasswordVisible.setManaged(false);
+    }  
     
     @FXML
     private void btnLogin(MouseEvent event) {
@@ -56,17 +74,33 @@ public class halamanLoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+        animasiPanePesan();
         txtUsername.requestFocus();
+        txtUsername.positionCaret(txtUsername.getText().length());
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        setupRFIDListener(txtUsername);
-        setupRFIDListener(txtPassword);
-        
-        txtPasswordVisible.setManaged(false);
-    }  
+    private void loginDenganRFID(){
+        try {
+            String query = "select id_admin, role from admin where kode_kartu=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, RFIDId);
+            
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()){
+                Session.setIdAdmin(result.getString("id_admin"));
+                DumdumKasir.switchToBeranda();
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        animasiPanePesan();
+        txtUsername.requestFocus();
+        txtUsername.positionCaret(txtUsername.getText().length());
+    }
     
     private void setupRFIDListener(TextField field) {
         field.setOnKeyTyped(event -> {
@@ -94,26 +128,6 @@ public class halamanLoginController implements Initializable {
         });
     }
     
-    private void loginDenganRFID(){
-        try {
-            String query = "select id_admin, role from admin where kode_kartu=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, RFIDId);
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                Session.setIdAdmin(result.getString("id_admin"));
-                DumdumKasir.switchToBeranda();
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     @FXML
     private void showOrHidePassword(MouseEvent evt){
         showPassword = !showPassword;
@@ -126,7 +140,7 @@ public class halamanLoginController implements Initializable {
             txtPasswordVisible.positionCaret(txtPasswordVisible.getText().length()); // Set kursor di akhir
             txtPassword.setVisible(false);
             txtPassword.setManaged(false);
-            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye-off36px.png")));
+            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye36px.png")));
         }else{
             txtPassword.setText(txtPasswordVisible.getText());
             txtPassword.setVisible(true);
@@ -135,7 +149,45 @@ public class halamanLoginController implements Initializable {
             txtPassword.positionCaret(txtPassword.getText().length()); // Set kursor di akhir
             txtPasswordVisible.setVisible(false);
             txtPasswordVisible.setManaged(false);
-            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye36px.png")));
+            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye-off36px.png")));
         }
+    }
+    
+    private void animasiPanePesan() {
+        btnLogin.setDisable(true);
+        
+        // Animasi fade in
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), panePesan);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
+
+        // Animasi naik ke tengah
+        TranslateTransition naik = new TranslateTransition(Duration.millis(500), panePesan);
+        naik.setFromY(50);
+        naik.setToY(-100);
+
+        ParallelTransition naikSambilFade = new ParallelTransition(naik, fadeIn);
+        
+        // Pause biar pesan keliatan beberapa detik
+        PauseTransition jeda = new PauseTransition(Duration.millis(1000));
+
+        // Animasi turun kembali
+        TranslateTransition turun = new TranslateTransition(Duration.millis(500), panePesan);
+        turun.setFromY(-100);
+        turun.setToY(50);
+
+        // Animasi fade out
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(300), panePesan);
+        fadeOut.setFromValue(1);
+        fadeOut.setToValue(0);
+
+        ParallelTransition turunSambilFade = new ParallelTransition(turun, fadeOut);
+        
+        // Gabung semua animasi dengan jeda tambahan
+        SequentialTransition animasi = new SequentialTransition(naikSambilFade, jeda, turunSambilFade);
+        animasi.setOnFinished(event -> {
+        btnLogin.setDisable(false);
+        });
+        animasi.play();
     }
 }
