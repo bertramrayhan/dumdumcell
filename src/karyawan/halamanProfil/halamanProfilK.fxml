@@ -83,13 +83,16 @@
             <Image url="@../../assets/icons/logout28px.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnGantiPassword" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="816.0" layoutY="556.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Ganti Password">
+      <Button fx:id="btnGantiPassword" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="808.0" layoutY="556.0" mnemonicParsing="false" onMouseClicked="#gantiPassword" style="-fx-background-color: transparent;" text="Ganti Password">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
          <padding>
             <Insets left="9.0" />
          </padding>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
    </children>
 </AnchorPane>

@@ -15,7 +15,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import karyawan.halamanProfil.logout.LogoutController;
+import karyawan.halamanProfil.gantiPassword.GantiPasswordController;
+import share.logout.LogoutController;
 import main.DumdumKasir;
 import main.Koneksi;
 import main.Session;
@@ -33,7 +34,7 @@ public class HalamanProfilKController implements Initializable {
     @FXML
     private void logout(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/karyawan/halamanProfil/logout/logout.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/share/logout/logout.fxml"));
             Parent root = loader.load();
 
             Stage logoutStage = new Stage();
@@ -51,6 +52,27 @@ public class HalamanProfilKController implements Initializable {
                 switchToLogin(); // Logout ke halaman login
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void gantiPassword(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/karyawan/halamanProfil/gantiPassword/gantiPassword.fxml"));
+            Parent root = loader.load();
+
+            Stage gantiPasswordStage = new Stage();
+            gantiPasswordStage.initModality(Modality.APPLICATION_MODAL);
+            gantiPasswordStage.initStyle(StageStyle.UNDECORATED);
+            gantiPasswordStage.centerOnScreen();
+            gantiPasswordStage.setScene(new Scene(root));
+
+            GantiPasswordController controller = loader.getController();
+            controller.setDialogStage(gantiPasswordStage);
+            
+            gantiPasswordStage.showAndWait(); // Tunggu user klik "Iya" atau "Tidak"
         } catch (IOException e) {
             e.printStackTrace();
         }
