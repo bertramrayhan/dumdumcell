@@ -87,6 +87,7 @@ public class GantiPasswordController implements Initializable {
     private void animasiPesanPane(Runnable onFinish, String pesan) {
         btnKonfirmasi.setDisable(true);
         pesanPane.requestFocus();
+        lblPesan.setText(pesan);
         
         // Animasi fade in
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300), pesanPane);
