@@ -9,13 +9,13 @@ import javafx.stage.StageStyle;
 
 public class DumdumKasir extends Application {
     public static Stage halamanUtama;
-
     
     @Override
     public void start(Stage stage) throws Exception {
         halamanUtama = stage;
-        Parent root = FXMLLoader.load(getClass().getResource(Session.getPathHalamanLogin()));
-        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Session.getPathHalamanLogin()));
+        Parent root = loader.load();
+               
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
@@ -31,7 +31,7 @@ public class DumdumKasir extends Application {
         Koneksi.closeConnection();
     }
 
-    public static void switchToBeranda() throws Exception {
+    public static void switchToBeranda() throws Exception {        
         Stage newStage = new Stage();
         newStage.initStyle(StageStyle.UNDECORATED); // Hilangin title bar
 
@@ -41,7 +41,7 @@ public class DumdumKasir extends Application {
         newStage.setScene(scene);
         newStage.centerOnScreen();
         newStage.show();
-        halamanUtama.close(); // Tutup login setelah sukses
+        halamanUtama.close();
         
         halamanUtama = newStage;
     }

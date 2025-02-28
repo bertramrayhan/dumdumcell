@@ -1,0 +1,51 @@
+.modern-table {
+    -fx-background-color: white !important;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+    -fx-padding: 5;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-radius: 15;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: white !important;
+    -fx-border-radius: 0;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 1px 0;
+    -fx-padding: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: white !important;
+    -fx-border-color: transparent;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-background-radius: 0;
+}
+
+.table-row-cell {
+    -fx-border-color: #e0e0e0;
+    -fx-background-radius: 10;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #bdbdbd;
+    -fx-text-fill: black !important;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: black !important;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-border-color: #e0e0e0 !important; /* Warna garis tetap abu-abu */
+}
+
+.table-cell:focused {
+    -fx-border-color: transparent !important; /* Hilangin garis biru di cell yang kepilih */
+}

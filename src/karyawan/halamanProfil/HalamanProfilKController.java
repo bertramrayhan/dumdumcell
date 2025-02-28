@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import karyawan.halamanProfil.gantiPassword.GantiPasswordController;
+import karyawan.halamanUtama.HalamanUtamaKController;
 import share.logout.LogoutController;
 import main.DumdumKasir;
 import main.Koneksi;
@@ -79,6 +80,8 @@ public class HalamanProfilKController implements Initializable {
     }
     
     private void switchToLogin() {
+        Session.setIdAdmin("");
+        HalamanUtamaKController.penyimpananPaneKaryawan.clear();
         try {
             Stage loginStage = new Stage();
             Parent root = FXMLLoader.load(DumdumKasir.class.getResource(Session.getPathHalamanLogin()));
