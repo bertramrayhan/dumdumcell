@@ -48,13 +48,13 @@ public class halamanLoginController implements Initializable {
     
     @FXML
     private void btnLogin(MouseEvent event) {
-        String username = txtUsername.getText().trim();
+        String username = txtUsername.getText();
         
         if(showPassword){
             txtPassword.setText(txtPasswordVisible.getText());
         }
         
-        String password = txtPassword.getText().trim();
+        String password = txtPassword.getText();
         
         try {
             String query = "SELECT id_admin, role FROM admin WHERE username=? AND password=?";
