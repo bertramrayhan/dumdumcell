@@ -22,12 +22,12 @@
       </Label>
       <AnchorPane layoutX="19.0" layoutY="265.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black; -fx-border-width: 2;">
          <children>
-            <Label layoutX="15.0" layoutY="64.0" prefWidth="200.0" text="Total penjualan hari ini" wrapText="true">
+            <Label layoutX="15.0" layoutY="64.0" prefHeight="70.0" prefWidth="165.0" text="Total barang terjual hari ini" wrapText="true">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
+            <Label fx:id="lblTotalBarangTerjual" alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
                <font>
                   <Font name="System Bold" size="50.0" />
                </font>
@@ -41,17 +41,17 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label layoutX="28.0" layoutY="56.0" text="Status : Terlambat" textFill="WHITE">
+            <Label fx:id="lblStatusDatang" layoutX="28.0" layoutY="56.0" prefWidth="275.0" text="Status : " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
             </Label>
-            <Label layoutX="336.0" layoutY="56.0" text="Jam Kerja : 07.00 - 14.00" textFill="WHITE">
+            <Label fx:id="lblJamKerja" layoutX="327.0" layoutY="56.0" prefWidth="323.0" text="Jam Kerja : " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
             </Label>
-            <Label layoutX="787.0" layoutY="55.0" text="Shift : Pagi" textFill="WHITE">
+            <Label fx:id="lblShift" layoutX="760.0" layoutY="55.0" prefWidth="176.0" text="Shift : " textFill="WHITE">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -65,7 +65,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
+            <Label fx:id="lblJumlahBarang" alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
                <font>
                   <Font name="System Bold" size="50.0" />
                </font>
@@ -79,7 +79,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
+            <Label fx:id="lblJumlahBarangHampirExp" alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
                <font>
                   <Font name="System Bold" size="50.0" />
                </font>
@@ -106,7 +106,7 @@
             <TableColumn fx:id="potonganHargaCol" prefWidth="115.0" style="-fx-alignment: CENTER;" text="Potongan Harga" />
          </columns>
       </TableView>
-      <Label fx:id="lblWaktu" layoutX="850.0" layoutY="20.0" text="00:00:00" textFill="#353499">
+      <Label fx:id="lblWaktu" layoutX="873.0" layoutY="20.0" text="00:00:00" textFill="#353499">
          <font>
             <Font size="28.0" />
          </font>
