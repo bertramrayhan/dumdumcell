@@ -57,7 +57,7 @@ public class halamanLoginController implements Initializable {
         String password = txtPassword.getText().trim();
         
         try {
-            String query = "select id_admin, role from admin where username=? and password=?";
+            String query = "SELECT id_admin, role FROM admin WHERE username=? AND password=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, password);
@@ -66,6 +66,7 @@ public class halamanLoginController implements Initializable {
             
             if(result.next()){
                 Session.setIdAdmin(result.getString("id_admin"));
+                absensi();
                 DumdumKasir.switchToBeranda();
             }
             
@@ -81,7 +82,7 @@ public class halamanLoginController implements Initializable {
     
     private void loginDenganRFID(){
         try {
-            String query = "select id_admin, role from admin where kode_kartu=?";
+            String query = "SELECT id_admin, role FROM admin WHERE kode_kartu=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, RFIDId);
             
@@ -89,6 +90,7 @@ public class halamanLoginController implements Initializable {
             
             if(result.next()){
                 Session.setIdAdmin(result.getString("id_admin"));
+                absensi();
                 DumdumKasir.switchToBeranda();
             }
             
@@ -100,6 +102,29 @@ public class halamanLoginController implements Initializable {
         animasiPanePesan();
         txtUsername.requestFocus();
         txtUsername.positionCaret(txtUsername.getText().length());
+    }
+    
+    private void absensi(){
+        try {
+            String query = "select jam_masuk FROM shift_karyawan WHERE id_admin=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, Session.getIdAdmin());
+            
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()){
+             if(result.getString("jam_masuk") == null){
+                 query = "UPDATE shift_karyawan SET jam_masuk=CURRENT_TIME";
+                 statement = Koneksi.getCon().prepareStatement(query);
+                 statement.executeUpdate();
+             }   
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private void setupRFIDListener(TextField field) {
