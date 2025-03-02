@@ -1,6 +1,14 @@
 package main;
 
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 public class Session {
+    private static final DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
+    private static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+    
     private static String idAdmin = "";
     private static final String pathHalamanLogin = "/login/halamanLogin.fxml";
     
@@ -32,4 +40,23 @@ public class Session {
         return pathHalamanProfil;
     }
     
+    public static String convertTanggalIndo(String tanggal){
+        LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
+
+        return tglExp.format(formatTanggal);
+    }
+    
+    public static String convertIntToRupiah(int harga){
+        return formatRupiah.format(harga);
+    }
+    
+    public static int convertRupiahToInt(String rupiah){
+        int harga = 0;
+        try {
+            harga = formatRupiah.parse(rupiah).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return harga;
+    }
 }
