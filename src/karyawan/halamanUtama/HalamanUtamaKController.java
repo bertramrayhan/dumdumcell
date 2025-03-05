@@ -81,7 +81,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToJual(){
         resetIndikator();
         animateIndikator(indikatorJual);
-        //loadPane(Session.getPathHalamanJual());
+        loadPane(Session.getPathHalamanJual());
     }
     
     @FXML

@@ -15,6 +15,7 @@ public class Session {
     private static final String pathHalamanUtama = "/karyawan/halamanUtama/halamanUtamaK.fxml";
     private static final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
     private static final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
+    private static final String pathHalamanJual = "/karyawan/halamanJual/halamanJualK.fxml";
 
     public static void setIdAdmin(String idAdmin) {
         Session.idAdmin = idAdmin;
@@ -39,7 +40,11 @@ public class Session {
     public static String getPathHalamanProfil() {
         return pathHalamanProfil;
     }
-    
+
+    public static String getPathHalamanJual() {
+        return pathHalamanJual;
+    }
+        
     public static String convertTanggalIndo(String tanggal){
         LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
 

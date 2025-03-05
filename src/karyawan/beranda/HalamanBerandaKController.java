@@ -28,7 +28,7 @@ public class HalamanBerandaKController implements Initializable {
     @FXML private TableColumn<Promo, String> promoCol, potonganHargaCol;
     
     @FXML private Label lblWaktu, lblStatusDatang, lblShift, lblJamKerja, lblTotalBarangTerjual, lblJumlahBarang, lblJumlahBarangHampirExp;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final DateTimeFormatter formatWaktu = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     
     private ObservableList<Barang> barangList = FXCollections.observableArrayList();
@@ -46,7 +46,7 @@ public class HalamanBerandaKController implements Initializable {
     private void mulaiWaktu() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             LocalTime now = LocalTime.now();
-            lblWaktu.setText(now.format(formatter));
+            lblWaktu.setText(now.format(formatWaktu));
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();

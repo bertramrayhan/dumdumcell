@@ -9,14 +9,14 @@
 }
 
 .button-effect {
-    -fx-background-color: #023e8a; /* Warna default */
+    -fx-background-color: #0096c7; /* Warna default */
     -fx-cursor: hand;
 }
 
 .button-effect:hover {
-    -fx-background-color: #03045e; /* Warna saat hover */
+    -fx-background-color: #023e8a; /* Warna saat hover */
 }
 
 .button-effect:pressed {
-    -fx-background-color: #0096c7; /* Warna saat tombol ditekan */
+    -fx-background-color: #03045e; /* Warna saat tombol ditekan */
 }
