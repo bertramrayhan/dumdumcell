@@ -66,8 +66,8 @@ public class GantiPasswordController implements Initializable {
                     
                     statement.executeUpdate();
                     
-                    pesanPane.setStyle("-fx-background-color: #99e699; -fx-border-color: #339933; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;");
-                    lblPesan.setStyle("-fx-text-fill: #004d00;");
+                    pesanPane.setStyle("-fx-background-color: #388E3C; -fx-border-color: #1B5E20; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;");
+                    lblPesan.setStyle("-fx-text-fill: #E8F5E9;");
                     animasiPesanPane(() -> dialogStage.close(), "Password berhasil diperbarui");
                 }else{
                     animasiPesanPane("Password lama yang Anda masukkan salah");
