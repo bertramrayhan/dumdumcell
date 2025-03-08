@@ -1,0 +1,32 @@
+.table-view {
+    -fx-border-color: black; /* Ubah warna border tabel */
+    -fx-border-width: 1px;
+    -fx-background-color: white;
+}
+.table-view .column-header {
+    -fx-padding: 0; /* Hilangkan padding antar header */
+    -fx-border-insets: 0; /* Hilangkan jarak akibat border */
+    fx-min-height: 40px; /* Tinggi minimum */
+    -fx-pref-height: 40px; /* Tinggi preferensi */
+    -fx-max-height: 40px; /* Tinggi maksimum */
+}
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    -fx-background-color: #02045e;
+}
+.table-view .table-cell {
+    -fx-border-color: black; /* Warna garis */
+    -fx-border-width: 0 1px 0 0; /* Garis di sisi kanan setiap sel */
+}
+
+/* Menambahkan garis horizontal di antara baris */
+.table-row-cell {
+    -fx-border-color: black; /* Warna garis */
+    -fx-border-width: 0 0 1px 0; /* Garis di bawah setiap baris */
+}
+
+
+/* JANGAN LUPA COPY SCROLLBAR DARI TABLE.CSS KE TABLE2.CSS                                                                                                                                              */
