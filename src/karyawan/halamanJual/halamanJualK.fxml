@@ -12,12 +12,12 @@
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanJual.HalamanJualKController">
    <children>
-      <Label layoutX="25.0" layoutY="30.0" text="Transaksi Jual" textFill="#353499">
+      <Label layoutX="25.0" layoutY="17.0" text="Transaksi Jual" textFill="#353499">
          <font>
             <Font name="System Bold" size="50.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="94.0" text="Go Digital &amp; Beyond" textFill="#353499">
+      <Label layoutX="28.0" layoutY="81.0" text="Go Digital &amp; Beyond" textFill="#353499">
          <font>
             <Font size="28.0" />
          </font>
@@ -179,14 +179,6 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="lblDiskon" layoutX="129.0" layoutY="56.0" prefHeight="32.0" prefWidth="185.0" style="-fx-background-color: white; -fx-background-radius: 5;" text="Rp0,00" textAlignment="CENTER" textFill="#02045e">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-               <padding>
-                  <Insets left="8.0" />
-               </padding>
-            </Label>
             <Label layoutX="17.0" layoutY="100.0" text="Total" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="20.0" />
@@ -200,6 +192,11 @@
                   <Insets left="8.0" />
                </padding>
             </Label>
+            <ChoiceBox fx:id="cbxDiskon" layoutX="129.0" layoutY="56.0" prefHeight="32.0" prefWidth="185.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ChoiceBox>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="369.0" layoutY="584.0" prefHeight="146.0" prefWidth="330.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
@@ -258,7 +255,7 @@
             <TextArea fx:id="txtACatatan" layoutX="17.0" layoutY="43.0" prefHeight="66.0" prefWidth="229.0" style="-fx-background-radius: 5;" />
          </children>
       </AnchorPane>
-      <Button fx:id="btnBatalTransaksi" layoutX="720.0" layoutY="715.0" mnemonicParsing="false" onAction="#resetSemua" prefHeight="37.0" prefWidth="105.0" style="-fx-background-color: #be1e26; -fx-background-radius: 5;" text="Batal" textFill="WHITE">
+      <Button fx:id="btnBatalTransaksi" layoutX="720.0" layoutY="715.0" mnemonicParsing="false" onAction="#resetSemua" prefHeight="37.0" prefWidth="110.0" style="-fx-background-color: #be1e26; -fx-background-radius: 5;" styleClass="btnBatal" text="Batal" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -266,7 +263,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="btnKonfirmasiTransaksi" layoutX="876.0" layoutY="715.0" mnemonicParsing="false" onAction="#konfirmasiTransaksi" prefHeight="37.0" prefWidth="105.0" style="-fx-background-color: #00bf63; -fx-background-radius: 5;" text="Konfirmasi" textFill="WHITE">
+      <Button fx:id="btnKonfirmasiTransaksi" layoutX="871.0" layoutY="715.0" mnemonicParsing="false" onAction="#konfirmasiTransaksi" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #00bf63; -fx-background-radius: 5;" styleClass="btnKonfirmasi" text="Konfirmasi" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -277,10 +274,9 @@
       <TableView fx:id="tabelBarang" layoutX="255.0" layoutY="300.0" prefHeight="270.0" prefWidth="725.0" styleClass="modern-table">
          <columns>
             <TableColumn fx:id="colBarcode" prefWidth="107.0" style="-fx-alignment: CENTER;" text="Barcode" />
-            <TableColumn fx:id="colBarang" prefWidth="163.0" style="-fx-alignment: CENTER;" text="Barang" />
+            <TableColumn fx:id="colBarang" prefWidth="270.0" style="-fx-alignment: CENTER;" text="Barang" />
             <TableColumn fx:id="colHarga" prefWidth="110.0" style="-fx-alignment: CENTER;" text="Harga" />
             <TableColumn fx:id="colQty" prefWidth="44.0" style="-fx-alignment: CENTER;" text="Qty" />
-            <TableColumn fx:id="colDiskon" prefWidth="110.0" style="-fx-alignment: CENTER;" text="Diskon" />
             <TableColumn fx:id="colSubtotal" prefWidth="110.0" style="-fx-alignment: CENTER;" text="Subtotal" />
             <TableColumn fx:id="colBatal" prefWidth="50.0" style="-fx-alignment: CENTER;" text="Batal" />
          </columns>
@@ -289,5 +285,6 @@
    <stylesheets>
       <URL value="@../../main/styles.css" />
       <URL value="@../../main/table.css" />
+      <URL value="@../../main/buttons.css" />
    </stylesheets>
 </AnchorPane>

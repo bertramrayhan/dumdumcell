@@ -31,13 +31,13 @@ import main.Session;
 
 public class HalamanJualKController implements Initializable {
     @FXML StackPane panePesan;
-    @FXML Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblDiskon, lblTotal, lblKembalian, lblPesan;
+    @FXML Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian, lblPesan;
     @FXML TextField txtBarcode, txtBarcodeQty, txtBayar, txtManualQty;
     @FXML Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi;
     @FXML TextArea txtACatatan;
-    @FXML ChoiceBox<String> cbxCaraBayar, cbxKategori, cbxProduk;
+    @FXML ChoiceBox<String> cbxCaraBayar, cbxKategori, cbxProduk, cbxDiskon;
     @FXML TableView tabelBarang;
-    @FXML TableColumn<Barang, String> colBarcode, colBarang, colHarga, colDiskon, colSubtotal;
+    @FXML TableColumn<Barang, String> colBarcode, colBarang, colHarga, colSubtotal;
     @FXML TableColumn<Barang, Integer> colQty;
     @FXML TableColumn<Barang, Button> colBatal;
     static ObservableList<Barang> listBarang = FXCollections.observableArrayList();
@@ -60,16 +60,22 @@ public class HalamanJualKController implements Initializable {
         cbxKategori.setOnAction(event -> {
             setCbxProduk();
         });
+        cbxDiskon.setOnAction(event -> {
+            setTotal();
+        });
     }    
     
     @FXML
     private void tambahBarisTabelBarang(MouseEvent event) {
         Button btn = (Button) event.getSource();
         if (btn.getId().equals("btnTambahProdukManual")) {
-            if (txtManualQty.getText().isEmpty() || txtManualQty.getText().equals("0") || cbxProduk.getValue() == null) {
+            if (txtManualQty.getText().isEmpty() || txtManualQty.getText().equals("0")) {
                 Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
-            } else {
+            }else if(cbxProduk.getValue() == null){
+                Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                return;
+            }else{
                 String namaProduk = cbxProduk.getValue();
                 int qty = Integer.parseInt(txtManualQty.getText());
                 tambahProduk(namaProduk, qty, false); // false indicates manual entry
@@ -122,9 +128,8 @@ public class HalamanJualKController implements Initializable {
             }
 
             if (!produkAda && cekStokBarangCukup(isBarcode ? "" : identifier, isBarcode ? identifier : "", qty)) {
-                String query = "SELECT b.barcode, b.merek, b.harga_jual, COALESCE(d.harga_diskon, 0) AS diskon " +
+                String query = "SELECT b.barcode, b.merek, b.harga_jual\n" +
                                "FROM barang b " +
-                               "LEFT JOIN diskon d ON b.id_barang = d.id_barang " +
                                "WHERE " + (isBarcode ? "b.barcode = ?" : "b.merek = ?");
                 PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, identifier);
@@ -135,7 +140,6 @@ public class HalamanJualKController implements Initializable {
                     String barcode = result.getString("barcode");
                     String merek = result.getString("merek");
                     int harga = result.getInt("harga_jual");
-                    int diskon = result.getInt("diskon");
                     Button batal = new Button("X");
                     batal.setStyle(
                         "-fx-background-color: red; " +
@@ -146,7 +150,7 @@ public class HalamanJualKController implements Initializable {
                         "-fx-cursor: hand;"
                     );
 
-                    Barang barang = new Barang(barcode, merek, harga, qty, diskon, batal);
+                    Barang barang = new Barang(barcode, merek, harga, qty, batal);
 
                     batal.setOnAction(e -> {
                         listBarang.remove(barang);
@@ -175,28 +179,34 @@ public class HalamanJualKController implements Initializable {
     }
     
     @FXML
-    private void konfirmasiTransaksi(){
-        if(listBarang.isEmpty()){
+    private void konfirmasiTransaksi() {
+        if (listBarang.isEmpty()) {
             Session.animasiPanePesan(true, panePesan, lblPesan, "Tabel pesan masih kosong", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             return;
+        } else if (lblKembalian.getText().contains("-")) {
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Pembayaran kurang", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            return;
         }
-        
+
         String idTransaksi = getNewIdTransaksi();
-        
+
         try {
+            // Check if lblTotal is empty and set default value
+            int total = lblTotal.getText().isEmpty() ? 0 : Session.convertRupiahToInt(lblTotal.getText());
+
             String query = "INSERT INTO transaksi_jual VALUES (?,?,NOW(),?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idTransaksi);
             statement.setString(2, Session.getIdAdmin());
             statement.setString(3, cbxCaraBayar.getValue().toLowerCase());
-            statement.setInt(4, Session.convertRupiahToInt(lblTotal.getText()));
-            statement.setInt(5, Session.convertRupiahToInt(lblDiskon.getText()));
+            statement.setInt(4, total); // Use the total variable here
+            statement.setString(5, getIdDiskon(cbxDiskon.getValue()));
             statement.setInt(6, Session.convertRupiahToInt(lblKembalian.getText()));
             statement.setString(7, txtACatatan.getText());
-            
+
             statement.executeUpdate();
 
-            for(Barang barang : listBarang){
+            for (Barang barang : listBarang) {
                 query = "INSERT INTO detail_transaksi_jual VALUES (?,?,?,?)";
                 statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, idTransaksi);
@@ -205,7 +215,7 @@ public class HalamanJualKController implements Initializable {
                 statement.setInt(4, barang.getQty() * Session.convertRupiahToInt(barang.getHarga()));
                 statement.executeUpdate();
             }
-            
+
             statement.close();
             resetSemua();
             Session.animasiPanePesan(false, panePesan, lblPesan, "Transaksi berhasil!", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
@@ -221,6 +231,7 @@ public class HalamanJualKController implements Initializable {
         txtBarcode.setText("");
         txtACatatan.setText("");
         txtBayar.setText("");
+        cbxDiskon.setValue("");
         listBarang.clear();
         tabelBarang.setItems(listBarang);
         tabelBarang.refresh();
@@ -282,6 +293,21 @@ public class HalamanJualKController implements Initializable {
                 cbxProduk.setValue(cbxProduk.getItems().get(0));
             }
             
+            //combo box diskon
+            query = "SELECT nama_diskon FROM diskon";
+            statement = Koneksi.getCon().prepareStatement(query);
+            
+            result = statement.executeQuery();
+            
+            cbxDiskon.getItems().add("");
+            while(result.next()){
+                cbxDiskon.getItems().add(result.getString("nama_diskon"));
+            }
+            
+            if (!cbxDiskon.getItems().isEmpty()) {
+                cbxDiskon.setValue(cbxDiskon.getItems().get(0));
+            }
+            
             result.close();
             statement.close();
         } catch (Exception e) {
@@ -330,7 +356,6 @@ public class HalamanJualKController implements Initializable {
         colBarang.setCellValueFactory(new PropertyValueFactory<>("barang"));
         colHarga.setCellValueFactory(new PropertyValueFactory<>("harga"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-        colDiskon.setCellValueFactory(new PropertyValueFactory<>("diskon"));
         colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
         colBatal.setCellValueFactory(new PropertyValueFactory<>("batal"));
 
@@ -350,14 +375,12 @@ public class HalamanJualKController implements Initializable {
     
     private void setTotal(){
         int subtotal = 0;
-        int diskon = 0;
+        int diskon = getHargaDiskon(cbxDiskon.getValue());
         
         for(Barang barang : listBarang){
-            subtotal += barang.getQty() * Session.convertRupiahToInt(barang.getHarga());
-            diskon += Session.convertRupiahToInt(barang.getDiskon());
+            subtotal += Session.convertRupiahToInt(barang.getSubtotal());
         }
         lblSubtotal.setText(Session.convertIntToRupiah(subtotal));
-        lblDiskon.setText(Session.convertIntToRupiah(diskon));
         lblTotal.setText(Session.convertIntToRupiah(subtotal - diskon));
         setKembalian();
     }
@@ -442,5 +465,55 @@ public class HalamanJualKController implements Initializable {
         }
         
         return idBarang;
+    }
+    
+    private int getHargaDiskon(String namaDiskon){
+        if(namaDiskon.isEmpty()){
+            return 0;
+        }
+        int diskon = 0;
+        
+        try {
+            String query = "SELECT harga_diskon FROM diskon WHERE nama_diskon=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, namaDiskon);
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                diskon = result.getInt("harga_diskon");
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return diskon;
+    }
+    
+    private String getIdDiskon(String namaDiskon){
+        if(namaDiskon.isEmpty()){
+            return null;
+        }
+        String idDiskon = "";
+        
+        try {
+            String query = "SELECT id_diskon FROM diskon WHERE nama_diskon=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, namaDiskon);
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                idDiskon = result.getString("id_diskon");
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return idDiskon;
     }
 }
