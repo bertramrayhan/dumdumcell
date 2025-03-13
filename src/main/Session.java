@@ -29,6 +29,7 @@ public class Session {
     private static final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
     private static final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
     private static final String pathHalamanJual = "/karyawan/halamanJual/halamanJualK.fxml";
+    private static final String pathHalamanStok =  "/karyawan/halamanStok/halamanStokK.fxml";
 
     public static void setIdAdmin(String idAdmin) {
         Session.idAdmin = idAdmin;
@@ -56,6 +57,9 @@ public class Session {
 
     public static String getPathHalamanJual() {
         return pathHalamanJual;
+    }
+    public static String getPathHalamanStok(){
+        return pathHalamanStok;
     }
 
     public static String convertTanggalIndo(String tanggal){

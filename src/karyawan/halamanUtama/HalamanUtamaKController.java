@@ -74,7 +74,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToStok(){
         resetIndikator();
         animateIndikator(indikatorStok);
-        //loadPane(Session.getPathHalamanStok());
+        loadPane(Session.getPathHalamanStok());
     }
     
     @FXML
