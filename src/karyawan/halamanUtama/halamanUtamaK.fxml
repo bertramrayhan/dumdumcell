@@ -106,7 +106,7 @@
                         <Pane fx:id="indikatorDanLainLain" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                         <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="20.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../assets/icons/rotate-ccw32px.png" />
+                              <Image url="@../../assets/icons/menu32px.png" />
                            </image>
                         </ImageView>
                      </children>
