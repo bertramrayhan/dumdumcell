@@ -89,7 +89,6 @@
       <TableView fx:id="tabelBarangExpired" layoutX="19.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" styleClass="modern-table">
          <columns>
             <TableColumn fx:id="namaBarangCol" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Nama Barang" />
-            <TableColumn fx:id="hargaCol" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Harga" />
             <TableColumn fx:id="totalBarangCol" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Total Barang" />
             <TableColumn fx:id="expCol" prefWidth="115.0" style="-fx-alignment: CENTER;" text="Expired" />
          </columns>

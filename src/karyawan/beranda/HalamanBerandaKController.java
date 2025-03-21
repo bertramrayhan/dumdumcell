@@ -23,7 +23,7 @@ import main.Session;
 public class HalamanBerandaKController implements Initializable {
     @FXML private TableView<Barang> tabelBarangExpired;
     @FXML private TableView<Promo> tabelPromo;
-    @FXML private TableColumn<Barang, String> namaBarangCol, hargaCol, totalBarangCol, expCol;
+    @FXML private TableColumn<Barang, String> namaBarangCol, totalBarangCol, expCol;
     @FXML private TableColumn<Promo, String> promoCol, potonganHargaCol;
     
     @FXML private Label lblWaktu, lblStatusDatang, lblShift, lblJamKerja, lblTotalBarangTerjual, lblJumlahBarang, lblJumlahBarangHampirExp;
@@ -125,12 +125,11 @@ public class HalamanBerandaKController implements Initializable {
     
     private void setTabelBarangExpired(){
         namaBarangCol.setCellValueFactory(new PropertyValueFactory<>("nama"));
-        hargaCol.setCellValueFactory(new PropertyValueFactory<>("harga"));
         totalBarangCol.setCellValueFactory(new PropertyValueFactory<>("total"));
         expCol.setCellValueFactory(new PropertyValueFactory<>("expired"));
         
         try {
-            String query = "SELECT nama_barang, harga_jual, stok, DATE(exp) AS exp \n" +
+            String query = "SELECT nama_barang, stok, exp \n" +
             "FROM barang\n" +
             "WHERE exp IS NOT NULL\n" +
             "AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)";
@@ -140,11 +139,10 @@ public class HalamanBerandaKController implements Initializable {
             
             while(result.next()){
                 String namaBarang = result.getString("nama_barang");
-                String hargaJual = Session.convertIntToRupiah(result.getInt("harga_jual"));
                 String stok = result.getString("stok");
                 String tglExp = Session.convertTanggalIndo(result.getString("exp"));
                 
-                barangList.add(new Barang(namaBarang, hargaJual, stok, tglExp));
+                barangList.add(new Barang(namaBarang, stok, tglExp));
             }
             
             result.close();
@@ -160,7 +158,26 @@ public class HalamanBerandaKController implements Initializable {
         promoCol.setCellValueFactory(new PropertyValueFactory<>("promo"));
         potonganHargaCol.setCellValueFactory(new PropertyValueFactory<>("potonganHarga"));
         
-        promoList.add(new Promo("12.12", "Rp12.000"));
+        try {
+            String query = "SELECT nama_diskon, jenis_diskon, harga_diskon FROM diskon WHERE status='aktif'";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            
+            ResultSet result = statement.executeQuery();
+            
+            while(result.next()){
+                String namaDiskon = result.getString("nama_diskon");
+                String hargaDiskon = result.getString("jenis_diskon").equals("nominal") ? 
+                        Session.convertIntToRupiah(result.getInt("harga_diskon")) : result.getString("harga_diskon") + "%";
+                
+                promoList.add(new Promo(namaDiskon, hargaDiskon));
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         tabelPromo.setItems(promoList);
     }
 }
