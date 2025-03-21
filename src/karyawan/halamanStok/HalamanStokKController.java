@@ -37,6 +37,7 @@ public class HalamanStokKController implements Initializable {
     
     private final stokManager stokManager = new stokManager();
     
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         setTableStok();
         setSortBy();
