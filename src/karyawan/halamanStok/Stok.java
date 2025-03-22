@@ -58,8 +58,5 @@ public class Stok {
     // Setter
     public void setStok(int stok) {
         this.stok = stok;
-        if (this.stok == 0) {
-            HalamanStokKController.listStok.remove(this);
-        }
     }
 }
