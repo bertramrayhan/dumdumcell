@@ -20,6 +20,10 @@ import javafx.util.Duration;
 
 public class Session {
     private static final DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
+
+    public static String getPathHalamanSaldo() {
+        return pathHalamanSaldo;
+    }
     private static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     
     private static String idAdmin = "";
@@ -29,6 +33,7 @@ public class Session {
     private static final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
     private static final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
     private static final String pathHalamanJual = "/karyawan/halamanJual/halamanJualK.fxml";
+    private static final String pathHalamanSaldo = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
     private static final String pathHalamanStok =  "/karyawan/halamanStok/halamanStokK.fxml";
 
     public static void setIdAdmin(String idAdmin) {

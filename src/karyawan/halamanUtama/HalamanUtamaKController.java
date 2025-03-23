@@ -109,7 +109,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToSaldo(){
         resetIndikator();
         animateIndikator(indikatorSaldo);
-        //loadPane(Session.getPathHalamanSaldo());
+        loadPane(Session.getPathHalamanSaldo());
     }
 
     @FXML
