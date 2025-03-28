@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
@@ -33,6 +34,7 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
+            <Line endX="170.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="19.0" layoutY="140.0" prefHeight="109.0" prefWidth="962.0" style="-fx-background-color: #02045e; -fx-background-radius: 20;">

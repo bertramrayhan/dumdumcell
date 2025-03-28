@@ -1,4 +1,4 @@
-package karyawan.halamanUtama;
+package pemilik.halamanUtama;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.Session;
 
-public class HalamanUtamaKController implements Initializable {    
+public class HalamanUtamaPController implements Initializable {
     @FXML private StackPane halamanUtama;
     
     @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorRetur, indikatorStok;
@@ -24,8 +24,8 @@ public class HalamanUtamaKController implements Initializable {
     
     @FXML private Button btnBeranda, btnJual, btnAntarCabang, btnRetur, btnStok;
     @FXML private Button btnDanLainLain, btnKas, btnSaldo, btnRekap, btnDiskon;
-
-    public static Map<String, AnchorPane> penyimpananPaneKaryawan = new HashMap<>();
+    
+    public static Map<String, AnchorPane> penyimpananPanePemilik = new HashMap<>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -33,27 +33,20 @@ public class HalamanUtamaKController implements Initializable {
     }    
     
     private void loadPane(String pathPane) {
-        if (penyimpananPaneKaryawan.containsKey(pathPane)) {
-            halamanUtama.getChildren().setAll(penyimpananPaneKaryawan.get(pathPane));
+        if (penyimpananPanePemilik.containsKey(pathPane)) {
+            halamanUtama.getChildren().setAll(penyimpananPanePemilik.get(pathPane));
             return;
         }
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathPane));
             AnchorPane pane = loader.load();
-            penyimpananPaneKaryawan.put(pathPane, pane); // Simpan ke cache biar nggak load lagi
+            penyimpananPanePemilik.put(pathPane, pane); // Simpan ke cache biar nggak load lagi
             halamanUtama.getChildren().setAll(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    //untuk reload ulang pane. kalo dibutuhkan, pakai.
-//    public void reloadPane(String pathPane) {
-//        penyimpananPaneKaryawan.remove(pathPane); // Hapus cache biar nanti di-load ulang
-//        loadPane(pathPane);
-//    }
-
     
     @FXML
     void goToProfil(){
@@ -65,7 +58,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToBeranda(){
         resetIndikator();
         animateIndikator(indikatorBeranda);
-        loadPane(Session.getPathBerandaK());
+        loadPane(Session.getPathBerandaP());
     }
     
     @FXML

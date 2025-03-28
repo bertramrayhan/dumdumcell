@@ -59,9 +59,11 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
+                if(result.getString("role").equals("karyawan")){
+                    absensi();
+                }
                 Session.setIdAdmin(result.getString("id_admin"));
-                absensi();
-                DumdumKasir.switchToBeranda();
+                DumdumKasir.switchToBeranda(result.getString("role"));
             }
             
             result.close();
@@ -83,9 +85,11 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
+                if(result.getString("role").equals("karyawan")){
+                    absensi();
+                }
                 Session.setIdAdmin(result.getString("id_admin"));
-                absensi();
-                DumdumKasir.switchToBeranda();
+                DumdumKasir.switchToBeranda(result.getString("role"));
             }
             
             result.close();

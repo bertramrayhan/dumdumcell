@@ -20,22 +20,23 @@ import javafx.util.Duration;
 
 public class Session {
     private static final DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
-
-    public static String getPathHalamanSaldo() {
-        return pathHalamanSaldo;
-    }
     private static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     
     private static String idAdmin = "";
     private static final String pathHalamanLogin = "/login/halamanLogin.fxml";
     
-    private static final String pathHalamanUtama = "/karyawan/halamanUtama/halamanUtamaK.fxml";
-    private static final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
-    private static final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
-    private static final String pathHalamanJual = "/karyawan/halamanJual/halamanJualK.fxml";
-    private static final String pathHalamanSaldo = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
-    private static final String pathHalamanStok =  "/karyawan/halamanStok/halamanStokK.fxml";
+    //KARYAWAN
+    private static final String pathHalamanUtamaK = "/karyawan/halamanUtama/halamanUtamaK.fxml";
+    private static final String pathBerandaK = "/karyawan/beranda/halamanBerandaK.fxml";
+    private static final String pathHalamanProfilK = "/karyawan/halamanProfil/halamanProfilK.fxml";
+    private static final String pathHalamanJualK = "/karyawan/halamanJual/halamanJualK.fxml";
+    private static final String pathHalamanSaldoK = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
+    private static final String pathHalamanStokK =  "/karyawan/halamanStok/halamanStokK.fxml";
 
+    //PEMILIK
+    private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
+    private static final String pathBerandaP = "/pemilik/halamanUtama/halamanBerandaP.fxml";
+    
     public static void setIdAdmin(String idAdmin) {
         Session.idAdmin = idAdmin;
     }
@@ -48,25 +49,38 @@ public class Session {
         return pathHalamanLogin;
     }
 
-    public static String getPathHalamanUtama() {
-        return pathHalamanUtama;
+    public static String getPathHalamanUtamaK() {
+        return pathHalamanUtamaK;
     }
 
-    public static String getPathBeranda() {
-        return pathBeranda;
+    public static String getPathBerandaK() {
+        return pathBerandaK;
     }
 
-    public static String getPathHalamanProfil() {
-        return pathHalamanProfil;
+    public static String getPathHalamanProfilK() {
+        return pathHalamanProfilK;
     }
 
-    public static String getPathHalamanJual() {
-        return pathHalamanJual;
-    }
-    public static String getPathHalamanStok(){
-        return pathHalamanStok;
+    public static String getPathHalamanJualK() {
+        return pathHalamanJualK;
     }
 
+    public static String getPathHalamanSaldoK() {
+        return pathHalamanSaldoK;
+    }
+
+    public static String getPathHalamanStokK() {
+        return pathHalamanStokK;
+    }
+
+    public static String getPathHalamanUtamaP() {
+        return pathHalamanUtamaP;
+    }
+    
+    public static String getPathBerandaP() {
+        return pathBerandaP;
+    }
+    
     public static String convertTanggalIndo(String tanggal){
         LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
 
