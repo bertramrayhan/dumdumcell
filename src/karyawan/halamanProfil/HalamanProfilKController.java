@@ -21,6 +21,7 @@ import share.logout.LogoutController;
 import main.DumdumKasir;
 import main.Koneksi;
 import main.Session;
+import pemilik.halamanUtama.HalamanUtamaPController;
 
 public class HalamanProfilKController implements Initializable {
 
@@ -82,6 +83,7 @@ public class HalamanProfilKController implements Initializable {
     private void switchToLogin() {
         Session.setIdAdmin("");
         HalamanUtamaKController.penyimpananPaneKaryawan.clear();
+        HalamanUtamaPController.penyimpananPanePemilik.clear();
         try {
             Stage loginStage = new Stage();
             Parent root = FXMLLoader.load(DumdumKasir.class.getResource(Session.getPathHalamanLogin()));

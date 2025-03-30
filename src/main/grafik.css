@@ -1,0 +1,42 @@
+.chart {
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 10px;
+}
+
+.chart-plot-background {
+    -fx-background-color: #F5F5F5;  /* Warna latar belakang chart */
+}
+
+.chart-title {
+    -fx-text-fill: black;  /* Warna judul grafik */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.axis-label {
+    -fx-text-fill: #03045e;  /* Warna label sumbu X dan Y */
+    -fx-font-size: 12px;
+}
+
+.chart-series-line {
+    -fx-stroke: #0077b6;  /* Warna garis grafik */
+    -fx-stroke-width: 2px;
+}
+
+.default-color0.chart-line-symbol { 
+    -fx-background-color: #0077b6, white; /* Warna titik di grafik */
+    -fx-background-radius: 5px;
+}
+
+.chart-legend {
+    -fx-background-color: white;
+    -fx-border-color: #0077b6;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines {
+    -fx-stroke: #333333; /* Warna garis grid (bisa ubah ke yang lebih gelap) */
+    -fx-stroke-width: 1px; /* Tebalin garisnya */
+    -fx-opacity: 0.7; /* Bikin lebih jelas tapi gak terlalu tebal */
+}

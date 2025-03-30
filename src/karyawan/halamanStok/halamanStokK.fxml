@@ -40,7 +40,7 @@
             <Image url="@../../assets/logo/Logomark.png" />
          </image>
       </ImageView>
-      <ChoiceBox fx:id="SortBy" layoutX="417.0" layoutY="178.0" prefHeight="36.0" prefWidth="229.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: black; -fx-border-width: 2;">
+      <ChoiceBox fx:id="SortBy" layoutX="417.0" layoutY="178.0" prefHeight="36.0" prefWidth="229.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: black; -fx-border-width: 2;">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ChoiceBox>

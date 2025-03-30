@@ -36,7 +36,6 @@ public class DumdumKasir extends Application {
         newStage.initStyle(StageStyle.UNDECORATED); // Hilangin title bar
         
         String path = role.equals("karyawan") ? Session.getPathHalamanUtamaK() : Session.getPathHalamanUtamaP();
-        System.out.println(path);
         Parent root = FXMLLoader.load(DumdumKasir.class.getResource(path));
         Scene scene = new Scene(root);
 

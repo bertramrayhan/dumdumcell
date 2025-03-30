@@ -35,7 +35,7 @@ public class Session {
 
     //PEMILIK
     private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
-    private static final String pathBerandaP = "/pemilik/halamanUtama/halamanBerandaP.fxml";
+    private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
     
     public static void setIdAdmin(String idAdmin) {
         Session.idAdmin = idAdmin;
@@ -101,6 +101,20 @@ public class Session {
         return harga;
     }
 
+    public static String getBulan(int bulan) {
+        String[] bulanIndo = {
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        };
+
+        // Pastikan angka bulan valid (1-12)
+        if (bulan >= 1 && bulan <= 12) {
+            return bulanIndo[bulan - 1];
+        } else {
+            return "Bulan tidak valid"; // Jika input di luar range 1-12
+        }
+    }
+    
     public static void setTextFieldNumeric(TextField textField) {
         Pattern pattern = Pattern.compile("\\d*"); // Hanya angka
         UnaryOperator<TextFormatter.Change> filter = change -> {
