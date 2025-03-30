@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
@@ -34,8 +35,11 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
-            <Line endX="170.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
       </AnchorPane>
       <AnchorPane layoutX="19.0" layoutY="140.0" prefHeight="109.0" prefWidth="962.0" style="-fx-background-color: #02045e; -fx-background-radius: 20;">
          <children>
@@ -73,7 +77,11 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
       </AnchorPane>
       <AnchorPane layoutX="672.0" layoutY="265.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
          <children>
@@ -87,7 +95,11 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
       </AnchorPane>
       <TableView fx:id="tabelBarangExpired" layoutX="19.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" styleClass="modern-table">
          <columns>
