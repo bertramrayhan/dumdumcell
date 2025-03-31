@@ -29,7 +29,7 @@ public class HalamanUtamaPController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadPane(Session.getPathBerandaK());
+        loadPane(Session.getPathBerandaP());
     }    
     
     private void loadPane(String pathPane) {
@@ -41,7 +41,7 @@ public class HalamanUtamaPController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathPane));
             AnchorPane pane = loader.load();
-            penyimpananPanePemilik.put(pathPane, pane); // Simpan ke cache biar nggak load lagi
+            penyimpananPanePemilik.put(pathPane, pane); 
             halamanUtama.getChildren().setAll(pane);
         } catch (IOException e) {
             e.printStackTrace();
