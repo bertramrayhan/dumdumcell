@@ -53,22 +53,24 @@ public class HalamanBerandaKController implements Initializable {
     
     private void setBarang(){
         try {
-            String query = "SELECT COALESCE(total_barang, 0) as total_barang, "
-            + "COALESCE(jumlah_barang, 0) as jumlah_barang, "
-            + "COALESCE(jumlah_barang_hampir_expired, 0) as jumlah_barang_hampir_expired\n" +
-            "FROM (\n" +
-            "	SELECT \n" +
-            "		(SELECT SUM(dtj.jumlah_barang) \n" +
-            "		FROM detail_transaksi_jual dtj \n" +
-            "		JOIN transaksi_jual tj \n" +
-            "		ON tj.id_transaksi_jual = dtj.id_transaksi_jual \n" +
-            "		WHERE tj.tanggal_transaksi_jual = CURRENT_DATE) AS total_barang,\n" +
-            "		(SELECT SUM(stok) FROM barang) AS jumlah_barang,\n" +
-            "    	(SELECT COUNT(*) AS jumlah_barang_hampir_expired\n" +
-            "        FROM barang\n" +
-            "        WHERE exp IS NOT NULL\n" +
-            "        AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)) AS jumlah_barang_hampir_expired\n" +
-            "	) AS subquery";
+            String query = "SELECT COALESCE(total_barang, 0) as total_barang, \n" +
+            "       COALESCE(jumlah_barang, 0) as jumlah_barang, \n" +
+            "       COALESCE(jumlah_barang_hampir_expired, 0) as jumlah_barang_hampir_expired \n" +
+            "FROM ( \n" +
+            "    SELECT  \n" +
+            "        (SELECT SUM(dtj.jumlah_barang)  \n" +
+            "         FROM detail_transaksi_jual dtj  \n" +
+            "         JOIN transaksi_jual tj  \n" +
+            "         ON tj.id_transaksi_jual = dtj.id_transaksi_jual  \n" +
+            "         WHERE DATE(tj.tanggal_transaksi_jual) = CURRENT_DATE) AS total_barang, \n" +
+            "         \n" +
+            "        (SELECT SUM(stok) FROM barang) AS jumlah_barang, \n" +
+            "\n" +
+            "        (SELECT COUNT(*)  \n" +
+            "         FROM barang  \n" +
+            "         WHERE exp IS NOT NULL  \n" +
+            "         AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)) AS jumlah_barang_hampir_expired \n" +
+            ") AS subquery;";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             ResultSet result = statement.executeQuery();
             
