@@ -1,5 +1,6 @@
 package karyawan.halamanJual;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,9 +13,14 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,27 +28,43 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanJualKController implements Initializable {
-    @FXML StackPane panePesan;
-    @FXML Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian, lblPesan;
-    @FXML TextField txtBarcode, txtBarcodeQty, txtBayar, txtManualQty;
-    @FXML Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi;
-    @FXML TextArea txtACatatan;
-    @FXML ChoiceBox<String> cbxCaraBayar, cbxKategori, cbxProduk, cbxDiskon;
-    @FXML TableView tabelBarang;
-    @FXML TableColumn<Barang, String> colBarcode, colBarang, colHarga, colSubtotal;
-    @FXML TableColumn<Barang, Integer> colQty;
-    @FXML TableColumn<Barang, Button> colBatal;
+    @FXML private StackPane panePesan;
+    @FXML private Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian, lblPesan;
+    @FXML private TextField txtBarcode, txtBarcodeQty, txtBayar, txtManualQty;
+    @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi;
+    @FXML private TextArea txtACatatan;
+    @FXML private ChoiceBox<String> cbxCaraBayar, cbxKategori, cbxProduk, cbxDiskon;
+    @FXML private TableView tabelBarang;
+    @FXML private TableColumn<Barang, String> colBarcode, colBarang, colHarga, colSubtotal;
+    @FXML private TableColumn<Barang, Integer> colQty;
+    @FXML private TableColumn<Barang, Button> colBatal;
     static ObservableList<Barang> listBarang = FXCollections.observableArrayList();
     
+    //RIWAYAT TRANSAKSI
+    @FXML private Label lblTotalPenjualanBarang, lblTotalPenjualanSaldo, lblTotalPenjualan;
+    @FXML private ChoiceBox<String> cbxShift;
+    @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
+    @FXML private Button btnDetail, btnUnduh;
+    @FXML private ImageView imgDetail, imgUnduh;
+    @FXML private TableView tabelTransaksi;
+    @FXML private TableColumn<Transaksi, String> colKaryawan, colTanggal, colWaktu, colJenisPembayaran, colDiskon, colTotalPembelian, colKembalian;
+    static ObservableList<Transaksi> listTransaksi = FXCollections.observableArrayList();
+    
     private final DateTimeFormatter formatWaktu = DateTimeFormatter.ofPattern("HH:mm");
+    
+    static String idTransaksiTerpilih = "";
     
     private void setTextFieldNumeric(){
         Session.setTextFieldNumeric(txtBayar);
@@ -56,13 +78,17 @@ public class HalamanJualKController implements Initializable {
         setTabelBarang();
         setWaktuDanTanggal();
         setKasir();
-        setCbx();
+        setCbxTransaksi();
         cbxKategori.setOnAction(event -> {
             setCbxProduk();
         });
         cbxDiskon.setOnAction(event -> {
             setTotal();
         });
+        //RIWAYAT TRANSAKSI
+        setKomponenRiwayatTransaksi();
+        setDatePicker();
+        setTabelTransaksi();
     }    
     
     @FXML
@@ -217,7 +243,7 @@ public class HalamanJualKController implements Initializable {
             }
 
             statement.close();
-            resetSemua();
+            refresh();
             Session.animasiPanePesan(false, panePesan, lblPesan, "Transaksi berhasil!", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,7 +251,7 @@ public class HalamanJualKController implements Initializable {
     }
     
     @FXML
-    private void resetSemua(){
+    public void refresh(){
         txtManualQty.setText("");
         txtBarcodeQty.setText("");
         txtBarcode.setText("");
@@ -258,7 +284,7 @@ public class HalamanJualKController implements Initializable {
         }
     }
     
-    private void setCbx(){
+    private void setCbxTransaksi(){
         //combo box cara bayar
         cbxCaraBayar.getItems().addAll("Tunai", "Transfer");
         cbxCaraBayar.setValue("Tunai");
@@ -294,7 +320,7 @@ public class HalamanJualKController implements Initializable {
             }
             
             //combo box diskon
-            query = "SELECT nama_diskon FROM diskon";
+            query = "SELECT nama_diskon FROM diskon WHERE status='aktif'";
             statement = Koneksi.getCon().prepareStatement(query);
             
             result = statement.executeQuery();
@@ -515,5 +541,292 @@ public class HalamanJualKController implements Initializable {
         }
         
         return idDiskon;
+    }
+    
+    //RIWAYAT TRANSAKSI
+    public class Transaksi{
+        String idTransaksi, karyawan, tanggal, waktu, jenisPembayaran, diskon, totalPembelian, kembalian;
+
+        public Transaksi(String idTransaksi, String karyawan, String tanggal, String waktu, String jenisPembayaran, String diskon, 
+                String totalPembelian, String kembalian) {
+            this.idTransaksi = idTransaksi;
+            this.karyawan = karyawan;
+            this.tanggal = tanggal;
+            this.waktu = waktu;
+            this.jenisPembayaran = jenisPembayaran;
+            this.diskon = diskon;
+            this.totalPembelian = totalPembelian;
+            this.kembalian = kembalian;
+        }
+        public String getIdTransaksi() {return idTransaksi;}
+        public String getKaryawan() {return karyawan;}
+        public String getTanggal() {return tanggal;}
+        public String getWaktu() {return waktu;}
+        public String getJenisPembayaran() {return jenisPembayaran;}
+        public String getDiskon() {return diskon;}
+        public String getTotalPembelian() {return totalPembelian;}
+        public String getKembalian() {return kembalian;}
+        @Override
+        public String toString() {
+            return String.format(
+            "Transaksi [Karyawan: %s, Tanggal: %s, Waktu: %s, Jenis Pembayaran: %s, Diskon: %s, Total Pembelian: %s, Kembalian: %s]",
+            karyawan, tanggal, waktu, jenisPembayaran, diskon, totalPembelian, kembalian);
+        }
+    }
+    
+    private void setKomponenRiwayatTransaksi(){
+        cbxShift.getItems().addAll("Pagi", "Malam");
+        cbxShift.setValue("Pagi");
+        cbxShift.setOnAction(event -> {
+            getSemuaTransaksi();
+        });
+        
+        btnDetail.setDisable(true);
+        btnUnduh.setDisable(true);
+        imgDetail.setOpacity(0.5F);
+        imgUnduh.setOpacity(0.5F);
+        
+        tabelTransaksi.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                btnDetail.setDisable(false);
+                btnUnduh.setDisable(false);
+                imgDetail.setOpacity(1F);
+                imgUnduh.setOpacity(1F);
+            } else {
+                btnDetail.setDisable(true);
+                btnUnduh.setDisable(true);
+                imgDetail.setOpacity(0.5F);
+                imgUnduh.setOpacity(0.5F);
+            }
+        });
+    }
+    
+    private void setDatePicker(){
+        dtPTanggalAwal.getEditor().setDisable(true);
+        dtPTanggalAwal.getEditor().setOpacity(1);
+        
+        dtPTanggalAkhir.getEditor().setDisable(true);
+        dtPTanggalAkhir.getEditor().setOpacity(1);
+
+        dtPTanggalAwal.setValue(LocalDate.now());
+        dtPTanggalAkhir.setValue(LocalDate.now());
+
+        // Setup DatePicker Tanggal Awal
+        dtPTanggalAwal.setDayCellFactory(dp -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Blokir tanggal di masa depan
+                if (item.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;"); // Warna merah muda buat disabled
+                }
+
+                // Blokir kalau tanggal awal lebih dari tanggal akhir
+                if (dtPTanggalAkhir.getValue() != null && item.isAfter(dtPTanggalAkhir.getValue())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
+
+        // Setup DatePicker Tanggal Akhir
+        dtPTanggalAkhir.setDayCellFactory(dp -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Blokir tanggal di masa depan
+                if (item.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+
+                // Blokir kalau tanggal akhir kurang dari tanggal awal
+                if (dtPTanggalAwal.getValue() != null && item.isBefore(dtPTanggalAwal.getValue())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
+
+        // Listener untuk update DatePicker saat ada perubahan nilai
+        dtPTanggalAwal.valueProperty().addListener((obs, oldValue, newValue) -> {
+            dtPTanggalAkhir.setDayCellFactory(dp -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item.isAfter(LocalDate.now())) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #ffc0cb;");
+                    }
+
+                    if (dtPTanggalAwal.getValue() != null && item.isBefore(dtPTanggalAwal.getValue())) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #ffc0cb;");
+                    }
+                }
+            });
+        });
+
+        dtPTanggalAkhir.valueProperty().addListener((obs, oldValue, newValue) -> {
+            dtPTanggalAwal.setDayCellFactory(dp -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item.isAfter(LocalDate.now())) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #ffc0cb;");
+                    }
+
+                    if (dtPTanggalAkhir.getValue() != null && item.isAfter(dtPTanggalAkhir.getValue())) {
+                        setDisable(true);
+                        setStyle("-fx-background-color: #ffc0cb;");
+                    }
+                }
+            });
+        });
+    }
+    
+    private void setTabelTransaksi(){
+        colKaryawan.setCellValueFactory(new PropertyValueFactory<>("karyawan"));
+        colTanggal.setCellValueFactory(new PropertyValueFactory<>("tanggal"));
+        colWaktu.setCellValueFactory(new PropertyValueFactory<>("waktu"));
+        colJenisPembayaran.setCellValueFactory(new PropertyValueFactory<>("jenisPembayaran"));
+        colDiskon.setCellValueFactory(new PropertyValueFactory<>("diskon"));
+        colTotalPembelian.setCellValueFactory(new PropertyValueFactory<>("totalPembelian"));
+        colKembalian.setCellValueFactory(new PropertyValueFactory<>("kembalian"));
+    }
+    
+    @FXML
+    private void getSemuaTransaksi(){
+        String shift = cbxShift.getValue();
+        String tanggalAwal = dtPTanggalAwal.getValue().toString();
+        String tanggalAkhir = dtPTanggalAkhir.getValue().toString();
+        
+        if(tanggalAwal.isEmpty() || tanggalAkhir.isEmpty()){
+            return;
+        }
+        
+        String[] waktuShift = getWaktuShift(shift);
+        listTransaksi.clear();
+        try {
+            String query = "SELECT tj.id_transaksi_jual AS id_transaksi, adm.username AS username, DATE(tj.tanggal_transaksi_jual) AS tanggal, \n" +
+            "TIME(tj.tanggal_transaksi_jual) AS waktu, tj.cara_bayar AS jenis_pembayaran,\n" +
+            "dsk.nama_diskon AS diskon, tj.total_transaksi_jual AS total_pembelian,\n" +
+            "tj.kembalian AS kembalian\n" +
+            "FROM transaksi_jual tj\n" +
+            "JOIN admin adm ON adm.id_admin = tj.id_admin\n" +
+            "LEFT JOIN diskon dsk ON dsk.id_diskon = tj.id_diskon\n" +
+            "WHERE tanggal_transaksi_jual BETWEEN ? AND ?\n" +
+            "AND TIME(tj.tanggal_transaksi_jual) BETWEEN ? AND ?\n" +
+            "ORDER BY tanggal_transaksi_jual ASC";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, tanggalAwal);
+            statement.setString(2, tanggalAkhir);
+            statement.setString(3, waktuShift[0]);
+            statement.setString(4, waktuShift[1]);
+            ResultSet result = statement.executeQuery();
+            
+            int totalPenjualanBarang = 0;
+            int totalPenjualanSaldo = 0;
+            int totalPenjualan = 0;
+            
+            while(result.next()) {
+                String idTransaksi = result.getString("id_transaksi");
+                String karyawan = result.getString("username");
+                String tanggal = Session.convertTanggalIndo(result.getString("tanggal"));
+                String waktu = result.getString("waktu");
+                String jenisPembayaran = result.getString("jenis_pembayaran");
+                String diskon = result.getString("diskon");
+                int totalPembelian = result.getInt("total_pembelian");
+                String kembalian = Session.convertIntToRupiah(result.getInt("kembalian"));
+                
+                Transaksi trs = new Transaksi(idTransaksi, karyawan, tanggal, waktu, jenisPembayaran, diskon, 
+                Session.convertIntToRupiah(totalPembelian), kembalian);
+                listTransaksi.add(trs);
+                
+                totalPenjualanBarang += totalPembelian;
+            }
+                        
+            //MENGHITUNG TOTAL SALDO
+            query = "SELECT SUM(total_minus) As total_minus\n" +
+            "FROM minus_saldo\n" +
+            "WHERE DATE(tanggal) BETWEEN ? AND ?\n" +
+            "AND TIME(tanggal) BETWEEN ? AND ?";
+            statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, tanggalAwal);
+            statement.setString(2, tanggalAkhir);
+            statement.setString(3, waktuShift[0]);
+            statement.setString(4, waktuShift[1]);
+            result = statement.executeQuery();
+            
+            if(result.next()){
+                totalPenjualanSaldo = result.getInt("total_minus");
+            }
+            
+            totalPenjualan = totalPenjualanBarang + totalPenjualanSaldo;
+            lblTotalPenjualanBarang.setText(Session.convertIntToRupiah(totalPenjualanBarang));
+            lblTotalPenjualanSaldo.setText(Session.convertIntToRupiah(totalPenjualanSaldo));
+            lblTotalPenjualan.setText(Session.convertIntToRupiah(totalPenjualan));
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        tabelTransaksi.setItems(listTransaksi);
+        tabelTransaksi.refresh();
+    }
+    
+    @FXML
+    private void bukaDetailTransaksi(){
+        int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
+        Transaksi transaksiTerpilih = listTransaksi.get(barisTerpilih);
+        idTransaksiTerpilih = transaksiTerpilih.getIdTransaksi();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/karyawan/halamanJual/detail.fxml"));
+            Parent root = loader.load();
+
+            Stage detailTransaksiStage = new Stage();
+            detailTransaksiStage.initModality(Modality.APPLICATION_MODAL);
+            detailTransaksiStage.initStyle(StageStyle.UNDECORATED);
+            detailTransaksiStage.centerOnScreen();
+            detailTransaksiStage.setScene(new Scene(root));
+
+            DetailController controller = loader.getController();
+            controller.setDetailTransaksiStage(detailTransaksiStage);
+            
+            detailTransaksiStage.showAndWait(); // Tunggu user klik "Iya" atau "Tidak"
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private String[] getWaktuShift(String shift){
+        String[] waktuShift = new String[2];
+        
+        try {
+            String query = "SELECT jam_masuk, jam_selesai FROM shift WHERE nama_shift=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, shift);
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                waktuShift[0] = result.getString("jam_masuk");
+                waktuShift[1] = result.getString("jam_selesai");
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return waktuShift;
     }
 }
