@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -29,22 +28,23 @@ public class halamanLoginController implements Initializable {
     @FXML ImageView btnShowPassword;
     @FXML StackPane panePesan;
     @FXML Label lblPesan;
-    
-    boolean showPassword = false;
-    
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setupRFIDListener(txtUsername);
         setupRFIDListener(txtPassword);
         
         txtPasswordVisible.setManaged(false);
+        btnShowPassword.setOnMouseClicked(event -> {
+            Session.togglePassword(txtPassword, txtPasswordVisible, btnShowPassword, "assets/icons/eye36px.png", "assets/icons/eye-off36px.png");
+        });
     }  
     
     @FXML
     private void btnLogin(MouseEvent event) {
         String username = txtUsername.getText();
         
-        if(showPassword){
+        if(txtPasswordVisible.isVisible() == true){
             txtPassword.setText(txtPasswordVisible.getText());
         }
         
@@ -149,30 +149,5 @@ public class halamanLoginController implements Initializable {
             }
             
         });
-    }
-    
-    @FXML
-    private void showOrHidePassword(MouseEvent evt){
-        showPassword = !showPassword;
-
-        if(showPassword){
-            txtPasswordVisible.setText(txtPassword.getText());
-            txtPasswordVisible.setVisible(true);
-            txtPasswordVisible.setManaged(true);
-            txtPasswordVisible.requestFocus();
-            txtPasswordVisible.positionCaret(txtPasswordVisible.getText().length()); // Set kursor di akhir
-            txtPassword.setVisible(false);
-            txtPassword.setManaged(false);
-            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye36px.png")));
-        }else{
-            txtPassword.setText(txtPasswordVisible.getText());
-            txtPassword.setVisible(true);
-            txtPassword.setManaged(true);
-            txtPassword.requestFocus();
-            txtPassword.positionCaret(txtPassword.getText().length()); // Set kursor di akhir
-            txtPasswordVisible.setVisible(false);
-            txtPasswordVisible.setManaged(false);
-            btnShowPassword.setImage(new Image(getClass().getResourceAsStream("/assets/icons/eye-off36px.png")));
-        }
     }    
 }
