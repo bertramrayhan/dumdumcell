@@ -137,9 +137,7 @@ public class Session {
         }
         
         lblPesan.setText(pesan);
-        for(Button btn : buttons){
-            btn.setDisable(true);
-        }
+        setDisableButtons(buttons);
         
         // Animasi fade in
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300), panePesan);
@@ -171,9 +169,7 @@ public class Session {
         // Gabung semua animasi dengan jeda tambahan
         SequentialTransition animasi = new SequentialTransition(naikSambilFade, jeda, turunSambilFade);
         animasi.setOnFinished(event -> {
-            for(Button btn : buttons){
-                btn.setDisable(false);
-            }
+            setEnableButtons(buttons);
         });
         animasi.play();
     }
@@ -213,5 +209,16 @@ public class Session {
 
         btnShowPassword.setImage(icon);
     }
-
+    
+    public static void setEnableButtons(Button ... buttons){
+        for(Button btn : buttons){
+            btn.setDisable(false);
+        }
+    }
+    
+    public static void setDisableButtons(Button ... buttons){
+        for(Button btn : buttons){
+            btn.setDisable(true);
+        }
+    }
 }
