@@ -1,5 +1,6 @@
 package main;
 
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,8 +14,11 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -173,4 +177,41 @@ public class Session {
         });
         animasi.play();
     }
+    
+    public static void togglePassword(PasswordField txtPassword, TextField txtPasswordVisible, ImageView btnShowPassword,
+                                  String eyeIconPath, String eyeOffIconPath) {
+        boolean isShowing = txtPasswordVisible.isVisible();
+
+        String iconToLoad = isShowing ? eyeOffIconPath : eyeIconPath;
+        InputStream iconStream = ClassLoader.getSystemResourceAsStream(iconToLoad);
+
+        if (iconStream == null) {
+            return;
+        }
+
+        Image icon = new Image(iconStream);
+
+        if (!isShowing) {
+            txtPasswordVisible.setText(txtPassword.getText());
+            txtPasswordVisible.setVisible(true);
+            txtPasswordVisible.setManaged(true);
+            txtPasswordVisible.requestFocus();
+            txtPasswordVisible.positionCaret(txtPasswordVisible.getText().length());
+
+            txtPassword.setVisible(false);
+            txtPassword.setManaged(false);
+        } else {
+            txtPassword.setText(txtPasswordVisible.getText());
+            txtPassword.setVisible(true);
+            txtPassword.setManaged(true);
+            txtPassword.requestFocus();
+            txtPassword.positionCaret(txtPassword.getText().length());
+
+            txtPasswordVisible.setVisible(false);
+            txtPasswordVisible.setManaged(false);
+        }
+
+        btnShowPassword.setImage(icon);
+    }
+
 }
