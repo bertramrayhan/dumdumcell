@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,12 +40,16 @@ import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanJualKController implements Initializable {
+    @FXML private AnchorPane paneCetakStruk;
     @FXML private StackPane panePesan;
     @FXML private Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian, lblPesan;
     @FXML private TextField txtBarcode, txtBarcodeQty, txtBayar, txtManualQty;
-    @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi;
+    @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi, btnTutupCetakStruk, btnIyaCetakStruk;
     @FXML private TextArea txtACatatan;
     @FXML private ChoiceBox<String> cbxCaraBayar, cbxKategori, cbxProduk, cbxDiskon;
     @FXML private TableView tabelBarang;
@@ -51,6 +57,8 @@ public class HalamanJualKController implements Initializable {
     @FXML private TableColumn<Barang, Integer> colQty;
     @FXML private TableColumn<Barang, Button> colBatal;
     static ObservableList<Barang> listBarang = FXCollections.observableArrayList();
+    
+    private String idTransaksiBaru = "";
     
     //RIWAYAT TRANSAKSI
     @FXML private Label lblTotalPenjualanBarang, lblTotalPenjualanSaldo, lblTotalPenjualan;
@@ -89,6 +97,7 @@ public class HalamanJualKController implements Initializable {
         setKomponenRiwayatTransaksi();
         setDatePicker();
         setTabelTransaksi();
+        getSemuaTransaksi();
     }    
     
     @FXML
@@ -183,7 +192,6 @@ public class HalamanJualKController implements Initializable {
                         setTotal();
                     });
                     listBarang.add(barang);
-                    setTotal();
                 }else{
                     Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 }
@@ -202,6 +210,7 @@ public class HalamanJualKController implements Initializable {
         } else {
             txtManualQty.setText("");
         }
+        setTotal();
     }
     
     @FXML
@@ -214,7 +223,7 @@ public class HalamanJualKController implements Initializable {
             return;
         }
 
-        String idTransaksi = getNewIdTransaksi();
+        idTransaksiBaru = getNewIdTransaksi();
 
         try {
             // Check if lblTotal is empty and set default value
@@ -222,7 +231,7 @@ public class HalamanJualKController implements Initializable {
 
             String query = "INSERT INTO transaksi_jual VALUES (?,?,NOW(),?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, idTransaksi);
+            statement.setString(1, idTransaksiBaru);
             statement.setString(2, Session.getIdAdmin());
             statement.setString(3, cbxCaraBayar.getValue().toLowerCase());
             statement.setInt(4, total); // Use the total variable here
@@ -235,7 +244,7 @@ public class HalamanJualKController implements Initializable {
             for (Barang barang : listBarang) {
                 query = "INSERT INTO detail_transaksi_jual VALUES (?,?,?,?)";
                 statement = Koneksi.getCon().prepareStatement(query);
-                statement.setString(1, idTransaksi);
+                statement.setString(1, idTransaksiBaru);
                 statement.setString(2, getIdBarang(barang.getBarang()));
                 statement.setInt(3, barang.getQty());
                 statement.setInt(4, barang.getQty() * Session.convertRupiahToInt(barang.getHarga()));
@@ -248,6 +257,8 @@ public class HalamanJualKController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        bukaCetakStruk();
     }
     
     @FXML
@@ -401,13 +412,16 @@ public class HalamanJualKController implements Initializable {
     
     private void setTotal(){
         int subtotal = 0;
-        int diskon = getHargaDiskon(cbxDiskon.getValue());
         
         for(Barang barang : listBarang){
             subtotal += Session.convertRupiahToInt(barang.getSubtotal());
         }
         lblSubtotal.setText(Session.convertIntToRupiah(subtotal));
-        lblTotal.setText(Session.convertIntToRupiah(subtotal - diskon));
+        
+        int diskon = getHargaDiskon(cbxDiskon.getValue());
+        int total = subtotal - diskon >= 0 ? subtotal - diskon : 0;
+                
+        lblTotal.setText(Session.convertIntToRupiah(total));
         setKembalian();
     }
     
@@ -500,13 +514,17 @@ public class HalamanJualKController implements Initializable {
         int diskon = 0;
         
         try {
-            String query = "SELECT harga_diskon FROM diskon WHERE nama_diskon=?";
+            String query = "SELECT jenis_diskon, harga_diskon FROM diskon WHERE nama_diskon=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, namaDiskon);
             ResultSet result = statement.executeQuery();
             
             if (result.next()) {
-                diskon = result.getInt("harga_diskon");
+                if(result.getString("jenis_diskon").equals("persentase")){
+                    diskon = Session.convertRupiahToInt(lblSubtotal.getText()) * result.getInt("harga_diskon") / 100;
+                }else{
+                    diskon = result.getInt("harga_diskon");
+                }
             }
             
             result.close();
@@ -541,6 +559,35 @@ public class HalamanJualKController implements Initializable {
         }
         
         return idDiskon;
+    }
+    
+    private void bukaCetakStruk(){
+        paneCetakStruk.setVisible(true);
+        paneCetakStruk.setMouseTransparent(false);
+    }
+    
+    @FXML
+    private void tutupCetakStruk(){
+        paneCetakStruk.setVisible(false);
+        paneCetakStruk.setMouseTransparent(true);
+    }
+    
+    @FXML
+    private void cetakStruk(){
+        String reportPath = "src/main/struk.jasper";
+                   
+        HashMap<String, Object> parameter = new HashMap<>();
+        parameter.put("id_transaksi_jual", idTransaksiBaru);
+
+        try {
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, Koneksi.getCon());
+            JasperViewer viewer = new JasperViewer(print, false);
+            viewer.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        tutupCetakStruk();
     }
     
     //RIWAYAT TRANSAKSI
@@ -721,7 +768,7 @@ public class HalamanJualKController implements Initializable {
             "FROM transaksi_jual tj\n" +
             "JOIN admin adm ON adm.id_admin = tj.id_admin\n" +
             "LEFT JOIN diskon dsk ON dsk.id_diskon = tj.id_diskon\n" +
-            "WHERE tanggal_transaksi_jual BETWEEN ? AND ?\n" +
+            "WHERE DATE(tanggal_transaksi_jual) BETWEEN ? AND ?\n" +
             "AND TIME(tj.tanggal_transaksi_jual) BETWEEN ? AND ?\n" +
             "ORDER BY tanggal_transaksi_jual ASC";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
@@ -803,6 +850,25 @@ public class HalamanJualKController implements Initializable {
             
             detailTransaksiStage.showAndWait(); // Tunggu user klik "Iya" atau "Tidak"
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void cetakStrukTransaksi(){
+        int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
+        Transaksi transaksiTerpilih = listTransaksi.get(barisTerpilih);
+        idTransaksiTerpilih = transaksiTerpilih.getIdTransaksi();
+        String reportPath = "src/main/struk.jasper";
+                   
+        HashMap<String, Object> parameter = new HashMap<>();
+        parameter.put("id_transaksi_jual", idTransaksiTerpilih);
+
+        try {
+            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, Koneksi.getCon());
+            JasperViewer viewer = new JasperViewer(print, false);
+            viewer.setVisible(true);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
