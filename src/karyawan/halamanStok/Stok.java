@@ -1,29 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package karyawan.halamanStok;
 
-import main.Session;
-
-
-/**
- *
- * @author indra
- */
 public class Stok {
-    private String namaBarang, kategori, merek, tipe, hargaJual, exp;
+    private String namaBarang, kategori, merek, hargaJual, exp, barcode;
     private int stok;
 
     // Constructor lengkap
-    public Stok(String namaBarang, String kategori, String merek, String tipe, String exp, String hargaJual, int stok) {
+    public Stok(String namaBarang, String kategori, String merek, String exp, String hargaJual, String barcode, int stok) {
         this.namaBarang = namaBarang;
         this.kategori = kategori;
         this.merek = merek;
-        this.tipe = tipe;
         this.hargaJual = hargaJual;
         this.exp = exp;
         this.stok = stok;
+        this.barcode = barcode;
     }
 
     // Getter
@@ -39,10 +28,6 @@ public class Stok {
         return merek;
     }
 
-    public String getTipe() {
-        return tipe;
-    }
-
     public String getHargaJual() {
         return hargaJual;
     }
@@ -53,6 +38,10 @@ public class Stok {
 
     public int getStok() {
         return stok;
+    }
+    
+    public String getBarcode() {
+        return barcode;
     }
 
     // Setter

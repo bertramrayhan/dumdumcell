@@ -27,7 +27,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <TabPane layoutY="130.0" prefHeight="630.0" prefWidth="1000.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
+      <TabPane focusTraversable="false" layoutY="130.0" prefHeight="630.0" prefWidth="1000.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab style="-fx-font-size: 15;" text="Transaksi">
             <content>

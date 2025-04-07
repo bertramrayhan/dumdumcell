@@ -12,11 +12,6 @@
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanProfil.HalamanProfilKController">
    <children>
-      <Label layoutX="19.0" layoutY="25.0" text="Profil Karyawan">
-         <font>
-            <Font name="Verdana Bold" size="40.0" />
-         </font>
-      </Label>
       <Circle fill="#02045e" layoutX="180.0" layoutY="378.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
       <Label layoutX="330.0" layoutY="220.0" text="Nama">
          <font>
@@ -94,5 +89,20 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <Label layoutX="200.0" layoutY="20.0" text="Profil Karyawan" textFill="#353499">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="200.0" layoutY="84.0" text="Go Digital &amp; Beyond" textFill="#353499">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/logo/Logomark.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
