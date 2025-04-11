@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,14 +16,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -36,7 +34,7 @@ import main.Session;
 public class HalamanProdukPController implements Initializable {
     @FXML private StackPane panePesan;
     @FXML private Label lblPesan;
-    @FXML private Button btnTambahBarang, btnEditBarang, btnHapusBarang;
+    @FXML private Button btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori;
     @FXML private ImageView btnX;
     @FXML private TextField txtSearchBar;
     @FXML private ChoiceBox<String> sortBy;
@@ -66,7 +64,6 @@ public class HalamanProdukPController implements Initializable {
     
     //KATEGORI
     @FXML private AnchorPane paneKelolaKategori;
-    @FXML private Tab tabKategori;
     @FXML private Button btnTambahKategori;
     @FXML private Label btnTutup;
     @FXML private TableView<Kategori> tabelKategori;
@@ -270,15 +267,13 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void bukaTambahBarang(){
         Session.setShowPane(paneTambahBarang);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang);
-        tabKategori.setDisable(true);
+        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
     }
     
     @FXML
     private void tutupTambahBarang(){
         Session.setHidePane(paneTambahBarang);
-        tabKategori.setDisable(false);
-        Session.setEnableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang);
+        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori);
         txtNamaBarangTambah.setText("");
         txtNamaMerekTambah.setText("");
         txtBarcodeTambah.setText("");
@@ -444,8 +439,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void bukaEditBarang(){
         Session.setShowPane(paneEditBarang);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang);
-        tabKategori.setDisable(true);
+        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
         
         int barisTerpilih = tabelBarang.getSelectionModel().getSelectedIndex();
         Barang barangTerpilih = listBarang.get(barisTerpilih);
@@ -482,8 +476,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void tutupEditBarang(){
         Session.setHidePane(paneEditBarang);
-        tabKategori.setDisable(false);
-        Session.setEnableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang);
+        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori);
     }
     
     @FXML
@@ -537,8 +530,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void bukaHapusBarang(){
         Session.setShowPane(paneHapusBarang);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang);
-        tabKategori.setDisable(true);
+        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
         
         int barisTerpilih = tabelBarang.getSelectionModel().getSelectedIndex();
         Barang barangTerpilih = listBarang.get(barisTerpilih);
@@ -548,8 +540,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void tutupHapusBarang(){
         Session.setHidePane(paneHapusBarang);
-        tabKategori.setDisable(false);
-        Session.setEnableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang);
+        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori);
     }
     
     @FXML
@@ -657,11 +648,41 @@ public class HalamanProdukPController implements Initializable {
                     Session.animasiPanePesan(false, panePesan, lblPesan, "Kategori berhasil ditambahkan");
                     
                     kategori.setIdKategori(idKategoriBaru);
-                    Button btnEdit = new Button("Edit");
-                    btnEdit.setStyle("-fx-background-color: yellow;");
+                    Button btnEdit = new Button();
+                    btnEdit.setStyle(
+                        "-fx-background-color: #4CAF50;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 11px;" +
+                        "-fx-pref-width: 26px;" +
+                        "-fx-pref-height: 26px;" +
+                        "-fx-background-radius: 5px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-padding: 0;"
+                    );
 
-                    Button btnHapus = new Button("Hapus");
-                    btnHapus.setStyle("-fx-background-color: yellow;");
+                    Button btnHapus = new Button();
+                    btnHapus.setStyle(
+                        "-fx-background-color: #F44336;" +
+                        "-fx-text-fill: white;" +               
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 11px;" +
+                        "-fx-pref-width: 26px;" +
+                        "-fx-pref-height: 26px;" +
+                        "-fx-background-radius: 5px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-padding: 0;"
+                    );
+
+                    ImageView iconEdit = new ImageView(new Image(getClass().getResource("/assets/icons/edit16px.png").toExternalForm()));
+                    iconEdit.setFitHeight(16);
+                    iconEdit.setFitWidth(16);
+                    btnEdit.setGraphic(iconEdit);
+
+                    ImageView iconHapus = new ImageView(new Image(getClass().getResource("/assets/icons/delete16px.png").toExternalForm()));
+                    iconHapus.setFitHeight(16);
+                    iconHapus.setFitWidth(16);
+                    btnHapus.setGraphic(iconHapus);
 
                     HBox aksiBox = new HBox(10, btnEdit, btnHapus);
                     aksiBox.setAlignment(Pos.CENTER);
@@ -719,6 +740,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void bukaKelolaKategori(){
         Session.setShowPane(paneKelolaKategori);
+        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
         
         try {
             String query = "SELECT id_kategori, nama_kategori FROM kategori";
@@ -727,12 +749,42 @@ public class HalamanProdukPController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             while(result.next()) {
-                Button btnEdit = new Button("Edit");
-                btnEdit.setStyle("-fx-background-color: yellow;");
+                Button btnEdit = new Button();
+                btnEdit.setStyle(
+                    "-fx-background-color: #4CAF50;" +
+                    "-fx-text-fill: white;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-font-size: 11px;" +
+                    "-fx-pref-width: 26px;" +
+                    "-fx-pref-height: 26px;" +
+                    "-fx-background-radius: 5px;" +
+                    "-fx-cursor: hand;" +
+                    "-fx-padding: 0;"
+                );
 
-                Button btnHapus = new Button("Hapus");
-                btnHapus.setStyle("-fx-background-color: yellow;");
-                
+                Button btnHapus = new Button();
+                btnHapus.setStyle(
+                    "-fx-background-color: #F44336;" +
+                    "-fx-text-fill: white;" +               
+                    "-fx-font-weight: bold;" +
+                    "-fx-font-size: 11px;" +
+                    "-fx-pref-width: 26px;" +
+                    "-fx-pref-height: 26px;" +
+                    "-fx-background-radius: 5px;" +
+                    "-fx-cursor: hand;" +
+                    "-fx-padding: 0;"
+                );
+
+                ImageView iconEdit = new ImageView(new Image(getClass().getResource("/assets/icons/edit16px.png").toExternalForm()));
+                iconEdit.setFitHeight(16);
+                iconEdit.setFitWidth(16);
+                btnEdit.setGraphic(iconEdit);
+
+                ImageView iconHapus = new ImageView(new Image(getClass().getResource("/assets/icons/delete16px.png").toExternalForm()));
+                iconHapus.setFitHeight(16);
+                iconHapus.setFitWidth(16);
+                btnHapus.setGraphic(iconHapus);
+
                 HBox aksiBox = new HBox(10, btnEdit, btnHapus);
                 aksiBox.setAlignment(Pos.CENTER);
 
@@ -778,6 +830,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void tutupKelolaKategori(){
         Session.setHidePane(paneKelolaKategori);
+        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori, btnTambahKategori);
         listKategori.clear();
         getDataTabelBarang();
     }
