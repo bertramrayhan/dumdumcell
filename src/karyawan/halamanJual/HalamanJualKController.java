@@ -30,6 +30,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -178,16 +179,24 @@ public class HalamanJualKController implements Initializable {
                     String barcode = result.getString("barcode");
                     String merek = result.getString("merek");
                     int harga = result.getInt("harga_jual");
-                    Button batal = new Button("X");
+                    Button batal = new Button();
                     batal.setStyle(
-                        "-fx-background-color: red; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-font-size: 12px; " +
-                        "-fx-background-radius: 0; " +
-                        "-fx-padding: 4px;" +
-                        "-fx-cursor: hand;"
+                        "-fx-background-color: #F44336;" +
+                        "-fx-text-fill: white;" +               
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-size: 11px;" +
+                        "-fx-pref-width: 26px;" +
+                        "-fx-pref-height: 26px;" +
+                        "-fx-background-radius: 5px;" +
+                        "-fx-cursor: hand;" +
+                        "-fx-padding: 0;"
                     );
 
+                    ImageView iconHapus = new ImageView(new Image(getClass().getResource("/assets/icons/delete16px.png").toExternalForm()));
+                    iconHapus.setFitHeight(16);
+                    iconHapus.setFitWidth(16);
+                    batal.setGraphic(iconHapus);
+                    
                     Barang barang = new Barang(barcode, merek, harga, qty, batal);
 
                     batal.setOnAction(e -> {
