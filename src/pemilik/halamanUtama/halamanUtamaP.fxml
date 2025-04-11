@@ -71,7 +71,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
                      <children>
-                        <Button fx:id="btnRetur" layoutX="53.0" mnemonicParsing="false" onAction="#goToRetur" prefHeight="45.0" prefWidth="228.0" style="-fx-background-color: transparent;" text="Retur" textFill="#caf0f8">
+                        <Button fx:id="btnProduk" layoutX="53.0" mnemonicParsing="false" onAction="#goToProduk" prefHeight="45.0" prefWidth="228.0" style="-fx-background-color: transparent;" text="Produk" textFill="#caf0f8">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -79,10 +79,10 @@
                               <Font name="Verdana" size="20.0" />
                            </font>
                            <padding>
-                              <Insets right="140.0" />
+                              <Insets right="123.0" />
                            </padding>
                         </Button>
-                        <Pane fx:id="indikatorRetur" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorProduk" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                         <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="20.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../assets/icons/rotate-ccw32px.png" />

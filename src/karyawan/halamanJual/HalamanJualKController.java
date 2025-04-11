@@ -23,6 +23,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -61,6 +62,7 @@ public class HalamanJualKController implements Initializable {
     private String idTransaksiBaru = "";
     
     //RIWAYAT TRANSAKSI
+    @FXML private Tab tabRiwayatTransaksi;
     @FXML private Label lblTotalPenjualanBarang, lblTotalPenjualanSaldo, lblTotalPenjualan;
     @FXML private ChoiceBox<String> cbxShift;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
@@ -165,13 +167,14 @@ public class HalamanJualKController implements Initializable {
             if (!produkAda && cekStokBarangCukup(isBarcode ? "" : identifier, isBarcode ? identifier : "", qty)) {
                 String query = "SELECT b.barcode, b.merek, b.harga_jual\n" +
                                "FROM barang b " +
-                               "WHERE " + (isBarcode ? "b.barcode = ?" : "b.merek = ?");
+                               "WHERE " + (isBarcode ? "b.barcode = ? " : "b.merek = ? ") +
+                               "AND b.exp > DATE(NOW())";
                 PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, identifier);
 
                 ResultSet result = statement.executeQuery();
 
-                if (result.next() && !result.getString("barcode").isEmpty()) {
+                if (result.next()) {
                     String barcode = result.getString("barcode");
                     String merek = result.getString("merek");
                     int harga = result.getInt("harga_jual");
@@ -193,7 +196,7 @@ public class HalamanJualKController implements Initializable {
                     });
                     listBarang.add(barang);
                 }else{
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                    Session.animasiPanePesan(true, panePesan, lblPesan, "Produk sudah expired", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 }
 
                 result.close();
@@ -316,7 +319,8 @@ public class HalamanJualKController implements Initializable {
             
             //combo box produk
             query = "SELECT merek FROM barang \n" +
-            "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?)";
+            "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) " +
+            "AND barang.exp > DATE(NOW())";
             statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, cbxKategori.getItems().get(0));
             
@@ -359,7 +363,8 @@ public class HalamanJualKController implements Initializable {
         try {
             //combo box produk
             String query = "SELECT merek FROM barang \n" +
-            "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?)";
+            "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) " +
+            "AND barang.exp > DATE(NOW())";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, cbxKategori.getValue());
             
@@ -452,6 +457,8 @@ public class HalamanJualKController implements Initializable {
                 }else{
                     Session.animasiPanePesan(true, panePesan, lblPesan, "Stok tidak cukup untuk " + merek, btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 }
+            }else{
+                Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             }
             result.close();
             statement.close();
@@ -562,14 +569,15 @@ public class HalamanJualKController implements Initializable {
     }
     
     private void bukaCetakStruk(){
-        paneCetakStruk.setVisible(true);
-        paneCetakStruk.setMouseTransparent(false);
+        Session.setShowPane(paneCetakStruk);
+        tabRiwayatTransaksi.setDisable(true);
+        
     }
     
     @FXML
     private void tutupCetakStruk(){
-        paneCetakStruk.setVisible(false);
-        paneCetakStruk.setMouseTransparent(true);
+        Session.setHidePane(paneCetakStruk);
+        tabRiwayatTransaksi.setDisable(false);
     }
     
     @FXML
@@ -589,7 +597,7 @@ public class HalamanJualKController implements Initializable {
         
         tutupCetakStruk();
     }
-    
+        
     //RIWAYAT TRANSAKSI
     public class Transaksi{
         String idTransaksi, karyawan, tanggal, waktu, jenisPembayaran, diskon, totalPembelian, kembalian;

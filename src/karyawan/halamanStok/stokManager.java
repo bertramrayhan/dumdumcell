@@ -9,7 +9,7 @@ import main.Session;
 
 public class stokManager {
      
-     private String getOrderBy(String sortOption) {
+    private String getOrderBy(String sortOption) {
         if (sortOption == null || sortOption.equals("Sort by")) {
             return ""; // Tidak ada sorting
         }
@@ -46,7 +46,6 @@ public class stokManager {
          if (isSearch) {
             if (isAngka) {
                 query += " WHERE (b.stok = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ?)";
-                System.out.println("angka");
             } else {
                 query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ?)";
             }

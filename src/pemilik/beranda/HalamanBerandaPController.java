@@ -143,6 +143,7 @@ public class HalamanBerandaPController implements Initializable {
         }
 
         chartPenjualan.getData().setAll(dataPenjualan);
+        setTooltipChartPenjualan();
     }
     
     private void setGrafikBarangTerlaris() {
@@ -208,22 +209,9 @@ public class HalamanBerandaPController implements Initializable {
                 }
             }
         });
-        Platform.runLater(() -> {
-            for (XYChart.Series<String, Number> series : chartPenjualan.getData()) {
-                for (XYChart.Data<String, Number> data : series.getData()) {
-                    if (data.getNode() != null) {
-                        Tooltip tooltip = new Tooltip("Total: " + Session.convertIntToRupiah(data.getYValue().intValue()));
-
-                        // Atur biar tooltip langsung muncul tanpa delay
-                        tooltip.setShowDelay(Duration.ZERO);
-                        tooltip.setHideDelay(Duration.ZERO);
-                        tooltip.setShowDuration(Duration.INDEFINITE); // Biar nggak ilang sendiri
-
-                        Tooltip.install(data.getNode(), tooltip);
-                    }
-                }
-            }
-        });
+        
+        setTooltipChartPenjualan();
+                
         //scrollPaneChartPenjualan.setContent(chartPenjualan);
         //scrollPaneChartPenjualan.setFitToWidth(false);
         //scrollPaneChartPenjualan.setFitToHeight(true); 
@@ -231,6 +219,24 @@ public class HalamanBerandaPController implements Initializable {
         axisPeriode.setStyle("-fx-tick-label-font-size: 10px;");
         axisNamaBarang.setTickLabelRotation(45);
     }
+    
+    private void setTooltipChartPenjualan() {
+        Platform.runLater(() -> {
+            for (XYChart.Series<String, Number> series : chartPenjualan.getData()) {
+                for (XYChart.Data<String, Number> data : series.getData()) {
+                    if (data.getNode() != null) {
+                        Tooltip tooltip = new Tooltip("Total: " + Session.convertIntToRupiah(data.getYValue().intValue()));
+                        tooltip.setShowDelay(Duration.ZERO);
+                        tooltip.setHideDelay(Duration.ZERO);
+                        tooltip.setShowDuration(Duration.INDEFINITE);
+
+                        Tooltip.install(data.getNode(), tooltip);
+                    }
+                }
+            }
+        });
+    }
+
     
     private String getQueryBerdasarkanSortBy(String period) {
         String query = "";

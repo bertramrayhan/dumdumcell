@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -40,50 +41,20 @@ public class Session {
     //PEMILIK
     private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
     private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
+    private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
     
-    public static void setIdAdmin(String idAdmin) {
-        Session.idAdmin = idAdmin;
-    }
-
-    public static String getIdAdmin() {
-        return idAdmin;
-    }
-
-    public static String getPathHalamanLogin() {
-        return pathHalamanLogin;
-    }
-
-    public static String getPathHalamanUtamaK() {
-        return pathHalamanUtamaK;
-    }
-
-    public static String getPathBerandaK() {
-        return pathBerandaK;
-    }
-
-    public static String getPathHalamanProfilK() {
-        return pathHalamanProfilK;
-    }
-
-    public static String getPathHalamanJualK() {
-        return pathHalamanJualK;
-    }
-
-    public static String getPathHalamanSaldoK() {
-        return pathHalamanSaldoK;
-    }
-
-    public static String getPathHalamanStokK() {
-        return pathHalamanStokK;
-    }
-
-    public static String getPathHalamanUtamaP() {
-        return pathHalamanUtamaP;
-    }
-    
-    public static String getPathBerandaP() {
-        return pathBerandaP;
-    }
+    public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}
+    public static String getIdAdmin() {return idAdmin;}
+    public static String getPathHalamanLogin() {return pathHalamanLogin;}
+    public static String getPathHalamanUtamaK() {return pathHalamanUtamaK;}
+    public static String getPathBerandaK() {return pathBerandaK;}
+    public static String getPathHalamanProfilK() {return pathHalamanProfilK;}
+    public static String getPathHalamanJualK() {return pathHalamanJualK;}
+    public static String getPathHalamanSaldoK() {return pathHalamanSaldoK;}
+    public static String getPathHalamanStokK() {return pathHalamanStokK;}
+    public static String getPathHalamanUtamaP() {return pathHalamanUtamaP;}    
+    public static String getPathBerandaP() {return pathBerandaP;}
+    public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
     
     public static String convertTanggalIndo(String tanggal){
         LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -220,5 +191,15 @@ public class Session {
         for(Button btn : buttons){
             btn.setDisable(true);
         }
+    }
+    
+    public static void setShowPane(AnchorPane pane){
+        pane.setVisible(true);
+        pane.setMouseTransparent(false);
+    }
+    
+    public static void setHidePane(AnchorPane pane){
+        pane.setVisible(false);
+        pane.setMouseTransparent(true);
     }
 }

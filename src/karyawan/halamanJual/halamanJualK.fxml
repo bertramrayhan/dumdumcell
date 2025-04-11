@@ -101,7 +101,7 @@
                                     <Font size="16.0" />
                                  </font>
                               </TextField>
-                              <Button fx:id="btnTambahProdukBarcode" alignment="CENTER" layoutX="138.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#tambahBarisTabelBarang" prefHeight="30.0" prefWidth="70.0" styleClass="button-effect" textFill="WHITE">
+                              <Button fx:id="btnTambahProdukBarcode" alignment="CENTER" layoutX="138.0" layoutY="102.0" mnemonicParsing="false" onMouseClicked="#tambahBarisTabelBarang" prefHeight="30.0" prefWidth="70.0" styleClass="button-effect" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -120,12 +120,12 @@
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="12.0" layoutY="84.0" text="Produk" textFill="#023e8a">
+                              <Label layoutX="12.0" layoutY="83.0" text="Produk" textFill="#023e8a">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="12.0" layoutY="158.0" text="Qty" textFill="#023e8a">
+                              <Label layoutX="12.0" layoutY="157.0" text="Qty" textFill="#023e8a">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -135,22 +135,22 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ChoiceBox>
-                              <ChoiceBox fx:id="cbxProduk" layoutX="12.0" layoutY="116.0" prefHeight="32.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-background-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+                              <ChoiceBox fx:id="cbxProduk" layoutX="12.0" layoutY="115.0" prefHeight="32.0" prefWidth="190.0" style="-fx-background-color: white; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-background-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ChoiceBox>
-                              <TextField fx:id="txtManualQty" layoutX="12.0" layoutY="190.0" prefHeight="32.0" prefWidth="190.0" promptText="Masukkan Jumlah Barang" style="-fx-text-fill: #02045e; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+                              <TextField fx:id="txtManualQty" layoutX="12.0" layoutY="189.0" prefHeight="32.0" prefWidth="190.0" promptText="Masukkan Jumlah Barang" style="-fx-text-fill: #02045e; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </TextField>
-                              <Button fx:id="btnTambahProdukManual" alignment="CENTER" layoutX="72.0" layoutY="232.0" mnemonicParsing="false" onMouseClicked="#tambahBarisTabelBarang" prefHeight="30.0" prefWidth="70.0" styleClass="button-effect" textFill="WHITE">
+                              <Button fx:id="btnTambahProdukManual" alignment="CENTER" layoutX="72.0" layoutY="229.0" mnemonicParsing="false" onMouseClicked="#tambahBarisTabelBarang" prefHeight="30.0" prefWidth="70.0" styleClass="button-effect" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Button>
-                              <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="94.0" layoutY="236.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="94.0" layoutY="235.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../assets/icons/shopping-cart24px.png" />
                                  </image>
@@ -305,7 +305,7 @@
                 </AnchorPane>
             </content>
           </Tab>
-          <Tab onSelectionChanged="#getSemuaTransaksi" style="-fx-font-size: 15;" text="Riwayat Transaksi">
+          <Tab fx:id="tabRiwayatTransaksi" onSelectionChanged="#getSemuaTransaksi" style="-fx-font-size: 15;" text="Riwayat Transaksi">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../../main/table2.css">
                      <children>

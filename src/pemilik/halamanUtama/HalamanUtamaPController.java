@@ -19,10 +19,10 @@ import main.Session;
 public class HalamanUtamaPController implements Initializable {
     @FXML private StackPane halamanUtama;
     
-    @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorRetur, indikatorStok;
+    @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorProduk, indikatorStok;
     @FXML private Pane indikatorDanLainLain, indikatorKas, indikatorSaldo, indikatorRekap, indikatorDiskon;
     
-    @FXML private Button btnBeranda, btnJual, btnAntarCabang, btnRetur, btnStok;
+    @FXML private Button btnBeranda, btnJual, btnAntarCabang, btnProduk, btnStok;
     @FXML private Button btnDanLainLain, btnKas, btnSaldo, btnRekap, btnDiskon;
     
     public static Map<String, AnchorPane> penyimpananPanePemilik = new HashMap<>();
@@ -83,10 +83,10 @@ public class HalamanUtamaPController implements Initializable {
     }
 
     @FXML
-    void goToRetur(){
+    void goToProduk(){
         resetIndikator();
-        animateIndikator(indikatorRetur);
-        //loadPane(Session.getPathHalamanRetur());
+        animateIndikator(indikatorProduk);
+        loadPane(Session.getPathHalamanProdukP());
     }
 
     @FXML
@@ -129,7 +129,7 @@ public class HalamanUtamaPController implements Initializable {
         indikatorStok.setScaleY(0);
         indikatorJual.setScaleY(0);
         indikatorAntarCabang.setScaleY(0);
-        indikatorRetur.setScaleY(0);
+        indikatorProduk.setScaleY(0);
         indikatorKas.setScaleY(0);
         indikatorSaldo.setScaleY(0);
         indikatorRekap.setScaleY(0);

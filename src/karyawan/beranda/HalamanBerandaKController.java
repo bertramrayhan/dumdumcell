@@ -131,7 +131,7 @@ public class HalamanBerandaKController implements Initializable {
         expCol.setCellValueFactory(new PropertyValueFactory<>("expired"));
         
         try {
-            String query = "SELECT nama_barang, stok, exp \n" +
+            String query = "SELECT merek, stok, exp \n" +
             "FROM barang\n" +
             "WHERE exp IS NOT NULL\n" +
             "AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)";
@@ -140,7 +140,7 @@ public class HalamanBerandaKController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             while(result.next()){
-                String namaBarang = result.getString("nama_barang");
+                String namaBarang = result.getString("merek");
                 String stok = result.getString("stok");
                 String tglExp = Session.convertTanggalIndo(result.getString("exp"));
                 
