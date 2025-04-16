@@ -2,9 +2,15 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="360" pageHeight="440" columnWidth="320" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="8e8e97c6-9ac5-4aeb-89c2-7af16a3e7323">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="110"/>
 	<parameter name="id_transaksi_jual" class="java.lang.String">
 		<defaultValueExpression><![CDATA["jual00222"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logomark" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="barcode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT 
@@ -80,10 +86,6 @@ WHERE tj.id_transaksi_jual = $P{id_transaksi_jual}]]>
 	</background>
 	<title>
 		<band height="72" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="86" height="72" uuid="90df8359-4e1d-4ccb-8a2f-96ee059055ff"/>
-				<imageExpression><![CDATA["E:\\java\\dumdumKasir\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
-			</image>
 			<staticText>
 				<reportElement mode="Transparent" x="126" y="0" width="90" height="27" forecolor="#023E8A" uuid="8c44cc49-6a8f-48d7-9c3f-d10a62f0707f"/>
 				<textElement>
@@ -106,6 +108,10 @@ WHERE tj.id_transaksi_jual = $P{id_transaksi_jual}]]>
 				<text><![CDATA[Jl. Letjen S.Parman, Karangrejo
  Kec. Sumbersari, Kabupaten Jember, Jawa Timur]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="86" height="72" uuid="2961e5ac-a0fe-4efa-b4fd-a434b35c6319"/>
+				<imageExpression><![CDATA["D:\\ddckasir\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -306,8 +312,8 @@ WHERE tj.id_transaksi_jual = $P{id_transaksi_jual}]]>
 				<text><![CDATA[atau scan QR di bawah]]></text>
 			</staticText>
 			<image>
-				<reportElement x="125" y="50" width="70" height="70" uuid="01054086-299a-49b2-9135-13fff57bfe90"/>
-				<imageExpression><![CDATA["E:\\java\\dumdumKasir\\src\\assets\\dll\\qrcode.png"]]></imageExpression>
+				<reportElement x="125" y="50" width="70" height="70" uuid="9181e9ea-c3b1-4e54-b028-2ef53b6f1f87"/>
+				<imageExpression><![CDATA["D:\\ddckasir\\src\\assets\\dll\\qrcode.png"]]></imageExpression>
 			</image>
 		</band>
 	</pageFooter>
