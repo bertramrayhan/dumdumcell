@@ -16,9 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.Session;
 
-public class HalamanUtamaKController implements Initializable {
-    String pathNow = Session.getPathBeranda();
-    
+public class HalamanUtamaKController implements Initializable {    
     @FXML private StackPane halamanUtama;
     
     @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorRetur, indikatorStok;
@@ -31,7 +29,7 @@ public class HalamanUtamaKController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadPane(Session.getPathBeranda());
+        loadPane(Session.getPathBerandaK());
     }    
     
     private void loadPane(String pathPane) {
@@ -60,28 +58,28 @@ public class HalamanUtamaKController implements Initializable {
     @FXML
     void goToProfil(){
         resetIndikator();
-        loadPane(Session.getPathHalamanProfil());
+        loadPane(Session.getPathHalamanProfilK());
     }
     
     @FXML
     void goToBeranda(){
         resetIndikator();
         animateIndikator(indikatorBeranda);
-        loadPane(Session.getPathBeranda());
+        loadPane(Session.getPathBerandaK());
     }
     
     @FXML
     void goToStok(){
         resetIndikator();
         animateIndikator(indikatorStok);
-        //loadPane(Session.getPathHalamanStok());
+        loadPane(Session.getPathHalamanStokK());
     }
     
     @FXML
     void goToJual(){
         resetIndikator();
         animateIndikator(indikatorJual);
-        loadPane(Session.getPathHalamanJual());
+        loadPane(Session.getPathHalamanJualK());
     }
     
     @FXML
@@ -109,7 +107,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToSaldo(){
         resetIndikator();
         animateIndikator(indikatorSaldo);
-        //loadPane(Session.getPathHalamanSaldo());
+        loadPane(Session.getPathHalamanSaldoK());
     }
 
     @FXML

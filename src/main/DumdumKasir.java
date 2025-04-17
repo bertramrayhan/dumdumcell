@@ -31,11 +31,12 @@ public class DumdumKasir extends Application {
         Koneksi.closeConnection();
     }
 
-    public static void switchToBeranda() throws Exception {        
+    public static void switchToBeranda(String role) throws Exception {        
         Stage newStage = new Stage();
         newStage.initStyle(StageStyle.UNDECORATED); // Hilangin title bar
-
-        Parent root = FXMLLoader.load(DumdumKasir.class.getResource(Session.getPathHalamanUtama()));
+        
+        String path = role.equals("karyawan") ? Session.getPathHalamanUtamaK() : Session.getPathHalamanUtamaP();
+        Parent root = FXMLLoader.load(DumdumKasir.class.getResource(path));
         Scene scene = new Scene(root);
 
         newStage.setScene(scene);

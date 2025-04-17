@@ -1,22 +1,22 @@
-.rounded-pane {
-    -fx-background-color: #D2B48C;  /* Warna background */
-    -fx-background-radius: 25;        /* Membuat sudut membulat */
-    -fx-border-radius: 25;            /* Membulatkan border */
-    -fx-border-color: black;    /* Pastikan border tidak terlihat */
-    -fx-border-width: 3px;    /* Pastikan border tidak terlihat */
-    -fx-background-insets: 0;         /* Mencegah area kosong di sekitar */
-    -fx-padding: 0;                   /* Hilangkan padding default */
-}
-
 .button-effect {
-    -fx-background-color: #0096c7; /* Warna default */
+    -fx-background-color: #0096c7;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #0077b6;
+    -fx-border-width: 2px;
     -fx-cursor: hand;
+    -fx-transition: all 0.3s ease-in-out;
 }
 
 .button-effect:hover {
-    -fx-background-color: #023e8a; /* Warna saat hover */
+    -fx-background-color: #023e8a;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
 }
 
 .button-effect:pressed {
-    -fx-background-color: #03045e; /* Warna saat tombol ditekan */
+    -fx-background-color: #03045e;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
 }

@@ -39,7 +39,7 @@
                <font>
                   <Font size="16.0" />
                </font></PasswordField>
-            <ImageView fx:id="btnShowPassword" fitHeight="36.0" fitWidth="36.0" layoutX="568.0" layoutY="400.0" onMouseClicked="#showOrHidePassword" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnShowPassword" fitHeight="36.0" fitWidth="36.0" layoutX="568.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/icons/eye-off36px.png" />
                </image>

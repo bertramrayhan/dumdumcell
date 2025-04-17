@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanProduk.HalamanProdukPController">
+   <children>
+      <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/logo/Logomark.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="200.0" layoutY="20.0" text="Produk" textFill="#353499">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="200.0" layoutY="84.0" text="Go Digital &amp; Beyond" textFill="#353499">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="19.0" layoutY="145.0" onKeyReleased="#getDataTabelBarang" prefHeight="37.0" prefWidth="378.0" promptText="Masukkan Nama Barang atau Stok Barang" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45;" styleClass="search">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <ImageView fitHeight="25.0" fitWidth="24.0" layoutX="34.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/icons/search30px.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="buttonX" fitHeight="25.0" fitWidth="24.0" layoutX="361.0" layoutY="152.0" onMouseClicked="#clearSearchBar" pickOnBounds="true" preserveRatio="true">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <image>
+            <Image url="@../../assets/icons/X-30px.png" />
+         </image>
+      </ImageView>
+      <ChoiceBox fx:id="sortBy" layoutX="417.0" layoutY="145.0" prefHeight="36.0" prefWidth="229.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: black; -fx-border-width: 2;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ChoiceBox>
+      <Button fx:id="btnTambahBarang" layoutX="19.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#bukaTambahBarang" prefHeight="45.0" prefWidth="117.0" styleClass="button-effect" text="Tambah" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnEditBarang" disable="true" layoutX="170.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#bukaEditBarang" prefHeight="45.0" prefWidth="117.0" styleClass="button-effect" text="Edit" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnHapusBarang" disable="true" layoutX="321.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#bukaHapusBarang" prefHeight="45.0" prefWidth="117.0" styleClass="button-effect" text="Hapus" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnKelolaKategori" layoutX="472.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#bukaKelolaKategori" prefHeight="45.0" prefWidth="152.0" styleClass="button-effect" text="Kelola Kategori" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tabelBarang" focusTraversable="false" layoutX="19.0" layoutY="245.0" prefHeight="490.0" prefWidth="962.0">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="colNamaBarang" editable="false" minWidth="30.0" prefWidth="113.33331298828125" sortable="false" text="Nama Barang" />
+            <TableColumn fx:id="colKategori" editable="false" minWidth="0.0" prefWidth="101.33331298828125" sortable="false" text="Kategori" />
+            <TableColumn fx:id="colMerek" editable="false" prefWidth="105.3333740234375" sortable="false" text="Merek" />
+            <TableColumn fx:id="colHargaJual" editable="false" prefWidth="70.0" sortable="false" text="Harga Jual" />
+            <TableColumn fx:id="colStok" editable="false" prefWidth="65.0" sortable="false" text="Stok" />
+            <TableColumn fx:id="colExp" editable="false" prefWidth="75.0" sortable="false" text="Expired" />
+            <TableColumn fx:id="colBarcode" editable="false" prefWidth="75.0" sortable="false" text="Barcode" />
+         </columns>
+      </TableView>
+      <StackPane fx:id="panePesan" layoutX="320.0" layoutY="680.0" opacity="0.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;">
+         <children>
+            <Label fx:id="lblPesan" alignment="CENTER" prefWidth="370.0" text="Username atau Password salah" textAlignment="CENTER" textFill="#ffebee" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
+      <AnchorPane id="AnchorPane" fx:id="paneTambahBarang" layoutX="163.0" layoutY="205.0" mouseTransparent="true" prefHeight="364.0" prefWidth="674.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
+         <children>
+            <Label layoutX="24.0" layoutY="22.0" prefHeight="30.0" prefWidth="135.0" text="Nama Barang" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNamaBarangTambah" layoutX="24.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Label layoutX="24.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Nama Merek" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNamaMerekTambah" layoutX="24.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <ChoiceBox fx:id="cbxKategoriTambah" layoutX="24.0" layoutY="233.0" prefHeight="37.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ChoiceBox>
+            <Label layoutX="24.0" layoutY="198.0" prefHeight="30.0" prefWidth="86.0" text="Kategori" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="380.0" layoutY="22.0" prefHeight="30.0" prefWidth="100.0" text="Barcode" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBarcodeTambah" layoutX="380.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Barcode Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Label layoutX="380.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Harga Jual" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtHargaJualTambah" layoutX="380.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Harga Jual" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Label layoutX="380.0" layoutY="198.0" prefHeight="30.0" prefWidth="159.0" text="Tanggal Expired" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnIyaTambahBarang" layoutX="550.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#tambahBarang" prefHeight="37.0" prefWidth="100.0" styleClass="btnKonfirmasi" text="Tambah" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnBatalTambahBarang" layoutX="24.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#tutupTambahBarang" prefHeight="37.0" prefWidth="100.0" styleClass="btnBatal" text="Batal" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <DatePicker fx:id="dtPTanggalExpTambah" layoutX="380.0" layoutY="233.0" prefHeight="37.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #02045e;" />
+         </children>
+         <stylesheets>
+            <URL value="@../../main/styles.css" />
+            <URL value="@../../main/buttons.css" />
+         </stylesheets>
+      </AnchorPane>
+      <AnchorPane id="AnchorPane" fx:id="paneEditBarang" layoutX="163.0" layoutY="205.0" mouseTransparent="true" prefHeight="364.0" prefWidth="674.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
+         <children>
+            <Label layoutX="24.0" layoutY="22.0" prefHeight="30.0" prefWidth="135.0" text="Nama Barang" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNamaBarangEdit" focusTraversable="false" layoutX="24.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Label layoutX="24.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Nama Merek" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNamaMerekEdit" focusTraversable="false" layoutX="24.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <ChoiceBox fx:id="cbxKategoriEdit" focusTraversable="false" layoutX="24.0" layoutY="233.0" prefHeight="37.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ChoiceBox>
+            <Label layoutX="24.0" layoutY="198.0" prefHeight="30.0" prefWidth="86.0" text="Kategori" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="380.0" layoutY="22.0" prefHeight="30.0" prefWidth="100.0" text="Barcode" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtBarcodeEdit" focusTraversable="false" layoutX="380.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Label layoutX="380.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Harga Jual" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtHargaJualEdit" focusTraversable="false" layoutX="380.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Label layoutX="380.0" layoutY="198.0" prefHeight="30.0" prefWidth="159.0" text="Tanggal Expired" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnIyaEditBarang" layoutX="550.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#editBarang" prefHeight="37.0" prefWidth="100.0" styleClass="btnKonfirmasi" text="Edit" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnBatalEditBarang" layoutX="24.0" layoutY="305.0" mnemonicParsing="false" onMouseClicked="#tutupEditBarang" prefHeight="37.0" prefWidth="100.0" styleClass="btnBatal" text="Batal" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <DatePicker fx:id="dtPTanggalExpEdit" focusTraversable="false" layoutX="380.0" layoutY="233.0" prefHeight="37.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #02045e;" />
+         </children>
+         <stylesheets>
+            <URL value="@../../main/styles.css" />
+            <URL value="@../../main/buttons.css" />
+         </stylesheets>
+      </AnchorPane>
+      <AnchorPane id="AnchorPane" fx:id="paneHapusBarang" layoutX="255.0" layoutY="265.0" mouseTransparent="true" prefHeight="230.0" prefWidth="490.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
+         <children>
+            <Label layoutX="91.0" layoutY="50.0" prefWidth="312.0" text="Apakah anda ingin menghapus barang ini?" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnIyaHapusBarang" layoutX="298.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#hapusBarang" prefHeight="37.0" prefWidth="100.0" styleClass="btnKonfirmasi" text="Iya" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnTidakHapusBarang" layoutX="92.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#tutupHapusBarang" prefHeight="37.0" prefWidth="100.0" styleClass="btnBatal" text="Tidak" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+         </children>
+         <stylesheets>
+            <URL value="@../../main/styles.css" />
+            <URL value="@../../main/buttons.css" />
+         </stylesheets>
+      </AnchorPane>
+      <AnchorPane id="AnchorPane" fx:id="paneKelolaKategori" layoutX="203.0" layoutY="178.0" mouseTransparent="true" prefHeight="379.0" prefWidth="594.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
+         <children>
+            <TableView fx:id="tabelKategori" layoutX="8.0" layoutY="100.0" prefHeight="270.0" prefWidth="578.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <columns>
+                  <TableColumn fx:id="colNamaKategori" prefWidth="75.0" sortable="false" text="Nama Kategori" />
+                  <TableColumn fx:id="colAksi" editable="false" prefWidth="75.0" sortable="false" text="Aksi" />
+               </columns>
+            </TableView>
+            <Label fx:id="btnTutup" layoutX="561.0" layoutY="1.0" onMouseClicked="#tutupKelolaKategori" text="X" textFill="#023e8a">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnTambahKategori" contentDisplay="RIGHT" layoutX="8.0" layoutY="47.0" mnemonicParsing="false" onMouseClicked="#tambahKategori" prefHeight="45.0" prefWidth="117.0" styleClass="button-effect" text="Tambah" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Label layoutX="130.0" layoutY="70.0" text="Tekan Enter setelah mengedit untuk menyimpan perubahan" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <stylesheets>
+            <URL value="@../../main/table2.css" />
+            <URL value="@../../main/styles.css" />
+         </stylesheets>
+      </AnchorPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../main/styles.css" />
+      <URL value="@../../main/table2.css" />
+   </stylesheets>
+</AnchorPane>

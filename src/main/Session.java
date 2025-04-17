@@ -1,5 +1,6 @@
 package main;
 
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,8 +14,12 @@ import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -25,39 +30,32 @@ public class Session {
     private static String idAdmin = "";
     private static final String pathHalamanLogin = "/login/halamanLogin.fxml";
     
-    private static final String pathHalamanUtama = "/karyawan/halamanUtama/halamanUtamaK.fxml";
-    private static final String pathBeranda = "/karyawan/beranda/halamanBerandaK.fxml";
-    private static final String pathHalamanProfil = "/karyawan/halamanProfil/halamanProfilK.fxml";
-    private static final String pathHalamanJual = "/karyawan/halamanJual/halamanJualK.fxml";
+    //KARYAWAN
+    private static final String pathHalamanUtamaK = "/karyawan/halamanUtama/halamanUtamaK.fxml";
+    private static final String pathBerandaK = "/karyawan/beranda/halamanBerandaK.fxml";
+    private static final String pathHalamanProfilK = "/karyawan/halamanProfil/halamanProfilK.fxml";
+    private static final String pathHalamanJualK = "/karyawan/halamanJual/halamanJualK.fxml";
+    private static final String pathHalamanSaldoK = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
+    private static final String pathHalamanStokK =  "/karyawan/halamanStok/halamanStokK.fxml";
 
-    public static void setIdAdmin(String idAdmin) {
-        Session.idAdmin = idAdmin;
-    }
-
-    public static String getIdAdmin() {
-        return idAdmin;
-    }
-
-    public static String getPathHalamanLogin() {
-        return pathHalamanLogin;
-    }
-
-    public static String getPathHalamanUtama() {
-        return pathHalamanUtama;
-    }
-
-    public static String getPathBeranda() {
-        return pathBeranda;
-    }
-
-    public static String getPathHalamanProfil() {
-        return pathHalamanProfil;
-    }
-
-    public static String getPathHalamanJual() {
-        return pathHalamanJual;
-    }
-
+    //PEMILIK
+    private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
+    private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
+    private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
+    
+    public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}
+    public static String getIdAdmin() {return idAdmin;}
+    public static String getPathHalamanLogin() {return pathHalamanLogin;}
+    public static String getPathHalamanUtamaK() {return pathHalamanUtamaK;}
+    public static String getPathBerandaK() {return pathBerandaK;}
+    public static String getPathHalamanProfilK() {return pathHalamanProfilK;}
+    public static String getPathHalamanJualK() {return pathHalamanJualK;}
+    public static String getPathHalamanSaldoK() {return pathHalamanSaldoK;}
+    public static String getPathHalamanStokK() {return pathHalamanStokK;}
+    public static String getPathHalamanUtamaP() {return pathHalamanUtamaP;}    
+    public static String getPathBerandaP() {return pathBerandaP;}
+    public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
+    
     public static String convertTanggalIndo(String tanggal){
         LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
 
@@ -78,6 +76,20 @@ public class Session {
         return harga;
     }
 
+    public static String getBulan(int bulan) {
+        String[] bulanIndo = {
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        };
+
+        // Pastikan angka bulan valid (1-12)
+        if (bulan >= 1 && bulan <= 12) {
+            return bulanIndo[bulan - 1];
+        } else {
+            return "Bulan tidak valid"; // Jika input di luar range 1-12
+        }
+    }
+    
     public static void setTextFieldNumeric(TextField textField) {
         Pattern pattern = Pattern.compile("\\d*"); // Hanya angka
         UnaryOperator<TextFormatter.Change> filter = change -> {
@@ -96,9 +108,7 @@ public class Session {
         }
         
         lblPesan.setText(pesan);
-        for(Button btn : buttons){
-            btn.setDisable(true);
-        }
+        setDisableButtons(buttons);
         
         // Animasi fade in
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300), panePesan);
@@ -130,10 +140,66 @@ public class Session {
         // Gabung semua animasi dengan jeda tambahan
         SequentialTransition animasi = new SequentialTransition(naikSambilFade, jeda, turunSambilFade);
         animasi.setOnFinished(event -> {
-            for(Button btn : buttons){
-                btn.setDisable(false);
-            }
+            setEnableButtons(buttons);
         });
         animasi.play();
+    }
+    
+    public static void togglePassword(PasswordField txtPassword, TextField txtPasswordVisible, ImageView btnShowPassword,
+                                  String eyeIconPath, String eyeOffIconPath) {
+        boolean isShowing = txtPasswordVisible.isVisible();
+
+        String iconToLoad = isShowing ? eyeOffIconPath : eyeIconPath;
+        InputStream iconStream = ClassLoader.getSystemResourceAsStream(iconToLoad);
+
+        if (iconStream == null) {
+            return;
+        }
+
+        Image icon = new Image(iconStream);
+
+        if (!isShowing) {
+            txtPasswordVisible.setText(txtPassword.getText());
+            txtPasswordVisible.setVisible(true);
+            txtPasswordVisible.setManaged(true);
+            txtPasswordVisible.requestFocus();
+            txtPasswordVisible.positionCaret(txtPasswordVisible.getText().length());
+
+            txtPassword.setVisible(false);
+            txtPassword.setManaged(false);
+        } else {
+            txtPassword.setText(txtPasswordVisible.getText());
+            txtPassword.setVisible(true);
+            txtPassword.setManaged(true);
+            txtPassword.requestFocus();
+            txtPassword.positionCaret(txtPassword.getText().length());
+
+            txtPasswordVisible.setVisible(false);
+            txtPasswordVisible.setManaged(false);
+        }
+
+        btnShowPassword.setImage(icon);
+    }
+    
+    public static void setEnableButtons(Button ... buttons){
+        for(Button btn : buttons){
+            btn.setDisable(false);
+        }
+    }
+    
+    public static void setDisableButtons(Button ... buttons){
+        for(Button btn : buttons){
+            btn.setDisable(true);
+        }
+    }
+    
+    public static void setShowPane(AnchorPane pane){
+        pane.setVisible(true);
+        pane.setMouseTransparent(false);
+    }
+    
+    public static void setHidePane(AnchorPane pane){
+        pane.setVisible(false);
+        pane.setMouseTransparent(true);
     }
 }

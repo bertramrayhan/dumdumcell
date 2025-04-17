@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -10,12 +13,12 @@
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" stylesheets="@../../main/table.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.beranda.HalamanBerandaKController">
    <children>
-      <Label layoutX="25.0" layoutY="20.0" text="BERANDA" textFill="#353499">
+      <Label layoutX="200.0" layoutY="20.0" text="BERANDA" textFill="#353499">
          <font>
             <Font name="System Bold" size="50.0" />
          </font>
       </Label>
-      <Label layoutX="28.0" layoutY="84.0" text="Go Digital &amp; Beyond" textFill="#353499">
+      <Label layoutX="200.0" layoutY="84.0" text="Go Digital &amp; Beyond" textFill="#353499">
          <font>
             <Font size="28.0" />
          </font>
@@ -32,7 +35,11 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
       </AnchorPane>
       <AnchorPane layoutX="19.0" layoutY="140.0" prefHeight="109.0" prefWidth="962.0" style="-fx-background-color: #02045e; -fx-background-radius: 20;">
          <children>
@@ -70,7 +77,11 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
       </AnchorPane>
       <AnchorPane layoutX="672.0" layoutY="265.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
          <children>
@@ -84,12 +95,15 @@
                   <Font name="System Bold" size="50.0" />
                </font>
             </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
          </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
       </AnchorPane>
       <TableView fx:id="tabelBarangExpired" layoutX="19.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" styleClass="modern-table">
          <columns>
             <TableColumn fx:id="namaBarangCol" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Nama Barang" />
-            <TableColumn fx:id="hargaCol" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Harga" />
             <TableColumn fx:id="totalBarangCol" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Total Barang" />
             <TableColumn fx:id="expCol" prefWidth="115.0" style="-fx-alignment: CENTER;" text="Expired" />
          </columns>
@@ -111,5 +125,10 @@
             <Font size="28.0" />
          </font>
       </Label>
+      <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/logo/Logomark.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

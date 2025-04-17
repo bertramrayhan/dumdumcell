@@ -1,0 +1,52 @@
+/* Tombol Batal */
+.btnBatal {
+    -fx-background-color: #be1e26;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #99181e;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.btnBatal:hover {
+    -fx-background-color: #99181e;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
+}
+
+.btnBatal:pressed {
+    -fx-background-color: #7a1419;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Tombol Konfirmasi */
+.btnKonfirmasi {
+    -fx-background-color: #00bf63;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-color: #00994f;
+    -fx-border-width: 2px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.btnKonfirmasi:hover {
+    -fx-background-color: #00994f;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
+}
+
+.btnKonfirmasi:pressed {
+    -fx-background-color: #00793c;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+

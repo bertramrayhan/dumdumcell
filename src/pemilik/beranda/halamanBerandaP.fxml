@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" stylesheets="@../../main/grafik.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.beranda.HalamanBerandaPController">
+    <children>
+      <Label layoutX="200.0" layoutY="20.0" text="BERANDA" textFill="#353499">
+         <font>
+            <Font name="System Bold" size="50.0" />
+         </font>
+      </Label>
+      <Label layoutX="200.0" layoutY="84.0" text="Go Digital &amp; Beyond" textFill="#353499">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="19.0" layoutY="244.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <Label layoutX="15.0" layoutY="64.0" prefHeight="70.0" prefWidth="165.0" text="Total barang terjual hari ini" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTotalBarangTerjual" alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
+               <font>
+                  <Font name="System Bold" size="50.0" />
+               </font>
+            </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
+         </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="346.0" layoutY="244.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
+         <children>
+            <Label layoutX="15.0" layoutY="64.0" prefWidth="200.0" text="Jumlah Barang" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblJumlahBarang" alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
+               <font>
+                  <Font name="System Bold" size="50.0" />
+               </font>
+            </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
+         </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
+      </AnchorPane>
+      <AnchorPane layoutX="672.0" layoutY="244.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
+         <children>
+            <Label layoutX="15.0" layoutY="64.0" prefWidth="200.0" text="Barang Hampir Expired" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblJumlahBarangHampirExp" alignment="BOTTOM_CENTER" layoutX="15.0" layoutY="1.0" text="0">
+               <font>
+                  <Font name="System Bold" size="50.0" />
+               </font>
+            </Label>
+            <Line endX="175.0" layoutX="116.0" layoutY="64.0" startX="-100.0" />
+         </children>
+         <effect>
+            <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
+         </effect>
+      </AnchorPane>
+      <Label fx:id="lblWaktu" layoutX="873.0" layoutY="20.0" text="00:00:00" textFill="#353499">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../assets/logo/Logomark.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="19.0" layoutY="145.0" prefHeight="86.0" prefWidth="309.0" style="-fx-background-color: #0077b6; -fx-background-radius: 10;">
+         <children>
+            <Label layoutX="13.0" layoutY="48.0" prefWidth="248.0" text="Jumlah transaksi hari ini" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblJumlahTransaksi" alignment="BOTTOM_CENTER" layoutX="13.0" layoutY="4.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="346.0" layoutY="145.0" prefHeight="86.0" prefWidth="309.0" style="-fx-background-color: #0077b6; -fx-background-radius: 10;">
+         <children>
+            <Label layoutX="13.0" layoutY="48.0" prefWidth="214.0" text="Total Omzet hari ini" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTotalOmzet" alignment="BOTTOM_CENTER" layoutX="13.0" layoutY="4.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="672.0" layoutY="145.0" prefHeight="86.0" prefWidth="309.0" style="-fx-background-color: #0077b6; -fx-background-radius: 10;">
+         <children>
+            <Label layoutX="13.0" layoutY="48.0" prefWidth="200.0" text="Rata-rata pembelian" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblRataRataPembelian" alignment="BOTTOM_CENTER" layoutX="13.0" layoutY="4.0" text="0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <LineChart fx:id="chartPenjualan" animated="false" layoutX="19.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" title="Penjualan">
+        <xAxis>
+          <CategoryAxis fx:id="axisPeriode" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="axisTotalPenjualan" side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <BarChart fx:id="chartBarangTerlaris" animated="false" layoutX="521.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" title="Barang Terlaris">
+        <xAxis>
+          <CategoryAxis fx:id="axisNamaBarang" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <ChoiceBox fx:id="cbxSortByTotalPenjualan" layoutX="304.0" layoutY="429.0" prefHeight="12.0" prefWidth="165.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: black; -fx-border-width: 2;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ChoiceBox>
+   </children>
+</AnchorPane>
