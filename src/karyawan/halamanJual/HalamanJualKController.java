@@ -42,6 +42,9 @@ import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanJualKController implements Initializable {
     @FXML private AnchorPane paneCetakStruk;
