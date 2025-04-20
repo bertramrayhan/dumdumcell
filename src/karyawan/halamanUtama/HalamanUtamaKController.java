@@ -86,21 +86,21 @@ public class HalamanUtamaKController implements Initializable {
     void goToAntarCabang(){
         resetIndikator();
         animateIndikator(indikatorAntarCabang);
-        //loadPane(Session.getPathHalamanAntarCabang());
+        loadPane(Session.getPathHalamanTransaksiAntarCabang());
     }
 
     @FXML
     void goToRetur(){
         resetIndikator();
         animateIndikator(indikatorRetur);
-        //loadPane(Session.getPathHalamanRetur());
+        loadPane(Session.getPathHalamanTransaksiRetur());
     }
 
     @FXML
     void goToKas(){
         resetIndikator();
         animateIndikator(indikatorKas);
-        //loadPane(Session.getPathHalamanKas());
+        loadPane(Session.getPathHalamanKas());
     }
 
     @FXML
@@ -114,7 +114,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToRekap(){
         resetIndikator();
         animateIndikator(indikatorRekap);
-        //loadPane(Session.getPathHalamanRekap());
+        loadPane(Session.getPathHalamanRekap());
     }
 
     @FXML
@@ -128,7 +128,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToDanLainLain(){
         resetIndikator();
         animateIndikator(indikatorDanLainLain);
-        //loadPane(Session.getPathHalamanDiskon());
+        loadPane(Session.getpathHalamanTransaksiDLL());
     }
     
     private void resetIndikator() {
