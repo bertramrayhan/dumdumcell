@@ -73,8 +73,14 @@
             <TextField layoutX="164.0" layoutY="74.0" prefHeight="25.0" prefWidth="195.0" />
             <TextField layoutX="549.0" layoutY="25.0" prefHeight="25.0" prefWidth="195.0" />
             <TextField layoutX="549.0" layoutY="74.0" prefHeight="25.0" prefWidth="195.0" />
-            <Button layoutX="574.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #00cc00;" text="Simpan" textFill="WHITE" />
-            <Button layoutX="671.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #dc3545;" text="Batal" textFill="WHITE" />
+            <Button layoutX="574.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #00cc00;" text="Simpan" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button layoutX="671.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #dc3545;" text="Batal" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
          </children>
       </Pane>
       <Button layoutX="786.0" layoutY="640.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #dc3545;" text="Hapus" textFill="WHITE">
@@ -82,7 +88,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="690.0" layoutY="640.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #f4c724;" text="Edit" textFill="WHITE" />
+      <Button layoutX="690.0" layoutY="640.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #f4c724;" text="Edit" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
       <Button layoutX="198.0" layoutY="159.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="73.0" style="-fx-background-color: #0077b6;" text="DLL-" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
