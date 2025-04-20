@@ -20,7 +20,7 @@
         <URL value="@halamantransaksiretur.css" />
     </stylesheets>
    <children>
-      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" styleClass="mainFxmlClass">
+      <AnchorPane id="AnchorPane" prefHeight="770.0" prefWidth="1010.0" style="-fx-background-color: #caf0f8;" styleClass="mainFxmlClass">
          <stylesheets>
             <URL value="@../halamanTransaksiAntarCabang/halamantransaksiantarcabang.css" />
          </stylesheets>

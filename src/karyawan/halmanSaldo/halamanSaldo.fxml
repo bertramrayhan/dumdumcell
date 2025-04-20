@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="35.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -28,7 +27,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="33.0" layoutY="152.0" prefHeight="593.0" prefWidth="934.0" style="-fx-background-color: #353499; -fx-background-radius: 12;">
+      <AnchorPane layoutX="33.0" layoutY="152.0" prefHeight="593.0" prefWidth="934.0" style="-fx-background-color: #02045e; -fx-background-radius: 12;">
          <children>
             <ImageView fitHeight="242.0" fitWidth="266.0" layoutX="37.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
                <image>

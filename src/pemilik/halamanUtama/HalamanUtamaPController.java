@@ -22,8 +22,8 @@ public class HalamanUtamaPController implements Initializable {
     @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorProduk, indikatorStok;
     @FXML private Pane indikatorDanLainLain, indikatorKas, indikatorSaldo, indikatorRekap, indikatorDiskon;
     
-    @FXML private Button btnBeranda, btnJual, btnAntarCabang, btnProduk, btnStok;
-    @FXML private Button btnDanLainLain, btnKas, btnSaldo, btnRekap, btnDiskon;
+    @FXML private Button btnBeranda, btnKas, btnSaldo, btnProduk, btnDiskon;
+    @FXML private Button btnPresensiPusat, btnPresensiCabang, btnLaporan;
     
     public static Map<String, AnchorPane> penyimpananPanePemilik = new HashMap<>();
     
@@ -62,24 +62,17 @@ public class HalamanUtamaPController implements Initializable {
     }
     
     @FXML
-    void goToStok(){
-        resetIndikator();
-        animateIndikator(indikatorStok);
-        loadPane(Session.getPathHalamanStokK());
-    }
-    
-    @FXML
-    void goToJual(){
+    void goToKas(){
         resetIndikator();
         animateIndikator(indikatorJual);
-        loadPane(Session.getPathHalamanJualK());
+        loadPane(Session.getPathHalamanKasP());
     }
     
     @FXML
-    void goToAntarCabang(){
+    void goToSaldo(){
         resetIndikator();
         animateIndikator(indikatorAntarCabang);
-        //loadPane(Session.getPathHalamanAntarCabang());
+        loadPane(Session.getPathHalamanSaldoP());
     }
 
     @FXML
@@ -90,38 +83,31 @@ public class HalamanUtamaPController implements Initializable {
     }
 
     @FXML
-    void goToKas(){
-        resetIndikator();
-        animateIndikator(indikatorKas);
-        //loadPane(Session.getPathHalamanKas());
-    }
-
-    @FXML
-    void goToSaldo(){
-        resetIndikator();
-        animateIndikator(indikatorSaldo);
-        loadPane(Session.getPathHalamanSaldoK());
-    }
-
-    @FXML
-    void goToRekap(){
-        resetIndikator();
-        animateIndikator(indikatorRekap);
-        //loadPane(Session.getPathHalamanRekap());
-    }
-
-    @FXML
     void goToDiskon(){
         resetIndikator();
-        animateIndikator(indikatorDiskon);
-        //loadPane(Session.getPathHalamanDiskon());
+        animateIndikator(indikatorKas);
+        loadPane(Session.getPathHalamanDiskonP());
     }
-    
+
     @FXML
-    void goToDanLainLain(){
+    void goToPrensensiPusat(){
         resetIndikator();
-        animateIndikator(indikatorDanLainLain);
-        //loadPane(Session.getPathHalamanDiskon());
+        animateIndikator(indikatorSaldo);
+        loadPane(Session.getPathHalamanPresensiPusatP());
+    }
+
+    @FXML
+    void goToPresensiCabang(){
+        resetIndikator();
+        animateIndikator(indikatorRekap);
+        loadPane(Session.getPathHalamanPresensiCabangP());
+    }
+
+    @FXML
+    void goToLaporan(){
+        resetIndikator();
+        animateIndikator(indikatorDiskon);
+        loadPane(Session.getPathHalamanLaporanP());
     }
     
     private void resetIndikator() {
