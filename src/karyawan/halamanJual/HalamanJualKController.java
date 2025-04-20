@@ -872,24 +872,31 @@ public class HalamanJualKController implements Initializable {
     }
     
     @FXML
-    private void cetakStrukTransaksi(){
+    private void cetakStrukTransaksi() {
         int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
         Transaksi transaksiTerpilih = listTransaksi.get(barisTerpilih);
         idTransaksiTerpilih = transaksiTerpilih.getIdTransaksi();
         String reportPath = "src/main/struk.jasper";
-                   
+
         HashMap<String, Object> parameter = new HashMap<>();
         parameter.put("id_transaksi_jual", idTransaksiTerpilih);
 
         try {
             JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, Koneksi.getCon());
+
+            // Menambahkan pengaturan DPI
+            System.out.println(print.getPageHeight());
+            System.out.println(print.getPageWidth());
+//            print.setPageHeight((int) (print.getPageHeight() * 203 / 72)); // Mengatur tinggi halaman
+//            print.setPageWidth((int) (print.getPageWidth() * 203 / 72));   // Mengatur lebar halaman
+
             JasperViewer viewer = new JasperViewer(print, false);
             viewer.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private String[] getWaktuShift(String shift){
         String[] waktuShift = new String[2];
         

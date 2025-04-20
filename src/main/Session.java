@@ -37,11 +37,22 @@ public class Session {
     private static final String pathHalamanJualK = "/karyawan/halamanJual/halamanJualK.fxml";
     private static final String pathHalamanSaldoK = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
     private static final String pathHalamanStokK =  "/karyawan/halamanStok/halamanStokK.fxml";
-
+    private static final String pathHalamanTransaksiAntarCabang = "/karyawan/halamanTransaksiAntarCabang/halamanTransaksiAntarCabang.fxml";
+    private static final String pathHalamanTransaksiRetur =  "/karyawan/halamanTransaksiRetur/halamanTransaksiRetur.fxml";
+    private static final String pathHalamanKasK =  "/karyawan/halamanKas/halamanKasK.fxml";
+    private static final String pathHalamanRekap = "/pemilik/halamanRekap/halamanRekap.fxml";
+    private static final String pathHalamanTransaksiDLL = "/pemilik/halamanTRansaksiDLL+/halamanTransaksiDLL+.fxml";
     //PEMILIK
     private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
     private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
+    private static final String pathHalamanKasP = "/pemilik/halamanProduk/halamanKasK.fxml";
+    private static final String pathHalamanSaldoP = "/pemilik/halamanProduk/halamanSaldo.fxml";
     private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
+    private static final String pathHalamanDiskonP = "/pemilik/halamanProduk/halamanDiskon.fxml";
+    private static final String pathHalamanPresensiPusatP = "/pemilik/halamanProduk/halamanProdukP.fxml";
+    private static final String pathHalamanPresensiCabangP = "/pemilik/halamanProduk/halamanProdukP.fxml";
+    private static final String pathHalamanLaporanP = "/pemilik/halamanProduk/halamanLaporanPenjualan.fxml";
+    
     
     public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}
     public static String getIdAdmin() {return idAdmin;}
@@ -55,6 +66,43 @@ public class Session {
     public static String getPathHalamanUtamaP() {return pathHalamanUtamaP;}    
     public static String getPathBerandaP() {return pathBerandaP;}
     public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
+    public static String getPathHalamanTransaksiAntarCabang() { return pathHalamanTransaksiAntarCabang;};
+    public static String getPathHalamanTransaksiRetur() { return pathHalamanTransaksiRetur;};
+    public static String getPathHalamanKas() { return pathHalamanKasK;};
+    public static String getPathHalamanRekap() { return pathHalamanRekap;};
+    public static String getpathHalamanTransaksiDLL(){ return pathHalamanTransaksiDLL;}; 
+
+    public static String getPathHalamanKasK() {
+        return pathHalamanKasK;
+    }
+
+    public static String getPathHalamanTransaksiDLL() {
+        return pathHalamanTransaksiDLL;
+    }
+
+    public static String getPathHalamanKasP() {
+        return pathHalamanKasP;
+    }
+
+    public static String getPathHalamanSaldoP() {
+        return pathHalamanSaldoP;
+    }
+
+    public static String getPathHalamanDiskonP() {
+        return pathHalamanDiskonP;
+    }
+
+    public static String getPathHalamanPresensiPusatP() {
+        return pathHalamanPresensiPusatP;
+    }
+
+    public static String getPathHalamanPresensiCabangP() {
+        return pathHalamanPresensiCabangP;
+    }
+
+    public static String getPathHalamanLaporanP() {
+        return pathHalamanLaporanP;
+    }
     
     public static String convertTanggalIndo(String tanggal){
         LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);

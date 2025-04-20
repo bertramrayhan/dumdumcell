@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import main.DumdumKasir;
@@ -74,6 +75,7 @@ public class halamanLoginController implements Initializable {
         Session.animasiPanePesan(true, panePesan, lblPesan, "Username atau Password Salah", btnLogin);
         txtUsername.requestFocus();
         txtUsername.positionCaret(txtUsername.getText().length());
+        txtPassword.clear();
     }
     
     private void loginDenganRFID(){
@@ -102,6 +104,41 @@ public class halamanLoginController implements Initializable {
         txtUsername.positionCaret(txtUsername.getText().length());
     }
     
+    private void setupRFIDListener(TextField field) {
+        field.setOnKeyTyped(event -> {
+            long currentTime = System.currentTimeMillis();
+            char c = event.getCharacter().charAt(0);
+
+            // Reset RFIDId kalau inputnya lambat
+            if (lastTime != 0 && (currentTime - lastTime) > RFID_THRESHOLD) {
+                RFIDId = "";
+            }
+
+            RFIDId += c;
+            lastTime = currentTime;
+            
+            if (c == '\n' || c == '\r') { // RFID biasanya diakhiri Enter
+                if (lastTime != 0 && (currentTime - lastTime) > RFID_THRESHOLD) {
+                    if (RFIDId.length() >= 9) {
+                        System.out.println("Scan RFID Terdeteksi: " + RFIDId);
+                        RFIDId = RFIDId.replace("\n", "").replace("\r", "");
+                        loginDenganRFID();
+                    }
+                    RFIDId = ""; 
+                    field.clear();
+                }
+
+            }
+            
+        });
+        
+        field.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                btnLogin(null);
+            }
+        });
+    }    
+    
     private void absensi(){
         try {
             String query = "select jam_masuk FROM shift_karyawan WHERE id_admin=?";
@@ -124,30 +161,4 @@ public class halamanLoginController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private void setupRFIDListener(TextField field) {
-        field.setOnKeyTyped(event -> {
-            long currentTime = System.currentTimeMillis();
-            char c = event.getCharacter().charAt(0);
-
-            // Reset RFIDId kalau inputnya lambat
-            if (lastTime != 0 && (currentTime - lastTime) > RFID_THRESHOLD) {
-                RFIDId = "";
-            }
-
-            RFIDId += c;
-            lastTime = currentTime;
-            
-            if (c == '\n' || c == '\r') { // RFID biasanya diakhiri Enter
-                if (RFIDId.length() >= 9) {
-                    System.out.println("Scan RFID Terdeteksi: " + RFIDId);
-                    RFIDId = RFIDId.replace("\n", "").replace("\r", "");
-                    loginDenganRFID();
-                }
-                RFIDId = ""; 
-                field.clear();
-            }
-            
-        });
-    }    
 }
