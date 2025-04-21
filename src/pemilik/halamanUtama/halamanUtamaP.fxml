@@ -202,7 +202,7 @@
                      <graphic>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../assets/icons/home32px.png" />
+                              <Image url="@../../assets/icons/report32px.png" />
                            </image>
                         </ImageView>
                      </graphic>
