@@ -28,7 +28,10 @@ public class Session {
     private static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     
     private static String idAdmin = "";
+    //SHARE
     private static final String pathHalamanLogin = "/login/halamanLogin.fxml";
+    private static final String pathHalamanKas = "/login/halamanLogin.fxml";
+    private static final String pathHalamanSaldo = "/login/halamanLogin.fxml";
     
     //KARYAWAN
     private static final String pathHalamanUtamaK = "/karyawan/halamanUtama/halamanUtamaK.fxml";
@@ -40,18 +43,18 @@ public class Session {
     private static final String pathHalamanTransaksiAntarCabang = "/karyawan/halamanTransaksiAntarCabang/halamanTransaksiAntarCabang.fxml";
     private static final String pathHalamanTransaksiRetur =  "/karyawan/halamanTransaksiRetur/halamanTransaksiRetur.fxml";
     private static final String pathHalamanKasK =  "/karyawan/halamanKas/halamanKasK.fxml";
-    private static final String pathHalamanRekap = "/pemilik/halamanRekap/halamanRekap.fxml";
-    private static final String pathHalamanTransaksiDLL = "/pemilik/halamanTRansaksiDLL+/halamanTransaksiDLL+.fxml";
+    private static final String pathHalamanRekap = "/karyawan/halamanRekap/halamanRekapK.fxml";
+    private static final String pathHalamanTransaksiDLL = "/karyawan/halamanTransaksiDLL/halamanTransaksiDLL.fxml";
     //PEMILIK
     private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
     private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
-    private static final String pathHalamanKasP = "/pemilik/halamanProduk/halamanKasK.fxml";
-    private static final String pathHalamanSaldoP = "/pemilik/halamanProduk/halamanSaldo.fxml";
+    private static final String pathHalamanKasP = "/karyawan/halamanKas/halamanKasK.fxml";
+    private static final String pathHalamanSaldoP = "/karyawan/halmanSaldo/halamanSaldo.fxml";
     private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
-    private static final String pathHalamanDiskonP = "/pemilik/halamanProduk/halamanDiskon.fxml";
-    private static final String pathHalamanPresensiPusatP = "/pemilik/halamanProduk/halamanProdukP.fxml";
-    private static final String pathHalamanPresensiCabangP = "/pemilik/halamanProduk/halamanProdukP.fxml";
-    private static final String pathHalamanLaporanP = "/pemilik/halamanProduk/halamanLaporanPenjualan.fxml";
+    private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskon.fxml";
+    private static final String pathHalamanPresensiPusatP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
+    private static final String pathHalamanPresensiCabangP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
+    private static final String pathHalamanLaporanP = "/pemilik/halamanLaporan/halamanLaporanPenjualan.fxml";
     
     
     public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}

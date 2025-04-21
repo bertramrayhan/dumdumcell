@@ -44,7 +44,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Pane fx:id="indikatorDanLainLain" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                  <Pane fx:id="indikatorDiskon" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                </children>
             </AnchorPane>
             <AnchorPane layoutY="318.0" prefHeight="45.0" prefWidth="280.0">
@@ -86,7 +86,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Pane fx:id="indikatorAntarCabang" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorKas" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
@@ -106,7 +106,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Pane fx:id="indikatorJual" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorSaldo" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                      </children>
                   </AnchorPane>
                </children>
@@ -159,12 +159,12 @@
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../assets/icons/rotate-ccw32px.png" />
+                                    <Image url="@../../assets/icons/calendar32px.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Pane fx:id="indikatorSaldo" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorPresensiPusat" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
@@ -179,12 +179,12 @@
                            <graphic>
                               <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../assets/icons/rotate-ccw32px.png" />
+                                    <Image url="@../../assets/icons/calendar32px.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Pane fx:id="indikatorRekap" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorPresensiCabang" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                      </children>
                   </AnchorPane>
                </children>
@@ -207,7 +207,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Pane fx:id="indikatorDiskon" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                  <Pane fx:id="indikatorLaporan" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                </children>
             </AnchorPane>
             <Line endX="171.0" layoutX="107.0" layoutY="627.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />

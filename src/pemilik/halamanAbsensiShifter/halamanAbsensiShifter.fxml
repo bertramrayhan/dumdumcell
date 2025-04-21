@@ -14,12 +14,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="pemilik.halamanAbsensiShifter.HalamanAbsensiShifterController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanAbsensiShifter.HalamanAbsensiShifterController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" styleClass="mainFxmlClass">
          <stylesheets>
             <URL value="@../../karyawan/halamanTransaksiAntarCabang/halamantransaksiantarcabang.css" />
+            <URL value="@../../main/table2.css" />
          </stylesheets>
          <children>
             <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">

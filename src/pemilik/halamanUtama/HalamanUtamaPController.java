@@ -19,8 +19,8 @@ import main.Session;
 public class HalamanUtamaPController implements Initializable {
     @FXML private StackPane halamanUtama;
     
-    @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorProduk, indikatorStok;
-    @FXML private Pane indikatorDanLainLain, indikatorKas, indikatorSaldo, indikatorRekap, indikatorDiskon;
+    @FXML private Pane indikatorBeranda, indikatorKas, indikatorSaldo, indikatorProduk, indikatorDiskon;
+    @FXML private Pane indikatorPresensiPusat, indikatorPresensiCabang, indikatorLaporan;
     
     @FXML private Button btnBeranda, btnKas, btnSaldo, btnProduk, btnDiskon;
     @FXML private Button btnPresensiPusat, btnPresensiCabang, btnLaporan;
@@ -64,14 +64,14 @@ public class HalamanUtamaPController implements Initializable {
     @FXML
     void goToKas(){
         resetIndikator();
-        animateIndikator(indikatorJual);
+        animateIndikator(indikatorKas);
         loadPane(Session.getPathHalamanKasP());
     }
     
     @FXML
     void goToSaldo(){
         resetIndikator();
-        animateIndikator(indikatorAntarCabang);
+        animateIndikator(indikatorSaldo);
         loadPane(Session.getPathHalamanSaldoP());
     }
 
@@ -85,42 +85,40 @@ public class HalamanUtamaPController implements Initializable {
     @FXML
     void goToDiskon(){
         resetIndikator();
-        animateIndikator(indikatorKas);
+        animateIndikator(indikatorDiskon);
         loadPane(Session.getPathHalamanDiskonP());
     }
 
     @FXML
     void goToPrensensiPusat(){
         resetIndikator();
-        animateIndikator(indikatorSaldo);
+        animateIndikator(indikatorPresensiPusat);
         loadPane(Session.getPathHalamanPresensiPusatP());
     }
 
     @FXML
     void goToPresensiCabang(){
         resetIndikator();
-        animateIndikator(indikatorRekap);
+        animateIndikator(indikatorPresensiCabang);
         loadPane(Session.getPathHalamanPresensiCabangP());
     }
 
     @FXML
     void goToLaporan(){
         resetIndikator();
-        animateIndikator(indikatorDiskon);
+        animateIndikator(indikatorLaporan);
         loadPane(Session.getPathHalamanLaporanP());
     }
     
     private void resetIndikator() {
         indikatorBeranda.setScaleY(0);
-        indikatorStok.setScaleY(0);
-        indikatorJual.setScaleY(0);
-        indikatorAntarCabang.setScaleY(0);
-        indikatorProduk.setScaleY(0);
         indikatorKas.setScaleY(0);
         indikatorSaldo.setScaleY(0);
-        indikatorRekap.setScaleY(0);
+        indikatorProduk.setScaleY(0);
         indikatorDiskon.setScaleY(0);
-        indikatorDanLainLain.setScaleY(0);
+        indikatorPresensiPusat.setScaleY(0);
+        indikatorPresensiCabang.setScaleY(0);
+        indikatorLaporan.setScaleY(0);
     }
     
     private void animateIndikator(Pane indikator) {

@@ -20,10 +20,10 @@ public class HalamanUtamaKController implements Initializable {
     @FXML private StackPane halamanUtama;
     
     @FXML private Pane indikatorBeranda, indikatorJual, indikatorAntarCabang, indikatorRetur, indikatorStok;
-    @FXML private Pane indikatorDanLainLain, indikatorKas, indikatorSaldo, indikatorRekap, indikatorDiskon;
+    @FXML private Pane indikatorDanLainLain, indikatorKas, indikatorSaldo, indikatorRekap;
     
     @FXML private Button btnBeranda, btnJual, btnAntarCabang, btnRetur, btnStok;
-    @FXML private Button btnDanLainLain, btnKas, btnSaldo, btnRekap, btnDiskon;
+    @FXML private Button btnDanLainLain, btnKas, btnSaldo, btnRekap;
 
     public static Map<String, AnchorPane> penyimpananPaneKaryawan = new HashMap<>();
     
@@ -116,13 +116,6 @@ public class HalamanUtamaKController implements Initializable {
         animateIndikator(indikatorRekap);
         loadPane(Session.getPathHalamanRekap());
     }
-
-    @FXML
-    void goToDiskon(){
-        resetIndikator();
-        animateIndikator(indikatorDiskon);
-        //loadPane(Session.getPathHalamanDiskon());
-    }
     
     @FXML
     void goToDanLainLain(){
@@ -140,7 +133,6 @@ public class HalamanUtamaKController implements Initializable {
         indikatorKas.setScaleY(0);
         indikatorSaldo.setScaleY(0);
         indikatorRekap.setScaleY(0);
-        indikatorDiskon.setScaleY(0);
         indikatorDanLainLain.setScaleY(0);
     }
     

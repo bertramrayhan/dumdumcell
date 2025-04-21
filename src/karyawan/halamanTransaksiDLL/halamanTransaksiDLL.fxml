@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" stylesheets="@../../main/table2.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanTransaksiDLL.HalamanTransaksiDLLKController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" stylesheets="@../../main/table2.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanTransaksiDLL.HalamanTransaksiDLLController">
    <children>
       <TableView accessibleRole="TREE_VIEW" layoutX="108.0" layoutY="386.0" prefHeight="200.0" prefWidth="786.0">
         <columns>
