@@ -16,42 +16,42 @@
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanDiskon.HalamanDiskonController">
    <children>
-      <TableView fx:id="TableDiskon" layoutX="36.0" layoutY="437.0" prefHeight="308.0" prefWidth="898.0" stylesheets="@../../main/table2.css">
-        <columns>
-          <TableColumn prefWidth="50.0" text="No" />
-          <TableColumn prefWidth="170.0" text="Nama Diskon" />
+      <TableView fx:id="tabelDiskon" layoutX="19.0" layoutY="437.0" prefHeight="308.0" prefWidth="962.0" stylesheets="@../../main/table2.css">
+         <columns>
+            <TableColumn fx:id="colNamaDiskon" prefWidth="170.0" text="Nama Diskon" />
             <TableColumn maxWidth="0.0" minWidth="-1.0" prefWidth="0.0" text="T" />
-            <TableColumn prefWidth="120.0" text="Jenis Diskon" />
-            <TableColumn prefWidth="115.0" text="Potongan Harga" />
-            <TableColumn prefWidth="100.0" text="Mulai" />
-            <TableColumn prefWidth="100.0" text="Berakhir" />
-            <TableColumn prefWidth="75.0" text="Status" />
-        </columns>
+            <TableColumn fx:id="colJenisDiskon" prefWidth="120.0" text="Jenis Diskon" />
+            <TableColumn fx:id="colPotonganHarga" prefWidth="115.0" text="Potongan Harga" />
+            <TableColumn fx:id="colTanggalMulai" prefWidth="100.0" text="Tanggal Mulai" />
+            <TableColumn fx:id="colTanggalBerakhir" prefWidth="100.0" text="Tanggal Berakhir" />
+            <TableColumn fx:id="colStatus" prefWidth="75.0" text="Status" />
+         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="35.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../assets/logo/Logomark.png" />
          </image>
       </ImageView>
-      <Label layoutX="210.0" layoutY="30.0" text="DISKON" textFill="#353499">
+      <Label layoutX="200.0" layoutY="20.0" text="DISKON" textFill="#353499">
          <font>
             <Font name="System Bold" size="50.0" />
          </font>
       </Label>
-      <Label layoutX="210.0" layoutY="94.0" text="Go Digital &amp; Beyond" textFill="#353499">
+      <Label layoutX="200.0" layoutY="84.0" text="Go Digital &amp; Beyond" textFill="#353499">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="454.0" layoutY="158.0" prefHeight="40.0" prefWidth="479.0" promptText="Masukkan Nama Diskon" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45;" styleClass="search">
+      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="19.0" layoutY="382.0" prefHeight="41.0" prefWidth="479.0" promptText="Masukkan Nama Diskon" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45;" styleClass="search">
          <font>
             <Font size="14.0" />
-         </font></TextField>
+         </font>
+      </TextField>
       <Button fx:id="buttonX" layoutX="900.0" layoutY="165.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="23.0" text="Button" />
-      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="896.0" layoutY="162.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="btnX" fitHeight="32.0" fitWidth="32.0" layoutX="458.0" layoutY="386.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../assets/icons/X-30px.png" />
          </image>
@@ -59,61 +59,21 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="465.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="25.0" layoutY="386.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../assets/icons/search30px.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnEditDIskon" disable="true" layoutX="181.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#bukaEditDIskon" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Edit" textFill="WHITE">
+      <Button fx:id="btnEditDIskon" disable="true" layoutX="520.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#bukaEditDIskon" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Edit" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
-         </font></Button>
-      <Button fx:id="btnHapusDiskon" layoutX="320.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#bukaHapusBarang" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Hapus" textFill="WHITE">
+         </font>
+      </Button>
+      <Button fx:id="btnHapusDiskon" disable="true" layoutX="670.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#bukaHapusBarang" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Hapus" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
-         </font></Button>
-      <AnchorPane fx:id="PanelTambah" layoutX="36.0" layoutY="210.0" prefHeight="218.0" prefWidth="898.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-background-radius: 10; -fx-border-radius: 8; -fx-border-width: 3;">
-         <children>
-            <Label layoutX="12.0" layoutY="25.0" text="Nama Diskon" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="TambahJenisDiskon" layoutX="221.0" layoutY="72.0" prefHeight="32.0" prefWidth="212.0" />
-            <Label layoutX="12.0" layoutY="70.0" text="Jenis Diskon" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <Label layoutX="12.0" layoutY="117.0" text="Potongan Harga" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <Label layoutX="466.0" layoutY="25.0" text="Tanggal Mulai" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <DatePicker fx:id="TambahTglMulai" layoutX="678.0" layoutY="25.0" prefHeight="32.0" prefWidth="201.0" />
-            <Label layoutX="466.0" layoutY="70.0" text="Tanggal Berakhir" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <DatePicker fx:id="TambahTglAkhir" layoutX="678.0" layoutY="70.0" prefHeight="32.0" prefWidth="201.0" />
-            <Label layoutX="466.0" layoutY="115.0" text="Status" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <TextField fx:id="TambahNamaDiskon" layoutX="221.0" layoutY="25.0" prefHeight="32.0" prefWidth="212.0" />
-            <TextField fx:id="TambahPotonganHarga" layoutX="221.0" layoutY="117.0" prefHeight="32.0" prefWidth="212.0" />
-            <Button fx:id="TambahBtnBatal" layoutX="691.0" layoutY="157.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="88.0" style="-fx-background-color: #dc3545; -fx-background-radius: 7;" text="Batal" textFill="WHITE" />
-            <Button fx:id="TambahBtnSimpan" layoutX="799.0" layoutY="157.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="80.0" style="-fx-background-color: #28a745; -fx-background-radius: 7;" text="Simpan" textFill="WHITE" />
-            <TextField fx:id="TambahStatus" layoutX="678.0" layoutY="115.0" prefHeight="32.0" prefWidth="201.0" />
-         </children>
-      </AnchorPane>
+         </font>
+      </Button>
       <AnchorPane fx:id="PanelEdit" layoutX="36.0" layoutY="210.0" prefHeight="218.0" prefWidth="898.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-background-radius: 10; -fx-border-radius: 8; -fx-border-width: 3;" visible="false">
          <children>
             <Label layoutX="12.0" layoutY="25.0" text="Nama Diskon" textFill="WHITE">
@@ -156,11 +116,6 @@
             <TextField fx:id="EditStatus" layoutX="678.0" layoutY="115.0" prefHeight="32.0" prefWidth="201.0" />
          </children>
       </AnchorPane>
-      <Button fx:id="btnTambahDiskon" layoutX="36.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#bukaTambahDiskon" prefHeight="48.0" prefWidth="121.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Tambah" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Button>
       <AnchorPane id="AnchorPane" fx:id="paneHapusDiskon" layoutX="265.0" layoutY="275.0" mouseTransparent="true" prefHeight="230.0" prefWidth="490.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
          <children>
             <Label layoutX="91.0" layoutY="50.0" prefWidth="312.0" text="Apakah anda ingin menghapus barang ini?" textAlignment="CENTER" textFill="WHITE" wrapText="true">
@@ -183,6 +138,42 @@
             <URL value="@../../main/styles.css" />
             <URL value="@../../main/buttons.css" />
          </stylesheets>
+      </AnchorPane>
+      <AnchorPane fx:id="PanelTambah" layoutX="19.0" layoutY="150.0" prefHeight="218.0" prefWidth="962.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-background-radius: 10; -fx-border-radius: 8; -fx-border-width: 3;" stylesheets="@../../main/buttons.css">
+         <children>
+            <Label layoutX="20.0" layoutY="25.0" text="Nama Diskon" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="cbxJenisDiskon" layoutX="240.0" layoutY="72.0" prefHeight="32.0" prefWidth="212.0" style="-fx-background-color: white;" />
+            <Label layoutX="20.0" layoutY="70.0" text="Jenis Diskon" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="117.0" text="Potongan Harga" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="500.0" layoutY="25.0" text="Tanggal Mulai" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="dtPTanggalMulai" layoutX="730.0" layoutY="25.0" prefHeight="32.0" prefWidth="212.0" />
+            <Label layoutX="500.0" layoutY="70.0" text="Tanggal Berakhir" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="dtPTanggalBerakhir" layoutX="730.0" layoutY="70.0" prefHeight="32.0" prefWidth="212.0" />
+            <TextField fx:id="txtNamaDiskon" layoutX="240.0" layoutY="25.0" prefHeight="32.0" prefWidth="212.0" />
+            <TextField fx:id="txtPotonganHarga" layoutX="240.0" layoutY="117.0" prefHeight="32.0" prefWidth="212.0" />
+            <Button fx:id="btnBatal" layoutX="730.0" layoutY="162.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" style="-fx-background-color: #dc3545; -fx-background-radius: 7;" styleClass="btnBatal" text="Batal" textFill="WHITE" />
+            <Button fx:id="btnTambah" layoutX="852.0" layoutY="162.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="90.0" style="-fx-background-color: #28a745; -fx-background-radius: 7;" styleClass="btnKonfirmasi" text="Tambah" textFill="WHITE" />
+         </children>
       </AnchorPane>
    </children>
 </AnchorPane>

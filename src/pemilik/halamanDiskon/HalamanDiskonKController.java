@@ -21,7 +21,7 @@ import javafx.scene.layout.AnchorPane;
  *
  * @author indra
  */
-public class HalamanDiskonController implements Initializable {
+public class HalamanDiskonKController implements Initializable {
 
 // TableView
 @FXML private TableView<?> TableDiskon;
