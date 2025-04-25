@@ -18,7 +18,7 @@ public class HalamanStokKController implements Initializable {
     @FXML Button buttonX;
     @FXML ChoiceBox<String>SortBy;
     @FXML TableView TableStok;
-    @FXML TableColumn<Stok, String>  colNamaBarang, colKategori, colHargaJual, colMerek, colExp, colBarcode;
+    @FXML TableColumn<Stok, String>  colIdBarang, colNamaBarang, colKategori, colHargaJual, colMerek, colExp, colBarcode;
     @FXML TableColumn<Stok, Integer> colStok;
     
     private final stokManager stokManager = new stokManager();
@@ -52,6 +52,7 @@ public class HalamanStokKController implements Initializable {
     }
     
      private void setTableStok(){
+        colIdBarang.setCellValueFactory(new PropertyValueFactory<>("idBarang"));
         colNamaBarang.setCellValueFactory(new PropertyValueFactory<>("namaBarang"));
         colKategori.setCellValueFactory(new PropertyValueFactory<>("kategori"));
         colHargaJual.setCellValueFactory(new PropertyValueFactory<>("hargaJual"));

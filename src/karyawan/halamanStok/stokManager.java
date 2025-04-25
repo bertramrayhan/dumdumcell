@@ -35,7 +35,7 @@ public class stokManager {
         ObservableList<Stok> listStok = FXCollections.observableArrayList();
         
         // Query dasar
-        String query = "SELECT b.nama_barang, b.harga_jual, b.stok, b.exp, b.merek, b.barcode, k.nama_kategori " +
+        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok, b.exp, b.merek, b.barcode, k.nama_kategori " +
                        "FROM barang b " +
                        "JOIN kategori k ON b.id_kategori = k.id_kategori";
 
@@ -45,9 +45,9 @@ public class stokManager {
 
          if (isSearch) {
             if (isAngka) {
-                query += " WHERE (b.stok = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ?)";
+                query += " WHERE (b.stok = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ? OR b.id_barang LIKE ?)";
             } else {
-                query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ?)";
+                query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ? OR b.id_barang LIKE ? OR b.barcode LIKE ?)";
             }
         }
 
@@ -60,16 +60,20 @@ public class stokManager {
                     statement.setInt(1, angka); // stok
                     statement.setString(2, "%" + angka + "%"); // tahun exp
                     statement.setString(3, "%" + angka + "%");
+                    statement.setString(4, "%" + keyword + "%"); // id_barang
                 } else {
                     String searchKeyword = "%" + keyword + "%";
                     statement.setString(1, searchKeyword);
                     statement.setString(2, searchKeyword);
                     statement.setString(3, searchKeyword);
+                    statement.setString(4, searchKeyword); // id_barang
+                    statement.setString(5, searchKeyword); // barcode
                 }
             }
 
              ResultSet result = statement.executeQuery();
              while (result.next()) {
+                String idBarang = result.getString("id_barang");
                 String namaBarang = result.getString("nama_barang");
                 String kategori = result.getString("nama_kategori");
                 String hargaJual = Session.convertIntToRupiah(result.getInt("harga_jual"));
@@ -78,7 +82,7 @@ public class stokManager {
                 String merek = result.getString("merek");
                 String barcode = result.getString("barcode");
 
-                listStok.add(new Stok(namaBarang, kategori, merek, exp, hargaJual, barcode, stok));
+                listStok.add(new Stok(idBarang, namaBarang, kategori, merek, exp, hargaJual, barcode, stok));
             }
 
         } catch (Exception e) {
