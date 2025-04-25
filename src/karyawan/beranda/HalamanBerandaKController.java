@@ -18,9 +18,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import main.Koneksi;
+import main.Pelengkap;
 import main.Session;
 
-public class HalamanBerandaKController implements Initializable {
+public class HalamanBerandaKController implements Initializable, Pelengkap{
     @FXML private TableView<Barang> tabelBarangExpired;
     @FXML private TableView<Promo> tabelPromo;
     @FXML private TableColumn<Barang, String> namaBarangCol, totalBarangCol, expCol;
@@ -30,16 +31,14 @@ public class HalamanBerandaKController implements Initializable {
     private final DateTimeFormatter formatWaktu = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     
-    private ObservableList<Barang> barangList = FXCollections.observableArrayList();
-    private ObservableList<Promo> promoList = FXCollections.observableArrayList();
+    private ObservableList<Barang> listBarang = FXCollections.observableArrayList();
+    private ObservableList<Promo> listPromo = FXCollections.observableArrayList();
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setKomponen();
         setStatusDatang();
-        setBarang();
         mulaiWaktu();
-        setTabelBarangExpired();
-        setTabelPromo();
     }
     
     private void mulaiWaktu() {
@@ -50,8 +49,22 @@ public class HalamanBerandaKController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+
+    @Override
+    public void refresh() {
+        getInfoBarang();
+    }
     
-    private void setBarang(){
+    private void setKomponen(){
+        namaBarangCol.setCellValueFactory(new PropertyValueFactory<>("nama"));
+        totalBarangCol.setCellValueFactory(new PropertyValueFactory<>("total"));
+        expCol.setCellValueFactory(new PropertyValueFactory<>("expired"));   
+        
+        promoCol.setCellValueFactory(new PropertyValueFactory<>("promo"));
+        potonganHargaCol.setCellValueFactory(new PropertyValueFactory<>("potonganHarga"));
+    }
+    
+    private void getInfoBarang(){
         try {
             String query = "SELECT COALESCE(total_barang, 0) as total_barang, \n" +
             "       COALESCE(jumlah_barang, 0) as jumlah_barang, \n" +
@@ -125,11 +138,8 @@ public class HalamanBerandaKController implements Initializable {
         }
     }
     
-    private void setTabelBarangExpired(){
-        namaBarangCol.setCellValueFactory(new PropertyValueFactory<>("nama"));
-        totalBarangCol.setCellValueFactory(new PropertyValueFactory<>("total"));
-        expCol.setCellValueFactory(new PropertyValueFactory<>("expired"));
-        
+    private void getDataTabelBarangExpired(){
+        listBarang.clear();
         try {
             String query = "SELECT merek, stok, exp \n" +
             "FROM barang\n" +
@@ -144,7 +154,7 @@ public class HalamanBerandaKController implements Initializable {
                 String stok = result.getString("stok");
                 String tglExp = Session.convertTanggalIndo(result.getString("exp"));
                 
-                barangList.add(new Barang(namaBarang, stok, tglExp));
+                listBarang.add(new Barang(namaBarang, stok, tglExp));
             }
             
             result.close();
@@ -153,13 +163,11 @@ public class HalamanBerandaKController implements Initializable {
             e.printStackTrace();
         }
         
-        tabelBarangExpired.setItems(barangList);
+        tabelBarangExpired.setItems(listBarang);
     }
     
-    private void setTabelPromo(){
-        promoCol.setCellValueFactory(new PropertyValueFactory<>("promo"));
-        potonganHargaCol.setCellValueFactory(new PropertyValueFactory<>("potonganHarga"));
-        
+    private void getDataTabelPromo(){      
+        listPromo.clear();
         try {
             String query = "SELECT nama_diskon, jenis_diskon, harga_diskon FROM diskon WHERE status='aktif'";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
@@ -171,7 +179,7 @@ public class HalamanBerandaKController implements Initializable {
                 String hargaDiskon = result.getString("jenis_diskon").equals("nominal") ? 
                         Session.convertIntToRupiah(result.getInt("harga_diskon")) : result.getString("harga_diskon") + "%";
                 
-                promoList.add(new Promo(namaDiskon, hargaDiskon));
+                listPromo.add(new Promo(namaDiskon, hargaDiskon));
             }
             
             result.close();
@@ -180,6 +188,6 @@ public class HalamanBerandaKController implements Initializable {
             e.printStackTrace();
         }
         
-        tabelPromo.setItems(promoList);
+        tabelPromo.setItems(listPromo);
     }
 }

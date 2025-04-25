@@ -56,6 +56,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML private ChoiceBox<String> cbxKategoriEdit;
     @FXML private DatePicker dtPTanggalExpEdit;
     @FXML private Button btnBatalEditBarang, btnIyaEditBarang;
+    Barang barangTerpilih;
     String idBarangTerpilih;
     
     //HAPUS BARANG
@@ -442,7 +443,7 @@ public class HalamanProdukPController implements Initializable {
         Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
         
         int barisTerpilih = tabelBarang.getSelectionModel().getSelectedIndex();
-        Barang barangTerpilih = listBarang.get(barisTerpilih);
+        barangTerpilih = listBarang.get(barisTerpilih);
         idBarangTerpilih = barangTerpilih.getIdBarang();
         
         try {
@@ -498,6 +499,9 @@ public class HalamanProdukPController implements Initializable {
             return;
         }else if(hargaJual.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
+            return;
+        }else if(!barangTerpilih.getNamaBarang().toLowerCase().equals(namaBarang.toLowerCase()) && cekMerekSama(namaBarang)){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }
         

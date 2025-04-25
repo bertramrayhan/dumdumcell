@@ -9,11 +9,13 @@ import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import main.Pelengkap;
 import main.Session;
 
 public class HalamanUtamaKController implements Initializable {    
@@ -34,26 +36,39 @@ public class HalamanUtamaKController implements Initializable {
     
     private void loadPane(String pathPane) {
         if (penyimpananPaneKaryawan.containsKey(pathPane)) {
-            halamanUtama.getChildren().setAll(penyimpananPaneKaryawan.get(pathPane));
+            Node cachedPane = penyimpananPaneKaryawan.get(pathPane);
+
+            // Ambil controller dari UserData dan refresh
+            Object controller = cachedPane.getUserData();
+            if (controller instanceof Pelengkap) {
+                ((Pelengkap) controller).refresh();
+                System.out.println("refresh (from cache)");
+            }
+
+            halamanUtama.getChildren().setAll(cachedPane);
             return;
         }
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathPane));
             AnchorPane pane = loader.load();
-            penyimpananPaneKaryawan.put(pathPane, pane); // Simpan ke cache biar nggak load lagi
+
+            // Ambil dan simpan controller ke UserData!
+            Object controller = loader.getController();
+            pane.setUserData(controller);
+
+            // Panggil refresh pertama kali juga
+            if (controller instanceof Pelengkap) {
+                ((Pelengkap) controller).refresh();
+                System.out.println("refresh (first load)");
+            }
+
+            penyimpananPaneKaryawan.put(pathPane, pane);
             halamanUtama.getChildren().setAll(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    //untuk reload ulang pane. kalo dibutuhkan, pakai.
-//    public void reloadPane(String pathPane) {
-//        penyimpananPaneKaryawan.remove(pathPane); // Hapus cache biar nanti di-load ulang
-//        loadPane(pathPane);
-//    }
-
     
     @FXML
     void goToProfil(){
