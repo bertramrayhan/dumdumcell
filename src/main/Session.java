@@ -51,7 +51,7 @@ public class Session {
     private static final String pathHalamanKasP = "/karyawan/halamanKas/halamanKasK.fxml";
     private static final String pathHalamanSaldoP = "/karyawan/halmanSaldo/halamanSaldo.fxml";
     private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
-    private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskon.fxml";
+    private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskonP.fxml";
     private static final String pathHalamanPresensiPusatP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
     private static final String pathHalamanPresensiCabangP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
     private static final String pathHalamanLaporanP = "/pemilik/halamanLaporan/halamanLaporanPenjualan.fxml";
