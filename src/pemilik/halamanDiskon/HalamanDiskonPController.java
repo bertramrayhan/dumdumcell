@@ -171,6 +171,7 @@ public class HalamanDiskonPController implements Initializable {
     
     //TAMBAH DISKON
     private void setKomponenTambahDiskon(){
+        Session.triggerOnEnter(this::tambahDiskon, txtNamaDiskonTambah, txtPotonganHargaTambah);
         cbxJenisDiskonTambah.getItems().add("Nominal");
         cbxJenisDiskonTambah.getItems().add("Persentase");
         cbxJenisDiskonTambah.setValue("Nominal");
@@ -333,6 +334,7 @@ public class HalamanDiskonPController implements Initializable {
     
     //EDIT DISKON
     private void setKomponenEditDiskon(){
+        Session.triggerOnEnter(this::editDiskon, txtNamaDiskonEdit, txtPotonganHargaEdit);
         cbxJenisDiskonEdit.getItems().add("Nominal");
         cbxJenisDiskonEdit.getItems().add("Persentase");
         Session.setTextFieldNumeric(txtPotonganHargaEdit);

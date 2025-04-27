@@ -96,6 +96,8 @@ public class HalamanJualKController implements Initializable {
         cbxDiskon.setOnAction(event -> {
             setTotal();
         });
+        Session.triggerOnEnter(this::konfirmasiTransaksi, txtBayar);
+        
         //RIWAYAT TRANSAKSI
         setKomponenRiwayatTransaksi();
         setDatePicker();

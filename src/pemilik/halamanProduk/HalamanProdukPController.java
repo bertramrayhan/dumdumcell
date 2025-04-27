@@ -88,7 +88,7 @@ public class HalamanProdukPController implements Initializable {
         setKomponenEditBarang();
         
         //KELOLA KATEGORI
-        setKomponenKelolaKategori();
+        setKomponenKelolaKategori();        
     }    
     
     @FXML
@@ -229,6 +229,7 @@ public class HalamanProdukPController implements Initializable {
     
     //TAMBAH BARANG
     private void setKomponenTambahBarang(){
+        Session.triggerOnEnter(this::tambahBarang, txtNamaBarangTambah, txtNamaMerekTambah, txtBarcodeTambah, txtHargaJualTambah);
         dtPTanggalExpTambah.getEditor().setDisable(true);
         dtPTanggalExpTambah.getEditor().setOpacity(1);
         dtPTanggalExpTambah.setDayCellFactory(dp -> new DateCell() {
@@ -401,6 +402,7 @@ public class HalamanProdukPController implements Initializable {
     
     //EDIT BARANG
     private void setKomponenEditBarang() {
+        Session.triggerOnEnter(this::editBarang, txtNamaBarangEdit, txtNamaMerekEdit, txtBarcodeEdit, txtHargaJualEdit);
         dtPTanggalExpEdit.getEditor().setDisable(true);
         dtPTanggalExpEdit.getEditor().setOpacity(1);
 
