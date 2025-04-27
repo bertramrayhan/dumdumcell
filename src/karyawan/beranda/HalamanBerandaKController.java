@@ -39,6 +39,8 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
         setKomponen();
         setStatusDatang();
         mulaiWaktu();
+        getDataTabelBarangExpired();
+        getDataTabelPromo();
     }
     
     private void mulaiWaktu() {

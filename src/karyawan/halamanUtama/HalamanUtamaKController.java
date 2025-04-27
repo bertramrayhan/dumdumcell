@@ -62,7 +62,6 @@ public class HalamanUtamaKController implements Initializable {
                 ((Pelengkap) controller).refresh();
                 System.out.println("refresh (first load)");
             }
-
             penyimpananPaneKaryawan.put(pathPane, pane);
             halamanUtama.getChildren().setAll(pane);
         } catch (IOException e) {
