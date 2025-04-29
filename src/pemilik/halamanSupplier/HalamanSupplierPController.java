@@ -1,0 +1,393 @@
+package pemilik.halamanSupplier;
+
+import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import main.Koneksi;
+import main.Session;
+
+public class HalamanSupplierPController implements Initializable {
+
+    @FXML private StackPane panePesan;
+    @FXML private Label lblPesan;
+    @FXML private TextField txtSearchBar;
+    @FXML private ImageView btnX;
+    @FXML private TableView<Supplier> tabelSupplier;
+    @FXML private TableColumn<Supplier, String> colNamaSupplier, colNamaToko, colKontak, colAlamat;
+    private ObservableList<Supplier> listSupplier = FXCollections.observableArrayList();
+    
+    //TAMBAH SUPPLIER
+    @FXML private TextField txtNamaSupplierTambah, txtNamaTokoTambah, txtKontakTambah, txtAlamatTambah;
+    @FXML private Button btnBatalTambahSupplier, btnIyaTambahSupplier;
+    
+    //EDIT SUPPLIER
+    @FXML private AnchorPane paneEditSupplier;
+    @FXML private TextField txtNamaSupplierEdit, txtNamaTokoEdit, txtKontakEdit, txtAlamatEdit;
+    @FXML private Button btnBatalEditSupplier, btnIyaEditSupplier, btnEditSupplier;
+    
+    //HAPUS SUPPLIER
+    @FXML private AnchorPane paneHapusSupplier;
+    @FXML private Button btnHapusSupplier, btnBatalHapusSupplier, btnIyaHapusSupplier;
+
+    private Supplier supplierTerpilih;
+    private String idSupplierTerpilih;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setTabelSupplier();
+        getDataTabelSupplier();
+        
+        //TAMBAH SUPPLIER
+        setKomponenTambahSupplier();
+        
+        //EDIT SUPPLIER
+        setKomponenEditSupplier();
+    }    
+    
+    public class Supplier{
+        String idSupplier, namaSupplier, namaToko, kontak, alamat;
+        public Supplier(String idSupplier, String namaSupplier, String namaToko, String kontak, String alamat) {
+            this.idSupplier = idSupplier;
+            this.namaSupplier = namaSupplier;
+            this.namaToko = namaToko;
+            this.kontak = kontak;
+            this.alamat = alamat;
+        }
+        public String getIdSupplier() {return idSupplier;}
+        public String getNamaSupplier() {return namaSupplier;}
+        public String getNamaToko() {return namaToko;}
+        public String getKontak() {return kontak;}
+        public String getAlamat() {return alamat;}
+    }
+    
+    private void setTabelSupplier(){
+        colNamaSupplier.setCellValueFactory(new PropertyValueFactory<>("namaSupplier"));
+        colNamaToko.setCellValueFactory(new PropertyValueFactory<>("namaToko"));
+        colKontak.setCellValueFactory(new PropertyValueFactory<>("kontak"));
+        colAlamat.setCellValueFactory(new PropertyValueFactory<>("alamat"));
+        
+        tabelSupplier.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null && !paneEditSupplier.isVisible() && !paneHapusSupplier.isVisible()) {
+                btnEditSupplier.setDisable(false);
+                btnHapusSupplier.setDisable(false);
+            } else {
+                btnEditSupplier.setDisable(true);
+                btnHapusSupplier.setDisable(true);
+            }
+        });
+        
+        tabelSupplier.setOnMouseClicked(event -> {
+            Supplier supplier = tabelSupplier.getSelectionModel().getSelectedItem();
+            if (supplier != null) {
+                supplierTerpilih = supplier;
+                idSupplierTerpilih = supplier.getIdSupplier();
+            }
+        });
+    }
+    
+    @FXML
+    private void getDataTabelSupplier() {
+        listSupplier.clear();
+        String keyword = txtSearchBar.getText().trim();
+        
+        String query = "SELECT * FROM supplier";
+        
+        boolean isSearch = keyword != null && !keyword.trim().isEmpty();
+
+        if (isSearch) {
+            query += " WHERE (nama_supplier LIKE ? OR nama_toko LIKE ? OR kontak LIKE ? OR alamat LIKE ?)";
+        }
+
+        try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
+            if (isSearch) {
+                String searchKeyword = "%" + keyword + "%";
+                statement.setString(1, searchKeyword);
+                statement.setString(2, searchKeyword);
+                statement.setString(3, searchKeyword);
+                statement.setString(4, searchKeyword);
+            }
+
+             ResultSet result = statement.executeQuery();
+             while (result.next()) {
+                String idSupplier = result.getString("id_supplier");
+                String namaSupplier = result.getString("nama_supplier");
+                String namaToko = result.getString("nama_toko");
+                String kontak = result.getString("kontak");
+                String alamat = result.getString("alamat");
+
+                listSupplier.add(new Supplier(idSupplier, namaSupplier, namaToko, kontak, alamat));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tabelSupplier.setItems(listSupplier);
+    }
+    
+    @FXML
+    private void clearSearchBar(){
+        txtSearchBar.setText("");
+        getDataTabelSupplier();
+    }
+    
+    //TAMBAH SUPPLIER
+    private void setKomponenTambahSupplier(){
+        Session.triggerOnEnter(this::tambahSupplier, txtNamaSupplierTambah, txtNamaTokoTambah, txtKontakTambah, txtAlamatTambah);
+        Session.setTextFieldNumeric(txtKontakTambah);
+    }
+    
+    @FXML
+    private void clearTambahSupplier(){
+        txtNamaSupplierTambah.setText("");
+        txtNamaTokoTambah.setText("");
+        txtKontakTambah.setText("");
+        txtAlamatTambah.setText("");
+    }
+    
+    @FXML
+    private void tambahSupplier(){
+        String namaSupplier = txtNamaSupplierTambah.getText().trim();
+        String namaToko = txtNamaTokoTambah.getText().trim();
+        String kontak = txtKontakTambah.getText().trim();
+        String alamat = txtAlamatTambah.getText().trim();
+        
+        if(namaSupplier.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Supplier", btnIyaTambahSupplier);
+            return;
+        }else if(namaToko.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Toko", btnIyaTambahSupplier);
+            return;
+        }else if(kontak.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Kontak", btnIyaTambahSupplier);
+            return;
+        }else if(alamat.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Alamat", btnIyaTambahSupplier);
+            return;
+        }else if(kontak.length() < 12){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak minimal 12 digit", btnIyaTambahSupplier);
+            return;
+        }else if(kontak.length() > 13){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak maksimal 13 digit", btnIyaTambahSupplier);
+            return;
+        }else if(cekSupplierSama(namaSupplier)){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Supplier sudah ada", btnIyaTambahSupplier);
+            return;
+        }else if(cekTokoSama(namaToko)){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Toko sudah ada", btnIyaTambahSupplier);
+            return;
+        }
+        
+        String idSupplierBaru = getNewIdSupplier();
+        try {
+            String query = "INSERT INTO supplier VALUES (?,?,?,?,?,?)";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, idSupplierBaru);
+            statement.setString(2, namaSupplier);
+            statement.setString(3, namaToko);
+            statement.setString(4, kontak);
+            statement.setString(5, "ktg01");
+            statement.setString(6, alamat);
+            statement.executeUpdate();
+            
+            getDataTabelSupplier();
+            Session.animasiPanePesan(false, panePesan, lblPesan, "Supplier berhasil ditambahkan");
+            clearTambahSupplier();
+            
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private boolean cekSupplierSama(String namaSupplier){
+        boolean sama = false;
+        try {
+            String query = "SELECT * FROM supplier WHERE nama_supplier=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, namaSupplier);
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()) {
+                sama = true;
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sama;
+    }
+    
+    private boolean cekTokoSama(String namaToko){
+        boolean sama = false;
+        try {
+            String query = "SELECT * FROM supplier WHERE nama_supplier=? AND nama_toko=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, namaToko);
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()) {
+                sama = true;
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sama;
+    }
+    
+    private String getNewIdSupplier(){
+        String idSupplier = "spl01";
+        
+        try {
+            String query = "SELECT id_supplier FROM supplier ORDER BY id_supplier DESC LIMIT 1";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            
+            ResultSet result = statement.executeQuery();
+            
+            if(result.next()){
+                String idLama = result.getString("id_supplier");
+                int nomorBaru = Integer.parseInt(idLama.substring(4));
+                idSupplier = String.format("spl%02d", nomorBaru + 1);
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return idSupplier;
+    }
+
+    //EDIT SUPPLIER
+    private void setKomponenEditSupplier(){
+        Session.triggerOnEnter(this::editSupplier, txtNamaSupplierEdit, txtNamaTokoEdit, txtKontakEdit, txtAlamatEdit);
+        Session.setTextFieldNumeric(txtKontakEdit);
+    }
+    
+    @FXML
+    private void bukaEditSupplier(){
+        Session.setShowPane(paneEditSupplier);
+        Session.setDisableButtons(btnIyaTambahSupplier);
+        
+        txtNamaSupplierEdit.setText(supplierTerpilih.getNamaSupplier());
+        txtNamaTokoEdit.setText(supplierTerpilih.getNamaToko());
+        txtKontakEdit.setText(supplierTerpilih.getKontak());
+        txtAlamatEdit.setText(supplierTerpilih.getAlamat());
+    }
+    
+    @FXML
+    private void tutupEditSupplier(){
+        Session.setHidePane(paneEditSupplier);
+        Session.setEnableButtons(btnIyaTambahSupplier);
+    }
+    
+    @FXML
+    private void editSupplier(){
+        String namaSupplier = txtNamaSupplierEdit.getText().trim().trim();
+        String namaToko = txtNamaTokoEdit.getText().trim().trim();
+        String kontak = txtKontakEdit.getText().trim().trim();
+        String alamat = txtAlamatEdit.getText().trim().trim();
+        
+        if(namaSupplier.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Supplier", btnIyaEditSupplier);
+            return;
+        }else if(namaToko.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Toko", btnIyaEditSupplier);
+            return;
+        }else if(kontak.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Kontak", btnIyaEditSupplier);
+            return;
+        }else if(alamat.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Alamat", btnIyaEditSupplier);
+            return;
+        }else if(kontak.length() < 12){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak minimal 12 digit", btnIyaEditSupplier);
+            return;
+        }else if(kontak.length() > 13){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak maksimal 13 digit", btnIyaEditSupplier);
+            return;
+        }else if(!supplierTerpilih.getNamaSupplier().toLowerCase().equals(namaSupplier.toLowerCase()) && cekSupplierSama(namaSupplier)){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Supplier sudah ada", btnIyaEditSupplier);
+            return;
+        }else if(!supplierTerpilih.getNamaToko().toLowerCase().equals(namaToko.toLowerCase()) && cekTokoSama(namaToko)){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Toko sudah ada", btnIyaEditSupplier);
+            return;
+        } 
+        
+        try {
+            String query = "UPDATE `supplier` SET nama_supplier= ?, nama_toko = ?,\n" +
+            "kontak = ?, alamat = ?\n" +
+            "WHERE id_supplier = ?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, namaSupplier);
+            statement.setString(2, namaToko);
+            statement.setString(3, kontak);
+            statement.setString(4, alamat);
+            statement.setString(5, idSupplierTerpilih);
+            statement.executeUpdate();
+            
+            getDataTabelSupplier();
+            Session.animasiPanePesan(false, panePesan, lblPesan, "Supplier berhasil diperbarui");
+            tutupEditSupplier();
+            
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //HAPUS SUPPLIER
+    @FXML
+    private void bukaHapusSupplier(){
+        Session.setShowPane(paneHapusSupplier);
+        Session.setDisableButtons(btnIyaTambahSupplier, btnHapusSupplier);
+    }
+    
+    @FXML
+    private void tutupHapusSupplier(){
+        Session.setHidePane(paneHapusSupplier);
+        Session.setEnableButtons(btnIyaTambahSupplier);
+        btnHapusSupplier.setDisable(btnEditSupplier.isDisable());
+    }
+    
+    @FXML
+    private void hapusSupplier(){
+        try {
+            System.out.println(idSupplierTerpilih);
+            String query = "DELETE FROM supplier WHERE id_supplier=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, idSupplierTerpilih);
+            statement.executeUpdate();
+            
+            getDataTabelSupplier();
+            Session.animasiPanePesan(false, panePesan, lblPesan, "Supplier berhasil dihapus");
+            tutupHapusSupplier();
+            
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
