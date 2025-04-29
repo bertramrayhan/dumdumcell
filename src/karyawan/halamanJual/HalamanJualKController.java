@@ -121,14 +121,14 @@ public class HalamanJualKController implements Initializable {
                 tambahProduk(namaProduk, qty, false); // false indicates manual entry
             }
         } else if (btn.getId().equals("btnTambahProdukBarcode")) {
-            if(txtBarcode.getText().isEmpty()){
+            if(txtBarcode.getText().trim().isEmpty()){
                 Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if (txtBarcodeQty.getText().isEmpty() || txtBarcodeQty.getText().equals("0")) {
                 Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             } else {
-                String inpBarcode = txtBarcode.getText();
+                String inpBarcode = txtBarcode.getText().trim();
                 int qty = Integer.parseInt(txtBarcodeQty.getText());
                 tambahProduk(inpBarcode, qty, true); // true indicates barcode entry
             }
@@ -251,7 +251,7 @@ public class HalamanJualKController implements Initializable {
             statement.setInt(4, total); // Use the total variable here
             statement.setString(5, getIdDiskon(cbxDiskon.getValue()));
             statement.setInt(6, Session.convertRupiahToInt(lblKembalian.getText()));
-            statement.setString(7, txtACatatan.getText());
+            statement.setString(7, txtACatatan.getText().trim());
 
             statement.executeUpdate();
 

@@ -29,7 +29,7 @@ public class HalamanStokKController implements Initializable {
         setSortBy();
         loadStok(null, null); // Default load tanpa sort & search
 
-        SortBy.valueProperty().addListener((obs, oldVal, newVal) -> loadStok(newVal, txtSearchBar.getText()));
+        SortBy.valueProperty().addListener((obs, oldVal, newVal) -> loadStok(newVal, txtSearchBar.getText().trim()));
         txtSearchBar.textProperty().addListener((obs, oldVal, newVal) -> loadStok(SortBy.getValue(), newVal));
         
         buttonX.setOnAction((ActionEvent event) -> {

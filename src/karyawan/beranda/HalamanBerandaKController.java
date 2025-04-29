@@ -178,7 +178,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
             
             while(result.next()){
                 String namaDiskon = result.getString("nama_diskon");
-                String hargaDiskon = result.getString("jenis_diskon").equals("nominal") ? 
+                String hargaDiskon = result.getString("jenis_diskon").equals("Nominal") ? 
                         Session.convertIntToRupiah(result.getInt("harga_diskon")) : result.getString("harga_diskon") + "%";
                 
                 listPromo.add(new Promo(namaDiskon, hargaDiskon));
