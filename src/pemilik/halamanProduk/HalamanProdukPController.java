@@ -298,7 +298,7 @@ public class HalamanProdukPController implements Initializable {
         }else if(namaMerek.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Merek", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
-        }else if(cekMerekSama(namaMerek)){
+        }else if(Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Merek Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(barcodeBarang.isEmpty()){
@@ -309,7 +309,7 @@ public class HalamanProdukPController implements Initializable {
             return;
         }
         
-        String idBarangBaru = getNewIdBarang();
+        String idBarangBaru = Session.membuatIdBaru("barang", "id_barang", "brg", 4);
         String idKategori = getIdKategori(cbxKategoriTambah.getValue());
         try {
             String query = "INSERT INTO barang (id_barang, nama_barang, id_kategori, merek, harga_jual, exp, barcode) \n" +
@@ -333,51 +333,7 @@ public class HalamanProdukPController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private boolean cekMerekSama(String merek){
-        boolean sama = false;
-        try {
-            String query = "SELECT * FROM barang WHERE merek=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, merek);
-            ResultSet result = statement.executeQuery();
             
-            if(result.next()) {
-                sama = true;
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sama;
-    }
-    
-    private String getNewIdBarang(){
-        String barangId = "brg0001";
-        
-        try {
-            String query = "SELECT id_barang FROM barang ORDER BY id_barang DESC LIMIT 1";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                String idLama = result.getString("id_barang");
-                int nomorBaru = Integer.parseInt(idLama.substring(4));
-                barangId = String.format("brg%04d", nomorBaru + 1);
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return barangId;
-    }
-    
     private String getIdKategori(String kategori){
         String idKategori = "";
         
@@ -502,7 +458,7 @@ public class HalamanProdukPController implements Initializable {
         }else if(hargaJual.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
-        }else if(!barangTerpilih.getNamaBarang().toLowerCase().equals(namaBarang.toLowerCase()) && cekMerekSama(namaBarang)){
+        }else if(!barangTerpilih.getNamaBarang().toLowerCase().equals(namaBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }
@@ -643,7 +599,7 @@ public class HalamanProdukPController implements Initializable {
 
             kategori.setNamaKategori(newValue);
             if(kategori.getIdKategori().equals("temp")){
-                String idKategoriBaru = getNewIdKategori();
+                String idKategoriBaru = Session.membuatIdBaru("kategori", "id_kategori", "ktg", 2);
                 try {
                     String query = "INSERT INTO kategori (id_kategori, nama_kategori) VALUES (?,?)";
                     PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
@@ -857,27 +813,5 @@ public class HalamanProdukPController implements Initializable {
         tabelKategori.getSelectionModel().select(pos.getRow());
         
         Session.setDisableButtons(btnTambahKategori);
-    }
-
-    private String getNewIdKategori(){
-        String kategoriId = "ktg01";
-        try {
-            String query = "SELECT id_kategori FROM kategori ORDER BY id_kategori DESC LIMIT 1";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                String idLama = result.getString("id_kategori");
-                int nomorBaru = Integer.parseInt(idLama.substring(4));
-                kategoriId = String.format("ktg%02d", nomorBaru + 1);
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return kategoriId;
     }
 }

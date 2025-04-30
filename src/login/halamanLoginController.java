@@ -11,8 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import main.DumdumKasir;
 import main.Koneksi;
@@ -43,13 +41,13 @@ public class halamanLoginController implements Initializable {
     
     @FXML
     private void btnLogin() {
-        String username = txtUsername.getText();
+        String username = txtUsername.getText().trim();
         
         if(txtPasswordVisible.isVisible() == true){
-            txtPassword.setText(txtPasswordVisible.getText());
+            txtPassword.setText(txtPasswordVisible.getText().trim());
         }
         
-        String password = txtPassword.getText();
+        String password = txtPassword.getText().trim();
         
         try {
             String query = "SELECT id_admin, role FROM admin WHERE username=? AND password=?";
@@ -101,7 +99,7 @@ public class halamanLoginController implements Initializable {
         }
         Session.animasiPanePesan(true, panePesan, lblPesan, "Username atau Password Salah", btnLogin);
         txtUsername.requestFocus();
-        txtUsername.positionCaret(txtUsername.getText().length());
+        txtUsername.positionCaret(txtUsername.getText().trim().length());
     }
     
     private void setupRFIDListener(TextField field) {
