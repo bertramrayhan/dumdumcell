@@ -237,7 +237,7 @@ public class HalamanJualKController implements Initializable {
             return;
         }
 
-        idTransaksiBaru = getNewIdTransaksi();
+        idTransaksiBaru = Session.membuatIdBaru("transaksi_jual", "id_transaksi_jual", "jual", 4);
 
         try {
             // Check if lblTotal is empty and set default value
@@ -478,31 +478,7 @@ public class HalamanJualKController implements Initializable {
         }
         return cukup;
     }
-    
-    private String getNewIdTransaksi(){
-        String transaksiId = "jual0001";
         
-        try {
-            String query = "SELECT id_transaksi_jual FROM transaksi_jual ORDER BY id_transaksi_jual DESC LIMIT 1";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                String idLama = result.getString("id_transaksi_jual");
-                int nomorBaru = Integer.parseInt(idLama.substring(4));
-                transaksiId = String.format("jual%04d", nomorBaru + 1);
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return transaksiId;
-    }
-    
     private String getIdBarang(String merek){
         String idBarang = "";
         

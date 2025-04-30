@@ -39,9 +39,9 @@ public class GantiPasswordController implements Initializable {
     
     @FXML
     private void gantiPassword(){
-        String passwordLama = txtPasswordLama.getText();
-        String passwordBaru = txtPasswordBaru.getText();
-        String konfirmasiPassword = txtKonfirmasiPassword.getText();
+        String passwordLama = txtPasswordLama.getText().trim();
+        String passwordBaru = txtPasswordBaru.getText().trim();
+        String konfirmasiPassword = txtKonfirmasiPassword.getText().trim();
         
         if(passwordLama.equals("") || passwordBaru.equals("") || konfirmasiPassword.equals("")){
             animasiPesanPane("Harap isi semua kolom");

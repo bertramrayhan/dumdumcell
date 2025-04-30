@@ -186,15 +186,15 @@ public class HalamanSupplierPController implements Initializable {
         }else if(kontak.length() > 13){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak maksimal 13 digit", btnIyaTambahSupplier);
             return;
-        }else if(cekSupplierSama(namaSupplier)){
+        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_supplier=?", namaSupplier)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Supplier sudah ada", btnIyaTambahSupplier);
             return;
-        }else if(cekTokoSama(namaToko)){
+        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=?", namaToko)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Toko sudah ada", btnIyaTambahSupplier);
             return;
         }
         
-        String idSupplierBaru = getNewIdSupplier();
+        String idSupplierBaru = Session.membuatIdBaru("supplier", "id_supplier", "spl", 2);
         try {
             String query = "INSERT INTO supplier VALUES (?,?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
@@ -215,71 +215,7 @@ public class HalamanSupplierPController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private boolean cekSupplierSama(String namaSupplier){
-        boolean sama = false;
-        try {
-            String query = "SELECT * FROM supplier WHERE nama_supplier=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, namaSupplier);
-            ResultSet result = statement.executeQuery();
             
-            if(result.next()) {
-                sama = true;
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sama;
-    }
-    
-    private boolean cekTokoSama(String namaToko){
-        boolean sama = false;
-        try {
-            String query = "SELECT * FROM supplier WHERE nama_supplier=? AND nama_toko=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, namaToko);
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()) {
-                sama = true;
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sama;
-    }
-    
-    private String getNewIdSupplier(){
-        String idSupplier = "spl01";
-        
-        try {
-            String query = "SELECT id_supplier FROM supplier ORDER BY id_supplier DESC LIMIT 1";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                String idLama = result.getString("id_supplier");
-                int nomorBaru = Integer.parseInt(idLama.substring(4));
-                idSupplier = String.format("spl%02d", nomorBaru + 1);
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return idSupplier;
-    }
-
     //EDIT SUPPLIER
     private void setKomponenEditSupplier(){
         Session.triggerOnEnter(this::editSupplier, txtNamaSupplierEdit, txtNamaTokoEdit, txtKontakEdit, txtAlamatEdit);
@@ -328,10 +264,10 @@ public class HalamanSupplierPController implements Initializable {
         }else if(kontak.length() > 13){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak maksimal 13 digit", btnIyaEditSupplier);
             return;
-        }else if(!supplierTerpilih.getNamaSupplier().toLowerCase().equals(namaSupplier.toLowerCase()) && cekSupplierSama(namaSupplier)){
+        }else if(!supplierTerpilih.getNamaSupplier().toLowerCase().equals(namaSupplier.toLowerCase()) && Session.cekDataSama("SELECT * FROM supplier WHERE nama_supplier=?", namaSupplier)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Supplier sudah ada", btnIyaEditSupplier);
             return;
-        }else if(!supplierTerpilih.getNamaToko().toLowerCase().equals(namaToko.toLowerCase()) && cekTokoSama(namaToko)){
+        }else if(!supplierTerpilih.getNamaToko().toLowerCase().equals(namaToko.toLowerCase()) && Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=?", namaToko)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Toko sudah ada", btnIyaEditSupplier);
             return;
         } 

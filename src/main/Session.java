@@ -1,6 +1,8 @@
 package main;
 
 import java.io.InputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -265,5 +267,51 @@ public class Session {
                 }
             });
         }
+    }
+    
+    public static boolean cekDataSama(String query, String namaData){
+        boolean sama = false;
+        
+        try {
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return sama;
+    }
+    
+    public static String membuatIdBaru(String namaTabel, String namaKolom, String prefix, int jumlahDigit) {
+        String newId = prefix + String.format("%0" + jumlahDigit + "d", 1);
+
+        try {
+            String query = String.format("SELECT %s FROM %s ORDER BY %s DESC LIMIT 1", namaKolom, namaTabel, namaKolom);
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                String lastId = result.getString(namaKolom);
+                int oldNumber = Integer.parseInt(lastId.substring(prefix.length()));
+                int newNumber = oldNumber + 1;
+                newId = prefix + String.format("%0" + jumlahDigit + "d", newNumber);
+            }
+
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return newId;
     }
 }

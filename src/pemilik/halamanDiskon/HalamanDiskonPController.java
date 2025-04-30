@@ -268,12 +268,12 @@ public class HalamanDiskonPController implements Initializable {
         }else if(potonganHarga.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Potongan Harga", btnIyaTambahDiskon);
             return;
-        }else if(cekDiskonSama(namaDiskon)){
+        }else if(Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=?", namaDiskon)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Diskon Sudah Ada", btnIyaTambahDiskon);
             return;
         }
         
-        String idDiskonBaru = getNewIdDiskon();
+        String idDiskonBaru = Session.membuatIdBaru("diskon", "id_diskon", "dsk", 2);
         try {
             String query = "INSERT INTO diskon VALUES (?,?,?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
@@ -295,51 +295,7 @@ public class HalamanDiskonPController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private boolean cekDiskonSama(String namaDiskon){
-        boolean sama = false;
-        try {
-            String query = "SELECT * FROM diskon WHERE nama_diskon=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, namaDiskon);
-            ResultSet result = statement.executeQuery();
             
-            if(result.next()) {
-                sama = true;
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sama;
-    }
-    
-    private String getNewIdDiskon(){
-        String idDiskon = "dsk01";
-        
-        try {
-            String query = "SELECT id_diskon FROM diskon ORDER BY id_diskon DESC LIMIT 1";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                String idLama = result.getString("id_diskon");
-                int nomorBaru = Integer.parseInt(idLama.substring(4));
-                idDiskon = String.format("dsk%02d", nomorBaru + 1);
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return idDiskon;
-    }
-    
     //EDIT DISKON
     private void setKomponenEditDiskon(){
         Session.triggerOnEnter(this::editDiskon, txtNamaDiskonEdit, txtPotonganHargaEdit);
@@ -449,7 +405,7 @@ public class HalamanDiskonPController implements Initializable {
         }else if(potonganHarga.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Potongan Harga", btnIyaEditDiskon);
             return;
-        }else if(!diskonTerpilih.getNamaDiskon().toLowerCase().equals(namaDiskon.toLowerCase()) && cekDiskonSama(namaDiskon)){
+        }else if(!diskonTerpilih.getNamaDiskon().toLowerCase().equals(namaDiskon.toLowerCase()) && Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=?", namaDiskon)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Diskon Sudah Ada", btnIyaEditDiskon);
             return;
         }
