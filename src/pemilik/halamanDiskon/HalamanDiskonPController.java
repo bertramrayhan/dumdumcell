@@ -108,12 +108,20 @@ public class HalamanDiskonPController implements Initializable {
                 btnHapusDiskon.setDisable(true);
             }
         });
+        
+        tabelDiskon.setOnMouseClicked(event -> {
+            Diskon diskon = tabelDiskon.getSelectionModel().getSelectedItem();
+            if (diskon != null) {
+                diskonTerpilih = diskon;
+                idDiskonTerpilih = diskon.getIdDiskon();
+            }
+        });
     }
     
     @FXML
     private void getDataTabelDiskon() {
         listDiskon.clear();
-        String keyword = txtSearchBar.getText();
+        String keyword = txtSearchBar.getText().trim();
         
         String query = "SELECT * FROM diskon";
         
@@ -171,6 +179,7 @@ public class HalamanDiskonPController implements Initializable {
     
     //TAMBAH DISKON
     private void setKomponenTambahDiskon(){
+        Session.triggerOnEnter(this::tambahDiskon, txtNamaDiskonTambah, txtPotonganHargaTambah);
         cbxJenisDiskonTambah.getItems().add("Nominal");
         cbxJenisDiskonTambah.getItems().add("Persentase");
         cbxJenisDiskonTambah.setValue("Nominal");
@@ -196,7 +205,7 @@ public class HalamanDiskonPController implements Initializable {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item.isBefore(LocalDate.now().plusDays(1))) {
+                if (item.isBefore(LocalDate.now())) {
                     setDisable(true);
                     setStyle("-fx-background-color: #ffc0cb;");
                 }
@@ -204,7 +213,7 @@ public class HalamanDiskonPController implements Initializable {
         });
 
         // Set default tanggal mulai ke besok
-        dtPTanggalMulaiTambah.setValue(LocalDate.now().plusDays(1));
+        dtPTanggalMulaiTambah.setValue(LocalDate.now());
 
         // Fungsi untuk update batasan tanggal berakhir
         Runnable updateTanggalBerakhirFactory = () -> {
@@ -247,9 +256,9 @@ public class HalamanDiskonPController implements Initializable {
     
     @FXML
     private void tambahDiskon(){
-        String namaDiskon = txtNamaDiskonTambah.getText();
+        String namaDiskon = txtNamaDiskonTambah.getText().trim();
         String jenisDiskon = (String) cbxJenisDiskonTambah.getValue();
-        String potonganHarga = txtPotonganHargaTambah.getText();
+        String potonganHarga = txtPotonganHargaTambah.getText().trim();
         String tanggalMulai = dtPTanggalMulaiTambah.getValue().toString();
         String tanggalBerakhir = dtPTanggalBerakhirTambah.getValue().toString();
         
@@ -333,6 +342,7 @@ public class HalamanDiskonPController implements Initializable {
     
     //EDIT DISKON
     private void setKomponenEditDiskon(){
+        Session.triggerOnEnter(this::editDiskon, txtNamaDiskonEdit, txtPotonganHargaEdit);
         cbxJenisDiskonEdit.getItems().add("Nominal");
         cbxJenisDiskonEdit.getItems().add("Persentase");
         Session.setTextFieldNumeric(txtPotonganHargaEdit);
@@ -357,7 +367,7 @@ public class HalamanDiskonPController implements Initializable {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item.isBefore(LocalDate.now().plusDays(1))) {
+                if (item.isBefore(LocalDate.now())) {
                     setDisable(true);
                     setStyle("-fx-background-color: #ffc0cb;");
                 }
@@ -401,10 +411,6 @@ public class HalamanDiskonPController implements Initializable {
     private void bukaEditDiskon(){
         Session.setShowPane(paneEditDiskon);
         Session.setDisableButtons(btnIyaTambahDiskon);
-        
-        int barisTerpilih = tabelDiskon.getSelectionModel().getSelectedIndex();
-        diskonTerpilih = listDiskon.get(barisTerpilih);
-        idDiskonTerpilih = diskonTerpilih.getIdDiskon();
                 
         txtNamaDiskonEdit.setText(diskonTerpilih.getNamaDiskon());
         cbxJenisDiskonEdit.setValue(diskonTerpilih.getJenisDiskon());
@@ -431,9 +437,9 @@ public class HalamanDiskonPController implements Initializable {
     
     @FXML
     private void editDiskon(){
-        String namaDiskon = txtNamaDiskonEdit.getText();
+        String namaDiskon = txtNamaDiskonEdit.getText().trim();
         String jenisDiskon = (String) cbxJenisDiskonEdit.getValue();
-        String potonganHarga = txtPotonganHargaEdit.getText();
+        String potonganHarga = txtPotonganHargaEdit.getText().trim();
         String tanggalMulai = dtPTanggalMulaiEdit.getValue().toString();
         String tanggalBerakhir = dtPTanggalBerakhirEdit.getValue().toString();
         

@@ -88,13 +88,13 @@ public class HalamanProdukPController implements Initializable {
         setKomponenEditBarang();
         
         //KELOLA KATEGORI
-        setKomponenKelolaKategori();
+        setKomponenKelolaKategori();        
     }    
     
     @FXML
     private void getDataTabelBarang() {
         listBarang.clear();
-        String keyword = txtSearchBar.getText();
+        String keyword = txtSearchBar.getText().trim();
         
         String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok, b.exp, b.merek, b.barcode, k.nama_kategori " +
                        "FROM barang b " +
@@ -229,6 +229,7 @@ public class HalamanProdukPController implements Initializable {
     
     //TAMBAH BARANG
     private void setKomponenTambahBarang(){
+        Session.triggerOnEnter(this::tambahBarang, txtNamaBarangTambah, txtNamaMerekTambah, txtBarcodeTambah, txtHargaJualTambah);
         dtPTanggalExpTambah.getEditor().setDisable(true);
         dtPTanggalExpTambah.getEditor().setOpacity(1);
         dtPTanggalExpTambah.setDayCellFactory(dp -> new DateCell() {
@@ -239,7 +240,7 @@ public class HalamanProdukPController implements Initializable {
                 // Blokir tanggal di masa depan
                 if (!item.isAfter(LocalDate.now())) {
                     setDisable(true);
-                    setStyle("-fx-background-color: #ffc0cb;"); // Warna merah muda buat disabled
+                    setStyle("-fx-background-color: #ffc0cb;");
                 }
             }
         });
@@ -285,10 +286,10 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void tambahBarang(){
-        String namaBarang = txtNamaBarangTambah.getText();
-        String namaMerek = txtNamaMerekTambah.getText();
-        String barcodeBarang = txtBarcodeTambah.getText();
-        String hargaJual = txtHargaJualTambah.getText();
+        String namaBarang = txtNamaBarangTambah.getText().trim();
+        String namaMerek = txtNamaMerekTambah.getText().trim();
+        String barcodeBarang = txtBarcodeTambah.getText().trim();
+        String hargaJual = txtHargaJualTambah.getText().trim();
         String expired = dtPTanggalExpTambah.getValue().toString();
         
         if(namaBarang.isEmpty()){
@@ -309,7 +310,7 @@ public class HalamanProdukPController implements Initializable {
         }
         
         String idBarangBaru = getNewIdBarang();
-        String idKategori = getIdKategori();
+        String idKategori = getIdKategori(cbxKategoriTambah.getValue());
         try {
             String query = "INSERT INTO barang (id_barang, nama_barang, id_kategori, merek, harga_jual, exp, barcode) \n" +
             "VALUES (?,?,?,?,?,?,?)";
@@ -377,13 +378,13 @@ public class HalamanProdukPController implements Initializable {
         return barangId;
     }
     
-    private String getIdKategori(){
+    private String getIdKategori(String kategori){
         String idKategori = "";
         
         try {
             String query = "SELECT id_kategori FROM kategori WHERE nama_kategori=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, cbxKategoriTambah.getValue());
+            statement.setString(1, kategori);
             ResultSet result = statement.executeQuery();
             
             if (result.next()) {
@@ -395,12 +396,13 @@ public class HalamanProdukPController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+        System.out.println(idKategori);
         return idKategori;
     }
     
     //EDIT BARANG
     private void setKomponenEditBarang() {
+        Session.triggerOnEnter(this::editBarang, txtNamaBarangEdit, txtNamaMerekEdit, txtBarcodeEdit, txtHargaJualEdit);
         dtPTanggalExpEdit.getEditor().setDisable(true);
         dtPTanggalExpEdit.getEditor().setOpacity(1);
 
@@ -482,10 +484,10 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void editBarang(){
-        String namaBarang = txtNamaBarangEdit.getText();
-        String namaMerek = txtNamaMerekEdit.getText();
-        String barcodeBarang = txtBarcodeEdit.getText();
-        String hargaJual = txtHargaJualEdit.getText();
+        String namaBarang = txtNamaBarangEdit.getText().trim();
+        String namaMerek = txtNamaMerekEdit.getText().trim();
+        String barcodeBarang = txtBarcodeEdit.getText().trim();
+        String hargaJual = txtHargaJualEdit.getText().trim();
         String expired = dtPTanggalExpEdit.getValue().toString();
         
         if(namaBarang.isEmpty()){
@@ -505,7 +507,7 @@ public class HalamanProdukPController implements Initializable {
             return;
         }
         
-        String idKategori = getIdKategori();
+        String idKategori = getIdKategori(cbxKategoriEdit.getValue());
         try {
             String query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
             "Barcode=?, harga_jual=?, exp=?\n" +
@@ -599,7 +601,7 @@ public class HalamanProdukPController implements Initializable {
                     if (textField != null) {
                         textField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
                             if (!isNowFocused) {
-                                commitEdit(textField.getText());
+                                commitEdit(textField.getText().trim());
                             }
                         });
                     }
@@ -610,7 +612,7 @@ public class HalamanProdukPController implements Initializable {
 
         colNamaKategori.setOnEditCommit(event -> {
             Session.setEnableButtons(btnTambahKategori);
-            String newValue = event.getNewValue();
+            String newValue = event.getNewValue().trim();
             Kategori kategori = event.getRowValue();
             boolean isDuplicate = listKategori.stream()
                 .anyMatch(k -> k != kategori && k.getNamaKategori().equalsIgnoreCase(newValue));

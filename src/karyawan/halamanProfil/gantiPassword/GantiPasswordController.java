@@ -30,7 +30,7 @@ public class GantiPasswordController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        Session.triggerOnEnter(this::gantiPassword, txtPasswordLama, txtPasswordBaru, txtKonfirmasiPassword);
     }    
     
     public void setDialogStage(Stage dialogStage) {

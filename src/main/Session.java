@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -51,6 +52,7 @@ public class Session {
     private static final String pathHalamanKasP = "/karyawan/halamanKas/halamanKasK.fxml";
     private static final String pathHalamanSaldoP = "/karyawan/halmanSaldo/halamanSaldo.fxml";
     private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
+    private static final String pathHalamanSupplierP = "/pemilik/halamanSupplier/halamanSupplierP.fxml";
     private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskonP.fxml";
     private static final String pathHalamanPresensiPusatP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
     private static final String pathHalamanPresensiCabangP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
@@ -69,6 +71,7 @@ public class Session {
     public static String getPathHalamanUtamaP() {return pathHalamanUtamaP;}    
     public static String getPathBerandaP() {return pathBerandaP;}
     public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
+    public static String getPathHalamanSupplierP() {return pathHalamanSupplierP;}
     public static String getPathHalamanTransaksiAntarCabang() { return pathHalamanTransaksiAntarCabang;};
     public static String getPathHalamanTransaksiRetur() { return pathHalamanTransaksiRetur;};
     public static String getPathHalamanKas() { return pathHalamanKasK;};
@@ -252,5 +255,15 @@ public class Session {
     public static void setHidePane(AnchorPane pane){
         pane.setVisible(false);
         pane.setMouseTransparent(true);
+    }
+    
+    public static void triggerOnEnter(Runnable action, TextField... textFields) {
+        for (TextField textField : textFields) {
+            textField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    action.run();
+                }
+            });
+        }
     }
 }

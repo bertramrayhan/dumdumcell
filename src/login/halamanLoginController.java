@@ -42,7 +42,7 @@ public class halamanLoginController implements Initializable {
     }  
     
     @FXML
-    private void btnLogin(MouseEvent event) {
+    private void btnLogin() {
         String username = txtUsername.getText();
         
         if(txtPasswordVisible.isVisible() == true){
@@ -132,11 +132,7 @@ public class halamanLoginController implements Initializable {
             
         });
         
-        field.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                btnLogin(null);
-            }
-        });
+        Session.triggerOnEnter(this::btnLogin, field);
     }    
     
     private void absensi(){
