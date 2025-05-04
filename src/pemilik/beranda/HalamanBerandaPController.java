@@ -69,7 +69,7 @@ public class HalamanBerandaPController implements Initializable {
             "         ON tj.id_transaksi_jual = dtj.id_transaksi_jual  \n" +
             "         WHERE DATE(tj.tanggal_transaksi_jual) = CURRENT_DATE) AS total_barang, \n" +
             "         \n" +
-            "        (SELECT SUM(stok) FROM barang) AS jumlah_barang, \n" +
+            "        (SELECT SUM(stok_utama) FROM barang) AS jumlah_barang, \n" +
             "\n" +
             "        (SELECT COUNT(*)  \n" +
             "         FROM barang  \n" +

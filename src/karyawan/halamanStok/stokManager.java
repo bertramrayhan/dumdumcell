@@ -23,9 +23,9 @@ public class stokManager {
             case "Kategori":
                 return " ORDER BY k.nama_kategori ASC";
             case "Stok Terbanyak":
-                return " ORDER BY b.stok DESC";
+                return " ORDER BY b.stok_utama DESC";
             case "Stok Terdikit":
-                return " ORDER BY b.stok ASC";
+                return " ORDER BY b.stok_utama ASC";
             default:
                 return "";
         }
@@ -35,7 +35,7 @@ public class stokManager {
         ObservableList<Stok> listStok = FXCollections.observableArrayList();
         
         // Query dasar
-        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok, b.exp, b.merek, b.barcode, k.nama_kategori " +
+        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok_utama, b.exp, b.merek, b.barcode, k.nama_kategori " +
                        "FROM barang b " +
                        "JOIN kategori k ON b.id_kategori = k.id_kategori";
 
@@ -45,7 +45,7 @@ public class stokManager {
 
          if (isSearch) {
             if (isAngka) {
-                query += " WHERE (b.stok = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ? OR b.id_barang LIKE ?)";
+                query += " WHERE (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ? OR b.id_barang LIKE ?)";
             } else {
                 query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ? OR b.id_barang LIKE ? OR b.barcode LIKE ?)";
             }
@@ -77,7 +77,7 @@ public class stokManager {
                 String namaBarang = result.getString("nama_barang");
                 String kategori = result.getString("nama_kategori");
                 String hargaJual = Session.convertIntToRupiah(result.getInt("harga_jual"));
-                int stok = result.getInt("stok");
+                int stok = result.getInt("stok_utama");
                 String exp = Session.convertTanggalIndo(result.getString("exp"));
                 String merek = result.getString("merek");
                 String barcode = result.getString("barcode");

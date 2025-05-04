@@ -454,16 +454,16 @@ public class HalamanJualKController implements Initializable {
         try {
             String query = "";
             if(barcode.isEmpty()){
-                query = "SELECT stok FROM barang WHERE merek=?";
+                query = "SELECT stok_utama FROM barang WHERE merek=?";
             }else{
-                query = "SELECT stok FROM barang WHERE barcode=?";
+                query = "SELECT stok_utama FROM barang WHERE barcode=?";
             }
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, barcode.isEmpty() ? merek : barcode);
 
             ResultSet result = statement.executeQuery();
             if(result.next()){
-                if(result.getInt("stok") >= qty){
+                if(result.getInt("stok_utama") >= qty){
                     cukup = true;
                 }else{
                     Session.animasiPanePesan(true, panePesan, lblPesan, "Stok tidak cukup untuk " + merek, btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);

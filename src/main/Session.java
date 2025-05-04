@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -44,7 +45,7 @@ public class Session {
     private static final String pathHalamanSaldoK = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
     private static final String pathHalamanStokK =  "/karyawan/halamanStok/halamanStokK.fxml";
     private static final String pathHalamanTransaksiAntarCabang = "/karyawan/halamanTransaksiAntarCabang/halamanTransaksiAntarCabang.fxml";
-    private static final String pathHalamanTransaksiRetur =  "/karyawan/halamanTransaksiRetur/halamanTransaksiRetur.fxml";
+    private static final String pathHalamanTransaksiRetur =  "/karyawan/halamanTransaksiRetur/halamanTransaksiReturK.fxml";
     private static final String pathHalamanKasK =  "/karyawan/halamanKas/halamanKasK.fxml";
     private static final String pathHalamanRekap = "/karyawan/halamanRekap/halamanRekapK.fxml";
     private static final String pathHalamanTransaksiDLL = "/karyawan/halamanTransaksiDLL/halamanTransaksiDLL.fxml";
@@ -269,16 +270,21 @@ public class Session {
         }
     }
     
-    public static boolean cekDataSama(String query, String namaData){
+    public static boolean cekDataSama(String query, String ... namaData){
         boolean sama = false;
         
         try {
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            
+            int counter = 1;
+            for(String data : namaData){
+                System.out.println(Arrays.toString(namaData));
+                statement.setString(counter, data);
+                counter++;
+            }
             ResultSet result = statement.executeQuery();
             
-            if (result.next()) {
-                
+            if(result.next()) {
+                sama = true;
             }
             
             result.close();

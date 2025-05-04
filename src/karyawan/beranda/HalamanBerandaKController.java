@@ -79,7 +79,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
             "         ON tj.id_transaksi_jual = dtj.id_transaksi_jual  \n" +
             "         WHERE DATE(tj.tanggal_transaksi_jual) = CURRENT_DATE) AS total_barang, \n" +
             "         \n" +
-            "        (SELECT SUM(stok) FROM barang) AS jumlah_barang, \n" +
+            "        (SELECT SUM(stok_utama) FROM barang) AS jumlah_barang, \n" +
             "\n" +
             "        (SELECT COUNT(*)  \n" +
             "         FROM barang  \n" +
@@ -143,7 +143,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
     private void getDataTabelBarangExpired(){
         listBarang.clear();
         try {
-            String query = "SELECT merek, stok, exp \n" +
+            String query = "SELECT merek, stok_utama, exp \n" +
             "FROM barang\n" +
             "WHERE exp IS NOT NULL\n" +
             "AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)";
@@ -153,7 +153,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
             
             while(result.next()){
                 String namaBarang = result.getString("merek");
-                String stok = result.getString("stok");
+                String stok = result.getString("stok_utama");
                 String tglExp = Session.convertTanggalIndo(result.getString("exp"));
                 
                 listBarang.add(new Barang(namaBarang, stok, tglExp));

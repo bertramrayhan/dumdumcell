@@ -96,7 +96,7 @@ public class HalamanProdukPController implements Initializable {
         listBarang.clear();
         String keyword = txtSearchBar.getText().trim();
         
-        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok, b.exp, b.merek, b.barcode, k.nama_kategori " +
+        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok_utama, b.exp, b.merek, b.barcode, k.nama_kategori " +
                        "FROM barang b " +
                        "JOIN kategori k ON b.id_kategori = k.id_kategori";
         
@@ -105,7 +105,7 @@ public class HalamanProdukPController implements Initializable {
 
         if (isSearch) {
             if (isAngka) {
-                query += " WHERE (b.stok = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ?)";
+                query += " WHERE (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ?)";
             } else {
                 query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ?)";
             }
@@ -133,7 +133,7 @@ public class HalamanProdukPController implements Initializable {
                 String namaBarang = result.getString("nama_barang");
                 String kategori = result.getString("nama_kategori");
                 String hargaJual = Session.convertIntToRupiah(result.getInt("harga_jual"));
-                String stok = result.getString("stok");
+                String stok = result.getString("stok_utama");
                 String exp = Session.convertTanggalIndo(result.getString("exp"));
                 String merek = result.getString("merek");
                 String barcode = result.getString("barcode");
@@ -163,7 +163,7 @@ public class HalamanProdukPController implements Initializable {
         colBarcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
         
         tabelBarang.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !paneEditBarang.isVisible() && !paneTambahBarang.isVisible()) {
+            if (newValue != null && !paneEditBarang.isVisible() && !paneTambahBarang.isVisible() && !paneHapusBarang.isVisible()) {
                 btnEditBarang.setDisable(false);
                 btnHapusBarang.setDisable(false);
             } else {
@@ -188,9 +188,9 @@ public class HalamanProdukPController implements Initializable {
             case "Kategori":
                 return " ORDER BY k.nama_kategori ASC";
             case "Stok Terbanyak":
-                return " ORDER BY b.stok DESC";
+                return " ORDER BY b.stok_utama DESC";
             case "Stok Terdikit":
-                return " ORDER BY b.stok ASC";
+                return " ORDER BY b.stok_utama ASC";
             default:
                 return "";
         }
@@ -352,7 +352,6 @@ public class HalamanProdukPController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(idKategori);
         return idKategori;
     }
     
@@ -445,7 +444,7 @@ public class HalamanProdukPController implements Initializable {
         String barcodeBarang = txtBarcodeEdit.getText().trim();
         String hargaJual = txtHargaJualEdit.getText().trim();
         String expired = dtPTanggalExpEdit.getValue().toString();
-        
+                
         if(namaBarang.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
@@ -458,7 +457,7 @@ public class HalamanProdukPController implements Initializable {
         }else if(hargaJual.isEmpty()){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
-        }else if(!barangTerpilih.getNamaBarang().toLowerCase().equals(namaBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
+        }else if(!barangTerpilih.getMerek().toLowerCase().equals(namaMerek.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
             Session.animasiPanePesan(true, panePesan, lblPesan, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }

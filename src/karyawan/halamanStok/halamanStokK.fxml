@@ -16,13 +16,13 @@
    <children>
       <TableView fx:id="TableStok" layoutX="25.0" layoutY="228.0" prefHeight="509.0" prefWidth="950.0">
         <columns>
-            <TableColumn fx:id="colIdBarang" editable="false" prefWidth="104.0" resizable="false" sortable="false" text="Id_barang" />
+            <TableColumn fx:id="colIdBarang" editable="false" prefWidth="97.0" resizable="false" sortable="false" text="Id_barang" />
           <TableColumn fx:id="colNamaBarang" editable="false" minWidth="30.0" prefWidth="158.0" resizable="false" sortable="false" text="Nama Barang" />
           <TableColumn fx:id="colKategori" editable="false" minWidth="0.0" prefWidth="141.0" resizable="false" sortable="false" text="Kategori" />
             <TableColumn fx:id="colMerek" editable="false" prefWidth="147.0" resizable="false" sortable="false" text="Merek" />
             <TableColumn fx:id="colHargaJual" editable="false" prefWidth="97.0" resizable="false" sortable="false" text="Harga Jual" />
             <TableColumn fx:id="colStok" editable="false" prefWidth="91.0" resizable="false" sortable="false" text="Stok" />
-            <TableColumn fx:id="colExp" editable="false" prefWidth="104.0" resizable="false" sortable="false" text="Expired" />
+            <TableColumn fx:id="colExp" editable="false" prefWidth="109.0" resizable="false" sortable="false" text="Expired" />
             <TableColumn fx:id="colBarcode" editable="false" prefWidth="104.0" resizable="false" sortable="false" text="Barcode" />
         </columns>
          <columnResizePolicy>
