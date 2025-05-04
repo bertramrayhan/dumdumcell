@@ -241,17 +241,19 @@ public class HalamanJualKController implements Initializable {
 
         try {
             // Check if lblTotal is empty and set default value
+            int subtotal = lblSubtotal.getText().isEmpty() ? 0 : Session.convertRupiahToInt(lblSubtotal.getText());
             int total = lblTotal.getText().isEmpty() ? 0 : Session.convertRupiahToInt(lblTotal.getText());
 
-            String query = "INSERT INTO transaksi_jual VALUES (?,?,NOW(),?,?,?,?,?)";
+            String query = "INSERT INTO transaksi_jual VALUES (?,?,NOW(),?,?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idTransaksiBaru);
             statement.setString(2, Session.getIdAdmin());
             statement.setString(3, cbxCaraBayar.getValue().toLowerCase());
-            statement.setInt(4, total); // Use the total variable here
-            statement.setString(5, getIdDiskon(cbxDiskon.getValue()));
-            statement.setInt(6, Session.convertRupiahToInt(lblKembalian.getText()));
-            statement.setString(7, txtACatatan.getText().trim());
+            statement.setInt(4, subtotal); // Use the total variable here
+            statement.setInt(5, total); // Use the total variable here
+            statement.setString(6, getIdDiskon(cbxDiskon.getValue()));
+            statement.setInt(7, Session.convertRupiahToInt(lblKembalian.getText()));
+            statement.setString(8, txtACatatan.getText().trim());
 
             statement.executeUpdate();
 
@@ -514,7 +516,7 @@ public class HalamanJualKController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if (result.next()) {
-                if(result.getString("jenis_diskon").equals("persentase")){
+                if(result.getString("jenis_diskon").equals("Persentase")){
                     diskon = Session.convertRupiahToInt(lblSubtotal.getText()) * result.getInt("harga_diskon") / 100;
                 }else{
                     diskon = result.getInt("harga_diskon");
