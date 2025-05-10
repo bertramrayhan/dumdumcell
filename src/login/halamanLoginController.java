@@ -81,7 +81,6 @@ public class halamanLoginController implements Initializable {
             String query = "SELECT id_admin, role FROM admin WHERE kode_kartu=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, RFIDId);
-            
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
@@ -97,7 +96,7 @@ public class halamanLoginController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Session.animasiPanePesan(true, panePesan, lblPesan, "Username atau Password Salah", btnLogin);
+        Session.animasiPanePesan(true, panePesan, lblPesan, "Kode Kartu Salah", btnLogin);
         txtUsername.requestFocus();
         txtUsername.positionCaret(txtUsername.getText().trim().length());
     }
@@ -114,24 +113,24 @@ public class halamanLoginController implements Initializable {
 
             RFIDId += c;
             lastTime = currentTime;
-            
-            if (c == '\n' || c == '\r') { // RFID biasanya diakhiri Enter
-                if (lastTime != 0 && (currentTime - lastTime) > RFID_THRESHOLD) {
-                    if (RFIDId.length() >= 9) {
-                        System.out.println("Scan RFID Terdeteksi: " + RFIDId);
-                        RFIDId = RFIDId.replace("\n", "").replace("\r", "");
-                        loginDenganRFID();
-                    }
-                    RFIDId = ""; 
-                    field.clear();
-                }
 
+            if (c == '\n' || c == '\r') { 
+                RFIDId = RFIDId.replace("\n", "");
+                RFIDId = RFIDId.replace("\r", "");
+                if (RFIDId.length() >= 9) {
+                    System.out.println("Scan RFID Terdeteksi: " + RFIDId);
+                    loginDenganRFID();
+                } else {
+                    System.out.println("RFID tidak valid, panjang kurang dari 9 karakter.");
+                }
+                // Kosongkan RFIDId setelah pemrosesan
+                RFIDId = ""; 
+                field.clear();
             }
-            
         });
-        
+
         Session.triggerOnEnter(this::btnLogin, field);
-    }    
+    } 
     
     private void absensi(){
         try {
