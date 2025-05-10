@@ -3,6 +3,7 @@ package karyawan.halamanTransaksiRetur;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -25,9 +26,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
@@ -56,11 +57,22 @@ public class HalamanTransaksiReturKController implements Initializable {
     @FXML private TableColumn<Retur, String> colStatusRetur; 
     @FXML private TableColumn<Retur, HBox> colAksi; 
     @FXML private TableRow<Retur> colTerakhir;
-    
+    @FXML private ImageView imgDetail;
+        
     private ObservableList<Retur> listRiwayatRetur = FXCollections.observableArrayList();
+    
+    //DETAIL RETUR
+    @FXML private AnchorPane paneDetailRetur;
+    @FXML private Label btnTutup;
+    @FXML private TableView<DetailRetur> tabelDetailRetur;
+    @FXML private TableColumn<DetailRetur, String> colNamaBarangDetailRetur, colJumlahBarangDetailRetur, colSubtotalDetailRetur;
+    @FXML private TextArea txtAAlasanDetailRetur;
+    
+    private ObservableList<DetailRetur> listDetailRetur = FXCollections.observableArrayList();
     
     Barang barangTerpilih;
     String idBarangTerpilih;
+    String idReturTerpilih;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,6 +83,9 @@ public class HalamanTransaksiReturKController implements Initializable {
         //RIWAYAT RETUR
         setKomponenRiwayatRetur();
         setTabelRiwayatRetur();
+        
+        //DETAIL RETUR
+        setTabelDetailRetur();
     }
     
     public class Barang{
@@ -482,6 +497,19 @@ public class HalamanTransaksiReturKController implements Initializable {
         cbxStatusReturRiwayat.setOnAction(event -> {
             getDataTabelRiwayatRetur();
         });
+        
+        btnDetail.setDisable(true);
+        imgDetail.setOpacity(0.5F);
+        
+        tabelRiwayatRetur.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                btnDetail.setDisable(false);
+                imgDetail.setOpacity(1F);
+            } else {
+                btnDetail.setDisable(true);
+                imgDetail.setOpacity(0.5F);
+            }
+        });
     }
     
     private void setTabelRiwayatRetur(){
@@ -531,6 +559,13 @@ public class HalamanTransaksiReturKController implements Initializable {
                         colTerakhir = this;
                     });
                 }
+            }
+        });
+        
+        tabelRiwayatRetur.setOnMouseClicked(event -> {
+            Retur retur = tabelRiwayatRetur.getSelectionModel().getSelectedItem();
+            if (retur != null) {
+                idReturTerpilih = retur.getIdRetur();
             }
         });
     }
@@ -630,7 +665,7 @@ public class HalamanTransaksiReturKController implements Initializable {
 
                            statementKonfirmasi.close();
                            getDataTabelRiwayatRetur();
-                       } catch (Exception e) {
+                       } catch (SQLException e) {
                            e.printStackTrace();
                        } 
                    });
@@ -645,7 +680,7 @@ public class HalamanTransaksiReturKController implements Initializable {
 
                            statementTolak.close();
                            getDataTabelRiwayatRetur();
-                       } catch (Exception e) {
+                       } catch (SQLException e) {
                            e.printStackTrace();
                        } 
                    });
@@ -660,5 +695,70 @@ public class HalamanTransaksiReturKController implements Initializable {
             e.printStackTrace();
         }
         tabelRiwayatRetur.setItems(listRiwayatRetur);
+    }
+    
+    //DETAIL RETUR
+    public class DetailRetur{
+        String namaBarang, jumlahBarang, subtotal;
+
+        public DetailRetur(String namaBarang, String jumlahBarang, String subtotal) {
+            this.namaBarang = namaBarang;this.jumlahBarang = jumlahBarang;this.subtotal = subtotal;
+        }
+        public String getNamaBarang() {return namaBarang;}
+        public String getJumlahBarang() {return jumlahBarang;}
+        public String getSubtotal() {return subtotal;}
+    }
+    
+    private void setTabelDetailRetur(){
+        colNamaBarangDetailRetur.setCellValueFactory(new PropertyValueFactory<>("namaBarang"));
+        colJumlahBarangDetailRetur.setCellValueFactory(new PropertyValueFactory<>("jumlahBarang"));
+        colSubtotalDetailRetur.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+    }
+    
+    @FXML
+    private void bukaDetailRetur(){
+        Session.setShowPane(paneDetailRetur);
+        btnDetail.setDisable(true);
+        imgDetail.setOpacity(0.5F);
+        
+        listDetailRetur.clear();
+        try {
+            String query = "SELECT brg.merek AS nama_barang, dr.jumlah AS jumlah_barang, "
+            + "dr.subtotal AS subtotal, tr.alasan_retur AS alasan\n" +
+            "FROM detail_retur dr\n" +
+            "JOIN barang brg ON brg.id_barang = dr.id_barang\n" +
+            "JOIN transaksi_retur tr ON tr.id_retur = dr.id_retur\n" +
+            "WHERE dr.id_retur = ?"
+            + "ORDER BY dr.jumlah ASC";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, idReturTerpilih);
+            ResultSet result = statement.executeQuery();
+            
+            if (result.next()) {
+                String catatan = result.getString("alasan");
+                txtAAlasanDetailRetur.setText(catatan);
+
+                do {
+                    String namaBarang = result.getString("nama_barang");
+                    String jumlahBarang = result.getString("jumlah_barang");
+                    String subtotal = Session.convertIntToRupiah(result.getInt("subtotal"));
+
+                    DetailRetur detailRetur = new DetailRetur(namaBarang, jumlahBarang, subtotal);
+                    listDetailRetur.add(detailRetur);
+                } while (result.next());
+            }
+            
+            result.close();
+            statement.close();
+            
+            tabelDetailRetur.setItems(listDetailRetur);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void tutupDetailRetur(){
+        Session.setHidePane(paneDetailRetur);
     }
 }

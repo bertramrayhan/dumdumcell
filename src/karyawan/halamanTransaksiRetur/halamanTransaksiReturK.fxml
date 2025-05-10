@@ -165,12 +165,12 @@
                               <TableColumn fx:id="colAksi" editable="false" prefWidth="120.0" sortable="false" text="Aksi" />
                            </columns>
                         </TableView>
-                        <Button fx:id="btnDetail" alignment="BASELINE_LEFT" layoutX="19.0" layoutY="140.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-width: 2; -fx-border-radius: 5;" text="Detail">
+                        <Button fx:id="btnDetail" alignment="BASELINE_LEFT" disable="true" layoutX="19.0" layoutY="140.0" mnemonicParsing="false" onAction="#bukaDetailRetur" prefHeight="35.0" prefWidth="115.0" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-width: 2; -fx-border-radius: 5;" text="Detail">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <ImageView fx:id="imgDetail" fitHeight="28.0" fitWidth="28.0" layoutX="98.0" layoutY="144.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgDetail" fitHeight="28.0" fitWidth="28.0" layoutX="98.0" layoutY="144.0" mouseTransparent="true" opacity="0.5" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../assets/icons/info28px.png" />
                            </image>
@@ -222,6 +222,38 @@
                               <Font name="System Bold" size="26.0" />
                            </font>
                         </Label>
+                        <AnchorPane id="AnchorPane" fx:id="paneDetailRetur" layoutX="104.0" layoutY="10.0" mouseTransparent="true" prefHeight="512.0" prefWidth="792.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" stylesheets="@../../main/table2.css" visible="false">
+                           <children>
+                              <TableView fx:id="tabelDetailRetur" layoutX="8.0" layoutY="47.0" prefHeight="288.0" prefWidth="776.0">
+                                 <columns>
+                                    <TableColumn fx:id="colNamaBarangDetailRetur" editable="false" prefWidth="75.0" sortable="false" text="Nama Barang" />
+                                    <TableColumn fx:id="colJumlahBarangDetailRetur" editable="false" prefWidth="75.0" sortable="false" text="Jumlah Barang" />
+                                    <TableColumn fx:id="colSubtotalDetailRetur" editable="false" prefWidth="75.0" sortable="false" text="Subtotal" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <Label fx:id="btnTutup" layoutX="759.0" layoutY="1.0" onMouseClicked="#tutupDetailRetur" text="X" textFill="#023e8a">
+                                 <font>
+                                    <Font name="System Bold" size="34.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                              <TextArea fx:id="txtAAlasanDetailRetur" editable="false" layoutX="8.0" layoutY="400.0" prefHeight="100.0" prefWidth="776.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 2;">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </TextArea>
+                              <Label layoutX="8.0" layoutY="360.0" text="Alasan Retur" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="22.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
                      </children></AnchorPane>
                </content>
             </Tab>
