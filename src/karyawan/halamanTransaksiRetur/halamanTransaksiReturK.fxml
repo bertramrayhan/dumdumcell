@@ -14,6 +14,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanTransaksiRetur.HalamanTransaksiReturKController">
@@ -88,9 +89,9 @@
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="txtAKeterangan" layoutX="20.0" layoutY="226.0" prefHeight="55.0" prefWidth="893.0">
+                              <TextArea fx:id="txtAAlasanRetur" layoutX="20.0" layoutY="226.0" prefHeight="55.0" prefWidth="893.0">
                                  <font>
-                                    <Font name="System Bold" size="14.0" />
+                                    <Font name="System Bold" size="17.0" />
                                  </font></TextArea>
                               <ComboBox fx:id="cbxIdTransaksi" layoutX="208.0" layoutY="129.0" onAction="#getDataTabelDetailBarang" prefHeight="32.0" prefWidth="200.0" style="-fx-background-color: white; -fx-font-size: 15px; -fx-font-weight: bold;" />
                            </children>
@@ -115,12 +116,12 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Button fx:id="btnProses" layoutX="823.0" layoutY="326.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="117.0" style="-fx-font-size: 18px;" styleClass="btnKonfirmasi" stylesheets="@../../main/styles.css" text="Proses" textFill="WHITE">
+                        <Button fx:id="btnProses" layoutX="823.0" layoutY="326.0" mnemonicParsing="false" onMouseClicked="#prosesRetur" prefHeight="48.0" prefWidth="117.0" style="-fx-font-size: 18px;" styleClass="btnKonfirmasi" stylesheets="@../../main/styles.css" text="Proses" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnBatal" layoutX="823.0" layoutY="388.0" mnemonicParsing="false" onAction="#getDataTabelDetailBarang" prefHeight="48.0" prefWidth="117.0" style="-fx-font-size: 18px;" styleClass="btnBatal" stylesheets="@../../main/styles.css" text="Batal" textFill="WHITE">
+                        <Button fx:id="btnBatal" layoutX="823.0" layoutY="388.0" mnemonicParsing="false" onAction="#batalRetur" prefHeight="48.0" prefWidth="117.0" style="-fx-font-size: 18px;" styleClass="btnBatal" stylesheets="@../../main/styles.css" text="Batal" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -135,13 +136,93 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Button>
+                        <StackPane fx:id="panePesan" layoutX="320.0" layoutY="550.0" opacity="0.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;">
+                           <children>
+                              <Label fx:id="lblPesan" alignment="CENTER" prefWidth="370.0" text="Username atau Password salah" textAlignment="CENTER" textFill="#ffebee" wrapText="true">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </StackPane>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab style="-fx-font-size: 15;" text="Riwayat Retur">
+            <Tab onSelectionChanged="#getDataTabelRiwayatRetur" style="-fx-font-size: 15;" text="Riwayat Retur">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../../main/table2.css">
+                     <children>
+                        <TableView fx:id="tabelRiwayatRetur" layoutX="19.0" layoutY="185.0" prefHeight="434.0" prefWidth="947.0">
+                           <columns>
+                              <TableColumn fx:id="colKaryawan" editable="false" prefWidth="135.0" sortable="false" text="Karyawan" />
+                              <TableColumn fx:id="colTanggal" editable="false" prefWidth="172.0" sortable="false" text="Tanggal" />
+                              <TableColumn fx:id="colJenisRetur" editable="false" prefWidth="100.0" sortable="false" text="Jenis Retur" />
+                              <TableColumn fx:id="colIdTransaksi" editable="false" prefWidth="105.0" sortable="false" text="Id Transaksi" />
+                              <TableColumn fx:id="colTipePengembalian" editable="false" prefWidth="115.0" sortable="false" text="Pengembalian" />
+                              <TableColumn fx:id="colTotalRetur" editable="false" prefWidth="99.0" sortable="false" text="Total Retur" />
+                              <TableColumn fx:id="colStatusRetur" editable="false" prefWidth="95.0" sortable="false" text="Status Retur" />
+                              <TableColumn fx:id="colAksi" editable="false" prefWidth="120.0" sortable="false" text="Aksi" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnDetail" alignment="BASELINE_LEFT" layoutX="19.0" layoutY="140.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-width: 2; -fx-border-radius: 5;" text="Detail">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <ImageView fx:id="imgDetail" fitHeight="28.0" fitWidth="28.0" layoutX="98.0" layoutY="144.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/icons/info28px.png" />
+                           </image>
+                        </ImageView>
+                        <ChoiceBox fx:id="cbxJenisReturRiwayat" layoutX="19.0" layoutY="60.0" prefHeight="31.0" prefWidth="148.0" style="-fx-background-color: white; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-background-radius: 5; -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ChoiceBox>
+                        <Label layoutX="19.0" layoutY="28.0" text="Jenis Retur">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="cbxTipePengembalianRiwayat" layoutX="200.0" layoutY="60.0" prefHeight="31.0" prefWidth="148.0" style="-fx-background-color: white; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-background-radius: 5; -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ChoiceBox>
+                        <Label layoutX="200.0" layoutY="28.0" text="Tipe Pengembalian">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="cbxStatusReturRiwayat" layoutX="381.0" layoutY="60.0" prefHeight="31.0" prefWidth="148.0" style="-fx-background-color: white; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-background-radius: 5; -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ChoiceBox>
+                        <Label layoutX="381.0" layoutY="28.0" text="Status Retur">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="dtPTanggalAwalRiwayat" layoutX="562.0" layoutY="60.0" onAction="#getDataTabelRiwayatRetur" prefHeight="31.0" prefWidth="148.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #02045e;" />
+                        <Label layoutX="562.0" layoutY="28.0" text="Tanggal Awal">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="dtPTanggalAkhirRiwayat" layoutX="818.0" layoutY="60.0" onAction="#getDataTabelRiwayatRetur" prefHeight="31.0" prefWidth="148.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #02045e;" />
+                        <Label layoutX="818.0" layoutY="28.0" text="Tanggal Akhir">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="755.0" layoutY="55.0" text="-">
+                           <font>
+                              <Font name="System Bold" size="26.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
                </content>
             </Tab>
          </tabs>

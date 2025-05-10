@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -16,28 +17,47 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanTransaksiReturKController implements Initializable {
 
+    @FXML private StackPane panePesan;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
     @FXML private ChoiceBox<String> cbxJenisTransaksi, cbxTipePengembalian;
     @FXML private ComboBox<String> cbxIdTransaksi;
-    @FXML private TextArea txtAKeterangan;
+    @FXML private TextArea txtAAlasanRetur;
     @FXML private TableView<Barang> tabelDetailBarang;
     @FXML private TableColumn<Barang, String> colNamaBarang, colSubtotal;
     @FXML private TableColumn<Barang, Integer> colJumlahBarang;
-    @FXML private Label lblTotalRetur;
-    @FXML private Button btnEdit, btnHapus;
+    @FXML private Label lblTotalRetur, lblPesan;
+    @FXML private Button btnEdit, btnHapus, btnProses;
 
     private ObservableList<Barang> listDetailBarang = FXCollections.observableArrayList();
+    
+    //RIWAYAT RETUR
+    @FXML private ChoiceBox<String> cbxJenisReturRiwayat, cbxTipePengembalianRiwayat, cbxStatusReturRiwayat;
+    @FXML private DatePicker dtPTanggalAwalRiwayat, dtPTanggalAkhirRiwayat;
+    @FXML private Button btnDetail;
+    @FXML private TableView<Retur> tabelRiwayatRetur;
+    @FXML private TableColumn<Retur, String> colKaryawan, colTanggal, colJenisRetur,colIdTransaksi, colTotalRetur, colTipePengembalian; 
+    @FXML private TableColumn<Retur, String> colStatusRetur; 
+    @FXML private TableColumn<Retur, HBox> colAksi; 
+    @FXML private TableRow<Retur> colTerakhir;
+    
+    private ObservableList<Retur> listRiwayatRetur = FXCollections.observableArrayList();
     
     Barang barangTerpilih;
     String idBarangTerpilih;
@@ -47,6 +67,10 @@ public class HalamanTransaksiReturKController implements Initializable {
         setKomponen();
         setTabelDetailBarang();
         getIdTransaksi();
+        
+        //RIWAYAT RETUR
+        setKomponenRiwayatRetur();
+        setTabelRiwayatRetur();
     }
     
     public class Barang{
@@ -120,6 +144,34 @@ public class HalamanTransaksiReturKController implements Initializable {
         cbxTipePengembalian.setValue("Uang");
         
         cbxIdTransaksi.setVisibleRowCount(15);
+        
+        btnEdit.setOnAction(event -> {
+            // Pastikan ada row yang dipilih
+            Barang selectedBarang = tabelDetailBarang.getSelectionModel().getSelectedItem();
+            if (selectedBarang != null) {
+                // Trigger edit mode untuk cell yang dipilih
+                tabelDetailBarang.edit(tabelDetailBarang.getSelectionModel().getSelectedIndex(), colJumlahBarang);
+            }
+        });
+        
+        btnHapus.setOnAction(event -> {
+            listDetailBarang.remove(barangTerpilih);
+            tabelDetailBarang.setItems(listDetailBarang);
+            setTotalRetur();
+        });   
+        
+        cbxJenisTransaksi.setOnAction(event -> {
+           getIdTransaksi();
+           cbxTipePengembalian.getItems().clear();
+           if(cbxJenisTransaksi.getValue().equals("Transaksi Jual")){
+                cbxTipePengembalian.getItems().add("Uang");
+                cbxTipePengembalian.getItems().add("Barang");
+                cbxTipePengembalian.setValue("Uang");
+           }else{
+                cbxTipePengembalian.getItems().add("Barang");
+                cbxTipePengembalian.setValue("Barang");
+           }
+        });
     }
     
     private void setTabelDetailBarang(){
@@ -196,21 +248,7 @@ public class HalamanTransaksiReturKController implements Initializable {
                 }
             };
         });
-        
-        btnEdit.setOnAction(event -> {
-            // Pastikan ada row yang dipilih
-            Barang selectedBarang = tabelDetailBarang.getSelectionModel().getSelectedItem();
-            if (selectedBarang != null) {
-                // Trigger edit mode untuk cell yang dipilih
-                tabelDetailBarang.edit(tabelDetailBarang.getSelectionModel().getSelectedIndex(), colJumlahBarang);
-            }
-        });
-        
-        btnHapus.setOnAction(event -> {
-            listDetailBarang.remove(barangTerpilih);
-            tabelDetailBarang.setItems(listDetailBarang);
-            setTotalRetur();
-        });        
+            
     }
     
     @FXML
@@ -300,6 +338,12 @@ public class HalamanTransaksiReturKController implements Initializable {
         setTotalRetur();
     }
     
+    @FXML
+    private void batalRetur(){
+        getDataTabelDetailBarang();
+        txtAAlasanRetur.setText("");
+    }
+    
     private void setTotalRetur(){
         int totalRetur = 0;
         for(Barang brg : listDetailBarang){
@@ -309,4 +353,312 @@ public class HalamanTransaksiReturKController implements Initializable {
         lblTotalRetur.setText(Session.convertIntToRupiah(totalRetur));
     }
     
+    @FXML
+    private void prosesRetur(){
+        String idTransaksi = cbxIdTransaksi.getValue();
+        String jenisTransaksi = cbxJenisTransaksi.getValue();
+        String newIdRetur = Session.membuatIdBaru("transaksi_retur", "id_retur", "rtr", 3);
+        String pengembalian = cbxTipePengembalian.getValue();
+        String alasanRetur = txtAAlasanRetur.getText();
+        String totalRetur = lblTotalRetur.getText();
+        
+        try {
+            String query = "INSERT INTO transaksi_retur VALUES (?,?,?,?,?,NOW(),?,?,?,?)";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, newIdRetur);
+            statement.setString(2, Session.getIdAdmin());
+            statement.setString(3, jenisTransaksi);
+            if(jenisTransaksi.equals("Transaksi Jual")){
+                statement.setString(4, idTransaksi);
+                statement.setNull(5, java.sql.Types.CHAR);
+            }else{
+                statement.setNull(4, java.sql.Types.CHAR);
+                statement.setString(5, idTransaksi);
+            }
+            statement.setInt(6, Session.convertRupiahToInt(totalRetur));
+            statement.setString(7, pengembalian);
+            statement.setString(8, alasanRetur);
+            statement.setString(9, "Diproses");
+            
+            statement.executeUpdate();
+            
+            for(Barang barang : listDetailBarang){
+                query = "INSERT INTO detail_retur VALUES (?,?,?,?)";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, newIdRetur);
+                statement.setString(2, barang.getIdBarang());
+                statement.setInt(3, barang.getJumlahBarang());
+                statement.setInt(4, Session.convertRupiahToInt(barang.getSubtotal()));
+                
+                statement.executeUpdate();
+            }
+            
+            getIdTransaksi();
+            Session.animasiPanePesan(false, panePesan, lblPesan, "Retur berhasil diproses", btnProses);
+            txtAAlasanRetur.setText("");
+            
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //RIWAYAT RETUR
+    public class Retur{
+        String idRetur, karyawan, tanggal, jenisRetur, idTransaksi, totalRetur, tipePengembalian, statusRetur;
+        HBox aksi;
+        public Retur(String idRetur, String karyawan, String tanggal, String jenisRetur, String idTransaksi, String tipePengembalian, String totalRetur, String statusRetur, HBox aksi) {
+            this.idRetur = idRetur;this.karyawan = karyawan;this.tanggal = tanggal;this.jenisRetur = jenisRetur;this.idTransaksi = idTransaksi;this.totalRetur = totalRetur;this.tipePengembalian = tipePengembalian;this.statusRetur = statusRetur;this.aksi = aksi;
+        }
+        public String getIdRetur() {return idRetur;}
+        public String getKaryawan() {return karyawan;}
+        public String getTanggal() {return tanggal;}
+        public String getJenisRetur() {return jenisRetur;}
+        public String getIdTransaksi() {return idTransaksi;}
+        public String getTotalRetur() {return totalRetur;}
+        public String getTipePengembalian() {return tipePengembalian;}
+        public String getStatusRetur() {return statusRetur;}
+        public HBox getAksi() {return aksi;}
+        public void setAksi(HBox aksi) {this.aksi = aksi;}
+    }
+    
+    private void setKomponenRiwayatRetur(){
+        cbxJenisReturRiwayat.getItems().addAll("Semua", "Transaksi Jual", "Transaksi Beli");
+        cbxJenisReturRiwayat.setValue("Semua");
+        cbxTipePengembalianRiwayat.getItems().addAll("Semua", "Uang", "Barang");
+        cbxTipePengembalianRiwayat.setValue("Semua");
+        cbxStatusReturRiwayat.getItems().addAll("Semua", "Selesai", "Diproses", "Ditolak");
+        cbxStatusReturRiwayat.setValue("Semua");
+        
+        dtPTanggalAwalRiwayat.getEditor().setDisable(true);
+        dtPTanggalAwalRiwayat.getEditor().setOpacity(1);
+        dtPTanggalAkhirRiwayat.getEditor().setDisable(true);
+        dtPTanggalAkhirRiwayat.getEditor().setOpacity(1);
+        LocalDate hariIni = LocalDate.now();
+        
+        // Listener untuk dtPTanggalAwalRiwayat
+        dtPTanggalAwalRiwayat.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null) {
+                dtPTanggalAkhirRiwayat.setDayCellFactory(picker -> new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        boolean isDisabled = empty || item.isBefore(newDate) || item.isAfter(hariIni);
+                        setDisable(isDisabled);
+                        if (isDisabled) {
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                });
+            }
+        });
+
+        // Listener untuk dtPTanggalAkhirRiwayat
+        dtPTanggalAkhirRiwayat.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null) {
+                dtPTanggalAwalRiwayat.setDayCellFactory(picker -> new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        boolean isDisabled = empty || item.isAfter(newDate) || item.isAfter(hariIni);
+                        setDisable(isDisabled);
+                        if (isDisabled) {
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                });
+            }
+        });
+        
+        dtPTanggalAwalRiwayat.setValue(hariIni);
+        dtPTanggalAkhirRiwayat.setValue(hariIni);
+        
+        cbxJenisReturRiwayat.setOnAction(event -> {
+            getDataTabelRiwayatRetur();
+        });
+        cbxTipePengembalianRiwayat.setOnAction(event -> {
+            getDataTabelRiwayatRetur();
+        });
+        cbxStatusReturRiwayat.setOnAction(event -> {
+            getDataTabelRiwayatRetur();
+        });
+    }
+    
+    private void setTabelRiwayatRetur(){
+        colKaryawan.setCellValueFactory(new PropertyValueFactory<>("karyawan"));
+        colTanggal.setCellValueFactory(new PropertyValueFactory<>("tanggal"));
+        colJenisRetur.setCellValueFactory(new PropertyValueFactory<>("jenisRetur"));
+        colIdTransaksi.setCellValueFactory(new PropertyValueFactory<>("idTransaksi"));
+        colTipePengembalian.setCellValueFactory(new PropertyValueFactory<>("tipePengembalian"));
+        colTotalRetur.setCellValueFactory(new PropertyValueFactory<>("totalRetur"));
+        colStatusRetur.setCellValueFactory(new PropertyValueFactory<>("statusRetur"));
+        colAksi.setCellValueFactory(new PropertyValueFactory<>("aksi"));
+        
+        tabelRiwayatRetur.setRowFactory(tv -> new TableRow<Retur>() {
+            @Override
+            protected void updateItem(Retur item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setStyle("");
+                    setOnMousePressed(null);
+                    setOnMouseReleased(null);
+                } else {
+                    String status = item.getStatusRetur();
+
+                    // Set default background color according to status
+                    if (status.equals("Ditolak")) {
+                        setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
+                    } else if (status.equals("Selesai")) {
+                        setStyle("-fx-background-color: #ccffcc; -fx-text-fill: black;");
+                    }
+                    
+                    // Add mouse press/release listeners to change styles on press
+                    setOnMousePressed(event -> {
+                        if(colTerakhir != null){
+                            if(colTerakhir.getItem().getStatusRetur().equals("Ditolak")){
+                                colTerakhir.setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
+                            }else if(colTerakhir.getItem().getStatusRetur().equals("Selesai")){
+                                colTerakhir.setStyle("-fx-background-color: #ccffcc; -fx-text-fill: black;");
+                            }
+                        }
+                        
+                        if (status.equals("Ditolak")) {
+                            setStyle("-fx-background-color: #e57373; -fx-text-fill: black;");
+                        } else if (status.equals("Selesai")) {
+                            setStyle("-fx-background-color: #81c784; -fx-text-fill: black;");
+                        }
+                        colTerakhir = this;
+                    });
+                }
+            }
+        });
+    }
+    
+    @FXML
+    private void getDataTabelRiwayatRetur() {
+        colTerakhir = null;
+        listRiwayatRetur.clear();
+        String jenisRetur = cbxJenisReturRiwayat.getValue();
+        String tipePengembalian = cbxTipePengembalianRiwayat.getValue();
+        String statusRetur = cbxStatusReturRiwayat.getValue();
+        String tanggalAwal = dtPTanggalAwalRiwayat.getValue().toString();
+        String tanggalAkhir = dtPTanggalAkhirRiwayat.getValue().toString();
+        
+        String query = "SELECT tr.id_retur, adm.username, tr.id_transaksi_jual, tr.id_transaksi_beli,\n" +
+        "DATE(tr.tanggal_retur) AS tanggal, TIME(tr.tanggal_retur) AS waktu,\n" +
+        "tr.total_retur, tr.pengembalian, tr.status_retur, tr.jenis_retur\n" +
+        "FROM transaksi_retur tr\n" +
+        "JOIN admin adm ON adm.id_admin = tr.id_admin\n" +
+        "WHERE DATE(tr.tanggal_retur) BETWEEN ? AND ?\n";
+        
+        query += "AND tr.pengembalian LIKE ? AND tr.status_retur LIKE ? AND tr.jenis_retur LIKE ?";
+
+        try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
+            statement.setString(1, tanggalAwal);
+            statement.setString(2, tanggalAkhir);
+            statement.setString(3, tipePengembalian.equals("Semua") ? "%%" : "%" + tipePengembalian + "%");
+            statement.setString(4, statusRetur.equals("Semua") ? "%%" : "%" + statusRetur + "%");
+            statement.setString(5, jenisRetur.equals("Semua") ? "%%" : "%" + jenisRetur + "%");
+
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+               String idRetur = result.getString("id_retur");
+               String karyawan = result.getString("adm.username");
+               String idTransaksiJual = result.getString("id_transaksi_jual");
+               String idTransaksiBeli = result.getString("id_transaksi_beli");
+               String idTransaksi = "";
+               if(idTransaksiJual != null){
+                   idTransaksi = idTransaksiJual;
+               }else{
+                   idTransaksi = idTransaksiBeli;
+               }
+               String tanggal = Session.convertTanggalIndo(result.getString("tanggal")) + " " + result.getString("waktu");
+               String totalRetur = Session.convertIntToRupiah(result.getInt("total_retur"));
+               String pengembalian = result.getString("pengembalian");
+               String status = result.getString("status_retur");
+               String jenis = result.getString("jenis_retur");
+
+               HBox aksiBox = new HBox(10);
+               aksiBox.setAlignment(Pos.CENTER);
+               if(status.equals("Diproses")){
+                   Button konfirmasi = new Button();
+                   konfirmasi.setStyle(
+                       "-fx-background-color: #4CAF50;" +
+                       "-fx-text-fill: white;" +
+                       "-fx-font-weight: bold;" +
+                       "-fx-font-size: 11px;" +
+                       "-fx-pref-width: 26px;" +
+                       "-fx-pref-height: 26px;" +
+                       "-fx-background-radius: 5px;" +
+                       "-fx-cursor: hand;" +
+                       "-fx-padding: 0;"
+                   );
+
+                   Button tolak = new Button();
+                   tolak.setStyle(
+                       "-fx-background-color: #F44336;" +
+                       "-fx-text-fill: white;" +               
+                       "-fx-font-weight: bold;" +
+                       "-fx-font-size: 11px;" +
+                       "-fx-pref-width: 26px;" +
+                       "-fx-pref-height: 26px;" +
+                       "-fx-background-radius: 5px;" +
+                       "-fx-cursor: hand;" +
+                       "-fx-padding: 0;"
+                   );
+
+                   ImageView iconKonfirmasi = new ImageView(new Image(getClass().getResource("/assets/icons/v16px.png").toExternalForm()));
+                   iconKonfirmasi.setFitHeight(16);
+                   iconKonfirmasi.setFitWidth(16);
+                   konfirmasi.setGraphic(iconKonfirmasi);
+
+                   ImageView iconTolak = new ImageView(new Image(getClass().getResource("/assets/icons/x16px.png").toExternalForm()));
+                   iconTolak.setFitHeight(16);
+                   iconTolak.setFitWidth(16);
+                   tolak.setGraphic(iconTolak);
+
+                   aksiBox.getChildren().addAll(konfirmasi, tolak);
+
+                   konfirmasi.setOnAction(event -> {
+                       try {
+                           String queryKonfirmasi = "UPDATE transaksi_retur SET status_retur=? WHERE id_retur=?";
+                           PreparedStatement statementKonfirmasi = Koneksi.getCon().prepareStatement(queryKonfirmasi);
+                           statementKonfirmasi.setString(1, "Selesai");
+                           statementKonfirmasi.setString(2, idRetur);
+                           statementKonfirmasi.executeUpdate();
+
+                           statementKonfirmasi.close();
+                           getDataTabelRiwayatRetur();
+                       } catch (Exception e) {
+                           e.printStackTrace();
+                       } 
+                   });
+
+                   tolak.setOnAction(event -> {
+                       try {
+                           String queryTolak = "UPDATE transaksi_retur SET status_retur=? WHERE id_retur=?";
+                           PreparedStatement statementTolak = Koneksi.getCon().prepareStatement(queryTolak);
+                           statementTolak.setString(1, "Ditolak");
+                           statementTolak.setString(2, idRetur);
+                           statementTolak.executeUpdate();
+
+                           statementTolak.close();
+                           getDataTabelRiwayatRetur();
+                       } catch (Exception e) {
+                           e.printStackTrace();
+                       } 
+                   });
+               }
+               Retur retur = new Retur(idRetur, karyawan, tanggal, jenis, idTransaksi, pengembalian, totalRetur, status, aksiBox);
+               listRiwayatRetur.add(retur);
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tabelRiwayatRetur.setItems(listRiwayatRetur);
+    }
 }
