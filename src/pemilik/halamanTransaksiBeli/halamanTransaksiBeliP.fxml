@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanTransaksiBeli.HalamanTransaksiBeliPController">
    <children>
       <TableView layoutX="29.0" layoutY="446.0" prefHeight="296.0" prefWidth="962.0" stylesheets="@../../main/table2.css">
         <columns>

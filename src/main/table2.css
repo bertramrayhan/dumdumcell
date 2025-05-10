@@ -20,6 +20,7 @@
 .table-view .table-cell {
     -fx-border-color: black; /* Warna garis */
     -fx-border-width: 0 1px 0 0; /* Garis di sisi kanan setiap sel */
+    -fx-alignment: CENTER_LEFT;
 }
 
 /* Menambahkan garis horizontal di antara baris */
