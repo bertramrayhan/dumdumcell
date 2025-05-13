@@ -79,6 +79,7 @@ public class HalamanJualKController implements Initializable {
     
     private void setTextFieldNumeric(){
         Session.setTextFieldNumeric(txtBayar);
+        Session.setTextFieldNumeric(txtBarcode);
         Session.setTextFieldNumeric(txtBarcodeQty);
         Session.setTextFieldNumeric(txtManualQty);
     }
@@ -168,7 +169,7 @@ public class HalamanJualKController implements Initializable {
             }
 
             if (!produkAda && cekStokBarangCukup(isBarcode ? "" : identifier, isBarcode ? identifier : "", qty)) {
-                String query = "SELECT b.barcode, b.merek, b.harga_jual\n" +
+                String query = "SELECT b.id_barang, b.barcode, b.merek, b.harga_jual\n" +
                                "FROM barang b " +
                                "WHERE " + (isBarcode ? "b.barcode = ? " : "b.merek = ? ") +
                                "AND b.exp > DATE(NOW())";
@@ -178,6 +179,7 @@ public class HalamanJualKController implements Initializable {
                 ResultSet result = statement.executeQuery();
 
                 if (result.next()) {
+                    String idBarang = result.getString("id_barang");
                     String barcode = result.getString("barcode");
                     String merek = result.getString("merek");
                     int harga = result.getInt("harga_jual");
@@ -199,7 +201,7 @@ public class HalamanJualKController implements Initializable {
                     iconHapus.setFitWidth(16);
                     batal.setGraphic(iconHapus);
                     
-                    Barang barang = new Barang(barcode, merek, harga, qty, batal);
+                    Barang barang = new Barang(idBarang, barcode, merek, harga, qty, batal);
 
                     batal.setOnAction(e -> {
                         listBarang.remove(barang);
@@ -240,17 +242,16 @@ public class HalamanJualKController implements Initializable {
         idTransaksiBaru = Session.membuatIdBaru("transaksi_jual", "id_transaksi_jual", "jual", 4);
 
         try {
-            // Check if lblTotal is empty and set default value
-            int subtotal = lblSubtotal.getText().isEmpty() ? 0 : Session.convertRupiahToInt(lblSubtotal.getText());
-            int total = lblTotal.getText().isEmpty() ? 0 : Session.convertRupiahToInt(lblTotal.getText());
+            int subtotal = Session.convertRupiahToInt(lblSubtotal.getText());
+            int total = Session.convertRupiahToInt(lblTotal.getText());
 
             String query = "INSERT INTO transaksi_jual VALUES (?,?,NOW(),?,?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idTransaksiBaru);
             statement.setString(2, Session.getIdAdmin());
-            statement.setString(3, cbxCaraBayar.getValue().toLowerCase());
-            statement.setInt(4, subtotal); // Use the total variable here
-            statement.setInt(5, total); // Use the total variable here
+            statement.setString(3, cbxCaraBayar.getValue());
+            statement.setInt(4, subtotal);
+            statement.setInt(5, total);
             statement.setString(6, getIdDiskon(cbxDiskon.getValue()));
             statement.setInt(7, Session.convertRupiahToInt(lblKembalian.getText()));
             statement.setString(8, txtACatatan.getText().trim());
@@ -261,7 +262,7 @@ public class HalamanJualKController implements Initializable {
                 query = "INSERT INTO detail_transaksi_jual VALUES (?,?,?,?)";
                 statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, idTransaksiBaru);
-                statement.setString(2, getIdBarang(barang.getBarang()));
+                statement.setString(2, barang.getIdBarang());
                 statement.setInt(3, barang.getQty());
                 statement.setInt(4, barang.getQty() * Session.convertRupiahToInt(barang.getHarga()));
                 statement.executeUpdate();
@@ -369,7 +370,6 @@ public class HalamanJualKController implements Initializable {
         }
     }
     
-    @FXML
     private void setCbxProduk(){
         cbxProduk.getItems().clear();
         cbxProduk.setValue(null);
@@ -481,28 +481,6 @@ public class HalamanJualKController implements Initializable {
         return cukup;
     }
         
-    private String getIdBarang(String merek){
-        String idBarang = "";
-        
-        try {
-            String query = "SELECT id_barang FROM barang WHERE merek=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, merek);
-            ResultSet result = statement.executeQuery();
-            
-            if (result.next()) {
-                idBarang = result.getString("id_barang");
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        return idBarang;
-    }
-    
     private int getHargaDiskon(String namaDiskon){
         if(namaDiskon.isEmpty()){
             return 0;

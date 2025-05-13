@@ -4,11 +4,12 @@ import javafx.scene.control.Button;
 import main.Session;
 
 public class Barang{
-    private String barcode, barang, harga, subtotal;
+    private String idBarang, barcode, barang, harga, subtotal;
     private int qty;
     private Button batal;
     
-    public Barang(String barcode, String barang, int harga, int qty, Button batal) {
+    public Barang(String idBarang, String barcode, String barang, int harga, int qty, Button batal) {
+        this.idBarang = idBarang;
         this.barcode = barcode;
         this.barang = barang;
         this.harga = Session.convertIntToRupiah(harga);
@@ -17,6 +18,10 @@ public class Barang{
         this.batal = batal;
     }
 
+    public String getIdBarang() {
+        return idBarang;
+    }
+    
     public String getBarcode() {
         return barcode;
     }

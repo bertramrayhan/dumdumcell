@@ -5,7 +5,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,6 +50,7 @@ public class HalamanUtamaKController implements Initializable {
             }
 
             halamanUtama.getChildren().setAll(cachedPane);
+            //showWithSlideAndFade(cachedPane);
             return;
         }
 
@@ -64,6 +69,7 @@ public class HalamanUtamaKController implements Initializable {
             }
             penyimpananPaneKaryawan.put(pathPane, pane);
             halamanUtama.getChildren().setAll(pane);
+            //showWithSlideAndFade(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -155,5 +161,22 @@ public class HalamanUtamaKController implements Initializable {
         st.setFromY(0);
         st.setToY(1);
         st.play();
+    }
+    
+    private void showWithSlideAndFade(Node node) {
+        node.setOpacity(0);
+        node.setTranslateX(halamanUtama.getWidth());
+
+        FadeTransition fade = new FadeTransition(Duration.millis(300), node);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+
+        TranslateTransition slide = new TranslateTransition(Duration.millis(300), node);
+        slide.setFromX(halamanUtama.getWidth());
+        slide.setToX(0);
+        slide.setInterpolator(Interpolator.EASE_BOTH);
+
+        ParallelTransition combo = new ParallelTransition(fade, slide);
+        combo.play();
     }
 }

@@ -20,7 +20,7 @@ public class HalamanUtamaPController implements Initializable {
     @FXML private StackPane halamanUtama;
     
     @FXML private Pane indikatorBeranda, indikatorKas, indikatorSaldo, indikatorProduk, indikatorSupplier,indikatorDiskon;
-    @FXML private Pane indikatorPresensiPusat, indikatorPresensiCabang, indikatorLaporan;
+    @FXML private Pane indikatorPresensiPusat, indikatorPresensiCabang, indikatorLaporan, indikatorBeli;
     
     @FXML private Button btnBeranda, btnKas, btnSaldo, btnProduk, btnSupplier,btnDiskon;
     @FXML private Button btnPresensiPusat, btnPresensiCabang, btnLaporan;
@@ -74,6 +74,13 @@ public class HalamanUtamaPController implements Initializable {
         animateIndikator(indikatorSaldo);
         loadPane(Session.getPathHalamanSaldoP());
     }
+    
+    @FXML
+    void goToBeli(){
+        resetIndikator();
+        animateIndikator(indikatorBeli);
+        loadPane(Session.getPathHalamanBeliP());
+    }
 
     @FXML
     void goToProduk(){
@@ -121,6 +128,7 @@ public class HalamanUtamaPController implements Initializable {
         indikatorBeranda.setScaleY(0);
         indikatorKas.setScaleY(0);
         indikatorSaldo.setScaleY(0);
+        indikatorBeli.setScaleY(0);
         indikatorProduk.setScaleY(0);
         indikatorSupplier.setScaleY(0);
         indikatorDiskon.setScaleY(0);

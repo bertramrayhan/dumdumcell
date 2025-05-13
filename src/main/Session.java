@@ -54,13 +54,13 @@ public class Session {
     private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
     private static final String pathHalamanKasP = "/karyawan/halamanKas/halamanKasK.fxml";
     private static final String pathHalamanSaldoP = "/karyawan/halmanSaldo/halamanSaldo.fxml";
+    private static final String pathHalamanBeliP = "/pemilik/halamanTransaksiBeli/halamanTransaksiBeliP.fxml";
     private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
     private static final String pathHalamanSupplierP = "/pemilik/halamanSupplier/halamanSupplierP.fxml";
     private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskonP.fxml";
     private static final String pathHalamanPresensiPusatP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
     private static final String pathHalamanPresensiCabangP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
     private static final String pathHalamanLaporanP = "/pemilik/halamanLaporan/halamanLaporanPenjualan.fxml";
-    
     
     public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}
     public static String getIdAdmin() {return idAdmin;}
@@ -74,6 +74,7 @@ public class Session {
     public static String getPathHalamanUtamaP() {return pathHalamanUtamaP;}    
     public static String getPathBerandaP() {return pathBerandaP;}
     public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
+    public static String getPathHalamanBeliP() {return pathHalamanBeliP;}
     public static String getPathHalamanSupplierP() {return pathHalamanSupplierP;}
     public static String getPathHalamanTransaksiAntarCabang() { return pathHalamanTransaksiAntarCabang;};
     public static String getPathHalamanTransaksiRetur() { return pathHalamanTransaksiRetur;};
