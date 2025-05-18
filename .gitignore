@@ -5,6 +5,7 @@
 *.log
 
 *.jasper
+*.xlsx
 
 # BlueJ files
 *.ctxt
