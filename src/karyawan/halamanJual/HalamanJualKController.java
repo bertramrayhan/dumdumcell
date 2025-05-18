@@ -54,7 +54,7 @@ public class HalamanJualKController implements Initializable {
     @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi, btnTutupCetakStruk, btnIyaCetakStruk;
     @FXML private TextArea txtACatatan;
     @FXML private ChoiceBox<String> cbxCaraBayar, cbxKategori, cbxProduk, cbxDiskon;
-    @FXML private TableView tabelBarang;
+    @FXML private TableView<Barang> tabelBarang;
     @FXML private TableColumn<Barang, String> colBarcode, colBarang, colHarga, colSubtotal;
     @FXML private TableColumn<Barang, Integer> colQty;
     @FXML private TableColumn<Barang, Button> colBatal;
@@ -69,7 +69,7 @@ public class HalamanJualKController implements Initializable {
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
     @FXML private Button btnDetail, btnUnduh;
     @FXML private ImageView imgDetail, imgUnduh;
-    @FXML private TableView tabelTransaksi;
+    @FXML private TableView<Transaksi> tabelTransaksi;
     @FXML private TableColumn<Transaksi, String> colKaryawan, colTanggal, colWaktu, colJenisPembayaran, colDiskon, colTotalPembelian, colKembalian;
     static ObservableList<Transaksi> listTransaksi = FXCollections.observableArrayList();
     

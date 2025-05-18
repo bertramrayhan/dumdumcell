@@ -134,7 +134,9 @@ public class HalamanSupplierPController implements Initializable {
 
                 listSupplier.add(new Supplier(idSupplier, namaSupplier, namaToko, kontak, alamat));
             }
-
+            
+             result.close();
+             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -53,7 +53,7 @@ public class HalamanTransaksiReturKController implements Initializable {
     @FXML private DatePicker dtPTanggalAwalRiwayat, dtPTanggalAkhirRiwayat;
     @FXML private Button btnDetail;
     @FXML private TableView<Retur> tabelRiwayatRetur;
-    @FXML private TableColumn<Retur, String> colKaryawan, colTanggal, colJenisRetur,colIdTransaksi, colTotalRetur, colTipePengembalian; 
+    @FXML private TableColumn<Retur, String> colKaryawan, colTanggal, colJenisRetur, colIdTransaksi, colTotalRetur, colTipePengembalian; 
     @FXML private TableColumn<Retur, String> colStatusRetur; 
     @FXML private TableColumn<Retur, HBox> colAksi; 
     @FXML private TableRow<Retur> colTerakhir;
@@ -370,6 +370,11 @@ public class HalamanTransaksiReturKController implements Initializable {
     
     @FXML
     private void prosesRetur(){
+        if(listDetailBarang.isEmpty()){
+            Session.animasiPanePesan(true, panePesan, lblPesan, "Tabel retur kosong", btnProses);
+            return;
+        }
+
         String idTransaksi = cbxIdTransaksi.getValue();
         String jenisTransaksi = cbxJenisTransaksi.getValue();
         String newIdRetur = Session.membuatIdBaru("transaksi_retur", "id_retur", "rtr", 3);

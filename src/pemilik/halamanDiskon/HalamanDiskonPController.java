@@ -165,6 +165,8 @@ public class HalamanDiskonPController implements Initializable {
                 listDiskon.add(new Diskon(idDiskon, namaDiskon, jenisDiskon, tanggalMulai, tanggalBerakhir, status, hargaDiskon));
             }
 
+             result.close();
+             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -21,7 +21,7 @@ public class DetailController implements Initializable {
     private Stage detailTransaksiStage;
     
     @FXML Label btnTutup;
-    @FXML TableView tabelDetailTransaksi;
+    @FXML TableView<DetailTransaksi> tabelDetailTransaksi;
     @FXML TableColumn<DetailTransaksi, String> colNamaBarang, colJumlahBarang, colSubtotal;
     @FXML TextArea txtAreaCatatan;
     

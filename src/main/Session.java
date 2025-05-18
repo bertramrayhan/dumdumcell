@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -48,7 +49,7 @@ public class Session {
     private static final String pathHalamanTransaksiRetur =  "/karyawan/halamanTransaksiRetur/halamanTransaksiReturK.fxml";
     private static final String pathHalamanKasK =  "/karyawan/halamanKas/halamanKasK.fxml";
     private static final String pathHalamanRekap = "/karyawan/halamanRekap/halamanRekapK.fxml";
-    private static final String pathHalamanTransaksiDLL = "/karyawan/halamanTransaksiDLL/halamanTransaksiDLL.fxml";
+    private static final String pathHalamanTransaksiLainLainK = "/karyawan/halamanTransaksiLainLain/halamanTransaksiLainLainK.fxml";
     //PEMILIK
     private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
     private static final String pathBerandaP = "/pemilik/beranda/halamanBerandaP.fxml";
@@ -80,39 +81,14 @@ public class Session {
     public static String getPathHalamanTransaksiRetur() { return pathHalamanTransaksiRetur;};
     public static String getPathHalamanKas() { return pathHalamanKasK;};
     public static String getPathHalamanRekap() { return pathHalamanRekap;};
-    public static String getpathHalamanTransaksiDLL(){ return pathHalamanTransaksiDLL;}; 
-
-    public static String getPathHalamanKasK() {
-        return pathHalamanKasK;
-    }
-
-    public static String getPathHalamanTransaksiDLL() {
-        return pathHalamanTransaksiDLL;
-    }
-
-    public static String getPathHalamanKasP() {
-        return pathHalamanKasP;
-    }
-
-    public static String getPathHalamanSaldoP() {
-        return pathHalamanSaldoP;
-    }
-
-    public static String getPathHalamanDiskonP() {
-        return pathHalamanDiskonP;
-    }
-
-    public static String getPathHalamanPresensiPusatP() {
-        return pathHalamanPresensiPusatP;
-    }
-
-    public static String getPathHalamanPresensiCabangP() {
-        return pathHalamanPresensiCabangP;
-    }
-
-    public static String getPathHalamanLaporanP() {
-        return pathHalamanLaporanP;
-    }
+    public static String getPathHalamanTransaksiLainLainK(){ return pathHalamanTransaksiLainLainK;}; 
+    public static String getPathHalamanKasK() {return pathHalamanKasK;}
+    public static String getPathHalamanKasP() {return pathHalamanKasP;}
+    public static String getPathHalamanSaldoP() {return pathHalamanSaldoP;}
+    public static String getPathHalamanDiskonP() {return pathHalamanDiskonP;}
+    public static String getPathHalamanPresensiPusatP() {return pathHalamanPresensiPusatP;}
+    public static String getPathHalamanPresensiCabangP() {return pathHalamanPresensiCabangP;}
+    public static String getPathHalamanLaporanP() {return pathHalamanLaporanP;}
     
     public static String convertTanggalIndo(String tanggal){
         LocalDate tglExp = LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -261,9 +237,9 @@ public class Session {
         pane.setMouseTransparent(true);
     }
     
-    public static void triggerOnEnter(Runnable action, TextField... textFields) {
-        for (TextField textField : textFields) {
-            textField.setOnKeyPressed(event -> {
+    public static void triggerOnEnter(Runnable action, TextInputControl... inputs) {
+        for (TextInputControl input : inputs) {
+            input.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ENTER) {
                     action.run();
                 }
@@ -320,5 +296,31 @@ public class Session {
         }
 
         return newId;
+    }
+    
+    public static String getId(String namaTabel, String namaKolomId, String namaKolomKriteria, String nilaiKriteria) {
+        String id = null;
+
+        try {
+            String query = String.format("SELECT %s FROM %s WHERE %s = ?", namaKolomId, namaTabel, namaKolomKriteria);
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, nilaiKriteria);
+
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                id = result.getString(namaKolomId);
+            } else {
+                throw new RuntimeException("Data dengan " + namaKolomKriteria + " = '" + nilaiKriteria + "' tidak ditemukan di tabel " + namaTabel);
+            }
+
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Terjadi kesalahan saat mengambil ID: " + e.getMessage());
+        }
+
+        return id;
     }
 }

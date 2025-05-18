@@ -84,7 +84,9 @@ public class stokManager {
 
                 listStok.add(new Stok(idBarang, namaBarang, kategori, merek, exp, hargaJual, barcode, stok));
             }
-
+             
+             result.close();
+             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

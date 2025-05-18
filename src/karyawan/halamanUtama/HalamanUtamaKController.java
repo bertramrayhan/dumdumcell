@@ -141,7 +141,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToDanLainLain(){
         resetIndikator();
         animateIndikator(indikatorDanLainLain);
-        loadPane(Session.getpathHalamanTransaksiDLL());
+        loadPane(Session.getPathHalamanTransaksiLainLainK());
     }
     
     private void resetIndikator() {
