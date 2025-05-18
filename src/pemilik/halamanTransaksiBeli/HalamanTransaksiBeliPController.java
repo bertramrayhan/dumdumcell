@@ -45,7 +45,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
     @FXML private TextArea txtACatatan;
     @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual;
     @FXML private Button btnBatalTransaksi, btnKonfirmasiTransaksi;
-    @FXML private ChoiceBox<String> cbxKategori, cbxCaraBayar;
+    @FXML private ChoiceBox<String> cbxKategori, cbxSupplier, cbxCaraBayar;
     @FXML private ComboBox<String> cbxProduk;
     @FXML private TableView<Barang> tabelBarang;
     @FXML private TableColumn<Barang, String> colBarcode, colBarang, colSubtotal;
@@ -315,26 +315,23 @@ public class HalamanTransaksiBeliPController implements Initializable {
                 cbxKategori.setValue(cbxKategori.getItems().get(0));
             }
             
-            //combo box produk
-            query = "SELECT merek FROM barang ";
-            if (!cbxKategori.getValue().equals("Semua")) {
-                query += "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) ";
-            }
-            
+            //combo box supplier
+            query = "SELECT nama_supplier, nama_toko FROM supplier";
             statement = Koneksi.getCon().prepareStatement(query);
-            if (!cbxKategori.getValue().equals("Semua")) {
-                statement.setString(1, cbxKategori.getValue());
-            }
             
             result = statement.executeQuery();
-            
             while(result.next()){
-                cbxProduk.getItems().add(result.getString("merek"));
+                String namaSupplier = result.getString("nama_supplier");
+                String namaToko = result.getString("nama_toko");
+                cbxSupplier.getItems().add(namaSupplier + ", " + namaToko);
             }
             
-            if (!cbxProduk.getItems().isEmpty()) {
-                cbxProduk.setValue(cbxProduk.getItems().get(0));
+            if (!cbxSupplier.getItems().isEmpty()) {
+                cbxSupplier.setValue(cbxSupplier.getItems().get(0));
             }
+            
+            //combo box produk
+            setCbxProduk();
             
             result.close();
             statement.close();
@@ -537,7 +534,8 @@ public class HalamanTransaksiBeliPController implements Initializable {
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idTransaksiBaru);
             statement.setString(2, Session.getIdAdmin());
-            statement.setString(3, "spl01");
+            String namaSupplier = cbxSupplier.getValue();
+            statement.setString(3, Session.getId("supplier", "id_supplier", "nama_supplier", namaSupplier.split(",\\s*")[0]));
             statement.setString(4, cbxCaraBayar.getValue());
             statement.setInt(5, total);
             statement.setInt(6, kembalian);
