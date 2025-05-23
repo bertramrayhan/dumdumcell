@@ -27,7 +27,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
     @FXML private TableColumn<Barang, String> namaBarangCol, totalBarangCol, expCol;
     @FXML private TableColumn<Promo, String> promoCol, potonganHargaCol;
     
-    @FXML private Label lblWaktu, lblStatusDatang, lblShift, lblJamKerja, lblTotalBarangTerjual, lblJumlahBarang, lblJumlahBarangHampirExp;
+    @FXML private Label lblWaktu, lblTotalBarangTerjual, lblJumlahBarang, lblJumlahBarangHampirExp;
     private final DateTimeFormatter formatWaktu = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     
@@ -37,7 +37,6 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setKomponen();
-        setStatusDatang();
         mulaiWaktu();
         getDataTabelBarangExpired();
         getDataTabelPromo();
@@ -105,41 +104,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
             e.printStackTrace();
         }
     }
-    
-    private void setStatusDatang(){
-        try {
-            String query = "SELECT sk.durasi_terlambat, s.nama_shift, \n" +
-            "TIME_FORMAT(s.jam_masuk, '%H.%i') AS jam_masuk, \n" +
-            "TIME_FORMAT(s.jam_selesai, '%H.%i') AS jam_selesai\n" +
-            "FROM shift_karyawan sk\n" +
-            "JOIN jadwal_shift js ON js.id_jadwal = sk.id_jadwal\n" +
-            "JOIN shift s ON js.id_shift = s.id_shift\n" +
-            "WHERE sk.id_admin =? \n" +
-            "AND js.tanggal = CURRENT_DATE\n" +
-            "AND CURRENT_TIME BETWEEN s.jam_masuk AND s.jam_selesai";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, Session.getIdAdmin());
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                lblShift.setText("Shift : " + result.getString("nama_shift"));
-                lblJamKerja.setText(String.format("Jam Kerja : %s - %s", result.getString("jam_masuk"), result.getString("jam_selesai")));
-                
-                if(result.getInt("durasi_terlambat") == 0){
-                    lblStatusDatang.setText("Status : Tepat Waktu");
-                }else{
-                    lblStatusDatang.setText("Status : Terlambat");
-                }
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
+        
     private void getDataTabelBarangExpired(){
         listBarang.clear();
         try {

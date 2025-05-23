@@ -152,7 +152,7 @@ public class HalamanSupplierPController implements Initializable {
     //TAMBAH SUPPLIER
     private void setKomponenTambahSupplier(){
         Session.triggerOnEnter(this::tambahSupplier, txtNamaSupplierTambah, txtNamaTokoTambah, txtKontakTambah, txtAlamatTambah);
-        Session.setTextFieldNumeric(txtKontakTambah);
+        Session.setTextFieldNumeric(txtKontakTambah, 13);
     }
     
     @FXML
@@ -198,14 +198,13 @@ public class HalamanSupplierPController implements Initializable {
         
         String idSupplierBaru = Session.membuatIdBaru("supplier", "id_supplier", "spl", 2);
         try {
-            String query = "INSERT INTO supplier VALUES (?,?,?,?,?,?)";
+            String query = "INSERT INTO supplier VALUES (?,?,?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idSupplierBaru);
             statement.setString(2, namaSupplier);
             statement.setString(3, namaToko);
             statement.setString(4, kontak);
-            statement.setString(5, "ktg01");
-            statement.setString(6, alamat);
+            statement.setString(5, alamat);
             statement.executeUpdate();
             
             getDataTabelSupplier();
@@ -221,7 +220,7 @@ public class HalamanSupplierPController implements Initializable {
     //EDIT SUPPLIER
     private void setKomponenEditSupplier(){
         Session.triggerOnEnter(this::editSupplier, txtNamaSupplierEdit, txtNamaTokoEdit, txtKontakEdit, txtAlamatEdit);
-        Session.setTextFieldNumeric(txtKontakEdit);
+        Session.setTextFieldNumeric(txtKontakEdit, 13);
     }
     
     @FXML

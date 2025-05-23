@@ -132,6 +132,20 @@ public class Session {
         textField.setTextFormatter(new TextFormatter<>(filter));
     }
     
+    public static void setTextFieldNumeric(TextField textField, int maxLength) {
+        Pattern pattern = Pattern.compile("\\d*"); // hanya angka
+
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (pattern.matcher(newText).matches() && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        };
+
+        textField.setTextFormatter(new TextFormatter<>(filter));
+    }
+    
     public static void animasiPanePesan(boolean isGagal, Pane panePesan, Label lblPesan, String pesan, Button ... buttons) {
         if(isGagal){
             panePesan.setStyle("-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;");
@@ -213,6 +227,30 @@ public class Session {
         }
 
         btnShowPassword.setImage(icon);
+    }
+    
+    public static void togglePassword(PasswordField txtPassword, TextField txtPasswordVisible) {
+        boolean isShowing = txtPasswordVisible.isVisible();
+
+        if (!isShowing) {
+            txtPasswordVisible.setText(txtPassword.getText());
+            txtPasswordVisible.setVisible(true);
+            txtPasswordVisible.setManaged(true);
+            txtPasswordVisible.requestFocus();
+            txtPasswordVisible.positionCaret(txtPasswordVisible.getText().length());
+
+            txtPassword.setVisible(false);
+            txtPassword.setManaged(false);
+        } else {
+            txtPassword.setText(txtPasswordVisible.getText());
+            txtPassword.setVisible(true);
+            txtPassword.setManaged(true);
+            txtPassword.requestFocus();
+            txtPassword.positionCaret(txtPassword.getText().length());
+
+            txtPasswordVisible.setVisible(false);
+            txtPasswordVisible.setManaged(false);
+        }
     }
     
     public static void setEnableButtons(Button ... buttons){

@@ -8,13 +8,13 @@ import main.Koneksi;
 import main.Session;
 
 public class stokManager {
-     
+
     private String getOrderBy(String sortOption) {
         if (sortOption == null || sortOption.equals("Sort by")) {
             return ""; // Tidak ada sorting
         }
         switch (sortOption) {
-                    case "Nama Barang (A-Z)":
+            case "Nama Barang (A-Z)":
                 return " ORDER BY b.nama_barang ASC";
             case "Nama Barang (Z-A)":
                 return " ORDER BY b.nama_barang DESC";
@@ -30,20 +30,20 @@ public class stokManager {
                 return "";
         }
     }
-     
+
     public ObservableList<Stok> getAllStok(String sortOption, String keyword) {
         ObservableList<Stok> listStok = FXCollections.observableArrayList();
-        
+
         // Query dasar
-        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok_utama, b.exp, b.merek, b.barcode, k.nama_kategori " +
-                       "FROM barang b " +
-                       "JOIN kategori k ON b.id_kategori = k.id_kategori";
+        String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok_utama, b.exp, b.merek, b.barcode, k.nama_kategori "
+                + "FROM barang b "
+                + "JOIN kategori k ON b.id_kategori = k.id_kategori";
 
         // Cek apakah keyword angka atau teks
         boolean isAngka = keyword != null && keyword.matches("\\d+"); // Deteksi angka
         boolean isSearch = keyword != null && !keyword.trim().isEmpty();
 
-         if (isSearch) {
+        if (isSearch) {
             if (isAngka) {
                 query += " WHERE (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ? OR b.id_barang LIKE ?)";
             } else {
@@ -53,7 +53,7 @@ public class stokManager {
 
         // Tambahkan sorting
         query += getOrderBy(sortOption);
-            try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
+        try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
             if (isSearch) {
                 if (isAngka) {
                     int angka = Integer.parseInt(keyword);
@@ -71,8 +71,8 @@ public class stokManager {
                 }
             }
 
-             ResultSet result = statement.executeQuery();
-             while (result.next()) {
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
                 String idBarang = result.getString("id_barang");
                 String namaBarang = result.getString("nama_barang");
                 String kategori = result.getString("nama_kategori");
@@ -84,9 +84,9 @@ public class stokManager {
 
                 listStok.add(new Stok(idBarang, namaBarang, kategori, merek, exp, hargaJual, barcode, stok));
             }
-             
-             result.close();
-             statement.close();
+
+            result.close();
+            statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

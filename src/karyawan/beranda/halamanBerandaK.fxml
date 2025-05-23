@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" stylesheets="@../../main/table.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.beranda.HalamanBerandaKController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" stylesheets="@../../main/table.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.beranda.HalamanBerandaKController">
    <children>
       <Label layoutX="200.0" layoutY="20.0" text="BERANDA" textFill="#353499">
          <font>
@@ -23,7 +22,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="19.0" layoutY="265.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black; -fx-border-width: 2;">
+      <AnchorPane layoutX="19.0" layoutY="170.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: black; -fx-border-width: 2;">
          <children>
             <Label layoutX="15.0" layoutY="64.0" prefHeight="70.0" prefWidth="165.0" text="Total barang terjual hari ini" wrapText="true">
                <font>
@@ -41,31 +40,7 @@
             <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane layoutX="19.0" layoutY="140.0" prefHeight="109.0" prefWidth="962.0" style="-fx-background-color: #02045e; -fx-background-radius: 20;">
-         <children>
-            <Label layoutX="430.0" layoutY="6.0" text="Kehadiran" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblStatusDatang" layoutX="28.0" layoutY="56.0" prefWidth="275.0" text="Status : " textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblJamKerja" layoutX="327.0" layoutY="56.0" prefWidth="323.0" text="Jam Kerja : " textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblShift" layoutX="760.0" layoutY="55.0" prefWidth="176.0" text="Shift : " textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="28.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="346.0" layoutY="265.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
+      <AnchorPane layoutX="346.0" layoutY="170.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
          <children>
             <Label layoutX="15.0" layoutY="64.0" prefWidth="200.0" text="Jumlah Barang" wrapText="true">
                <font>
@@ -83,7 +58,7 @@
             <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
          </effect>
       </AnchorPane>
-      <AnchorPane layoutX="672.0" layoutY="265.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
+      <AnchorPane layoutX="672.0" layoutY="170.0" prefHeight="144.0" prefWidth="309.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 2;">
          <children>
             <Label layoutX="15.0" layoutY="64.0" prefWidth="200.0" text="Barang Hampir Expired" wrapText="true">
                <font>
@@ -101,7 +76,7 @@
             <DropShadow color="#00000080" offsetX="5.0" offsetY="5.0" />
          </effect>
       </AnchorPane>
-      <TableView fx:id="tabelBarangExpired" layoutX="19.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" styleClass="modern-table">
+      <TableView fx:id="tabelBarangExpired" layoutX="19.0" layoutY="360.0" prefHeight="385.0" prefWidth="461.0" styleClass="modern-table">
          <columns>
             <TableColumn fx:id="namaBarangCol" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Nama Barang" />
             <TableColumn fx:id="totalBarangCol" prefWidth="90.0" style="-fx-alignment: CENTER;" text="Total Barang" />
@@ -111,7 +86,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="tabelPromo" layoutX="521.0" layoutY="421.0" prefHeight="332.0" prefWidth="461.0" styleClass="modern-table">
+      <TableView fx:id="tabelPromo" layoutX="521.0" layoutY="360.0" prefHeight="385.0" prefWidth="461.0" styleClass="modern-table">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>

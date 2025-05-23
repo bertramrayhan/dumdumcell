@@ -184,57 +184,7 @@
             </AnchorPane>
             <Line endX="171.0" layoutX="107.0" layoutY="463.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
             <Line endX="171.0" layoutX="107.0" layoutY="522.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
-            <Label layoutX="19.0" layoutY="529.0" opacity="0.54" text="PRESENSI SHIFTER" textFill="WHITE">
-               <font>
-                  <Font name="Verdana Bold" size="18.0" />
-               </font>
-            </Label>
-            <VBox layoutY="560.0" prefHeight="90.0" prefWidth="281.0" spacing="5.0">
-               <children>
-                  <AnchorPane prefHeight="45.0" prefWidth="280.0">
-                     <children>
-                        <Button fx:id="btnPresensiPusat" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToPrensensiPusat" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Pusat" textFill="#caf0f8">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <font>
-                              <Font name="Verdana" size="20.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../assets/icons/calendar32px.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Pane fx:id="indikatorPresensiPusat" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="45.0" prefWidth="280.0">
-                     <children>
-                        <Button fx:id="btnPresensiCabang" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToPresensiCabang" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Cabang" textFill="#caf0f8">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <font>
-                              <Font name="Verdana" size="20.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../assets/icons/calendar32px.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Pane fx:id="indikatorPresensiCabang" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </VBox>
-            <Line endX="171.0" layoutX="107.0" layoutY="661.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
-            <AnchorPane layoutY="668.0" prefHeight="45.0" prefWidth="280.0">
+            <AnchorPane layoutY="529.0" prefHeight="45.0" prefWidth="280.0">
                <children>
                   <Button fx:id="btnLaporan" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToLaporan" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Laporan" textFill="#caf0f8">
                      <cursor>
@@ -254,7 +204,7 @@
                   <Pane fx:id="indikatorLaporan" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                </children>
             </AnchorPane>
-            <Line endX="171.0" layoutX="107.0" layoutY="720.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
+            <Line endX="171.0" layoutX="107.0" layoutY="581.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
             <Line endX="171.0" layoutX="107.0" layoutY="311.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
          </children>
       </AnchorPane>

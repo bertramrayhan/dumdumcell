@@ -287,7 +287,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
     
     private void setTextFieldNumeric(){
         Session.setTextFieldNumeric(txtBayar);
-        Session.setTextFieldNumeric(txtBarcode);
+        Session.setTextFieldNumeric(txtBarcode, 13);
         Session.setTextFieldNumeric(txtQtyBarcode);
         Session.setTextFieldNumeric(txtHargaBeliBarcode);
         Session.setTextFieldNumeric(txtQtyManual);

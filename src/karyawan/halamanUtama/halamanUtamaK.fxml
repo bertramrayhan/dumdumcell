@@ -91,7 +91,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
                      <children>
-                        <Button fx:id="btnDanLainLain" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToDanLainLain" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Dan Lain Lain" textFill="#caf0f8">
+                        <Button fx:id="btnDanLainLain" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToDanLainLain" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Lain-Lain" textFill="#caf0f8">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

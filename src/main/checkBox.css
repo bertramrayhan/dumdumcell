@@ -1,0 +1,30 @@
+.check-box {
+    -fx-padding: 5 0 5 0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-pref-width: 18;
+    -fx-pref-height: 18;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #00BFFF;
+    -fx-border-color: #1E90FF;
+}
+
+.check-box:hover .box {
+    -fx-border-color: #1E90FF;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: black;
+}
+

@@ -58,9 +58,6 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
-                if(result.getString("role").equals("karyawan")){
-                    absensi();
-                }
                 Session.setIdAdmin(result.getString("id_admin"));
                 DumdumKasir.switchToBeranda(result.getString("role"));
             }
@@ -84,9 +81,6 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
-                if(result.getString("role").equals("karyawan")){
-                    absensi();
-                }
                 Session.setIdAdmin(result.getString("id_admin"));
                 DumdumKasir.switchToBeranda(result.getString("role"));
             }
@@ -130,28 +124,5 @@ public class halamanLoginController implements Initializable {
         });
 
         Session.triggerOnEnter(this::btnLogin, field);
-    } 
-    
-    private void absensi(){
-        try {
-            String query = "select jam_masuk FROM shift_karyawan WHERE id_admin=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, Session.getIdAdmin());
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-             if(result.getString("jam_masuk") == null){
-                 query = "UPDATE shift_karyawan SET jam_masuk=CURRENT_TIME";
-                 statement = Koneksi.getCon().prepareStatement(query);
-                 statement.executeUpdate();
-             }   
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    }    
 }

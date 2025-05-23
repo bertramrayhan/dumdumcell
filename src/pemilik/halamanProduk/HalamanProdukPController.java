@@ -246,6 +246,7 @@ public class HalamanProdukPController implements Initializable {
         });
         dtPTanggalExpTambah.setValue(LocalDate.now().plusDays(1));
 
+        Session.setTextFieldNumeric(txtBarcodeTambah, 13);
         Session.setTextFieldNumeric(txtHargaJualTambah);
         
         try {
@@ -374,6 +375,7 @@ public class HalamanProdukPController implements Initializable {
         });
         dtPTanggalExpEdit.setValue(LocalDate.now());
 
+        Session.setTextFieldNumeric(txtBarcodeEdit, 13);
         Session.setTextFieldNumeric(txtHargaJualEdit);
 
         try {

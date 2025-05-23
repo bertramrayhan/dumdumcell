@@ -88,12 +88,7 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label layoutX="498.0" layoutY="25.0" text="Kategori" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-            <Label layoutX="498.0" layoutY="70.0" text="Alamat" textFill="WHITE">
+            <Label layoutX="498.0" layoutY="25.0" text="Alamat" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
@@ -115,12 +110,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
-            <TextField layoutX="724.0" layoutY="25.0" prefHeight="32.0" prefWidth="218.0">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="txtAlamatTambah" layoutX="724.0" layoutY="70.0" prefHeight="32.0" prefWidth="218.0">
+            <TextField fx:id="txtAlamatTambah" layoutX="724.0" layoutY="25.0" prefHeight="32.0" prefWidth="218.0">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

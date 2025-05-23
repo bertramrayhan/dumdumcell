@@ -279,8 +279,10 @@ public class HalamanTransaksiReturKController implements Initializable {
             String tanggal = jenisTransaksi.equals("Transaksi Jual") ? "tanggal_transaksi_jual" : "tanggal_transaksi_beli";
 
             String query = String.format(
-                "SELECT %s FROM %s WHERE DATE(%s) BETWEEN ? AND ? ORDER BY %s DESC",
-                id, tabel, tanggal, id
+                "SELECT %s FROM %s WHERE DATE(%s) BETWEEN ? AND ? AND %s NOT IN " +
+                "(SELECT %s FROM transaksi_retur WHERE %s IS NOT NULL) " +
+                "ORDER BY %s DESC",
+                id, tabel, tanggal, id, id, id, id
             );
 
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);

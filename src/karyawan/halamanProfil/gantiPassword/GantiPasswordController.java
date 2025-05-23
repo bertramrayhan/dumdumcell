@@ -12,7 +12,9 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -22,10 +24,12 @@ import main.Session;
 
 public class GantiPasswordController implements Initializable {
 
-    @FXML Button btnKonfirmasi, btnBatal;
-    @FXML TextField txtPasswordLama, txtPasswordBaru, txtKonfirmasiPassword;
-    @FXML StackPane pesanPane;
-    @FXML Label lblPesan;
+    @FXML private Button btnKonfirmasi, btnBatal;
+    @FXML private PasswordField txtPasswordLama, txtPasswordBaru, txtKonfirmasiPassword;
+    @FXML private TextField txtPasswordLamaVisible, txtPasswordBaruVisible, txtKonfirmasiPasswordVisible;
+    @FXML private CheckBox checkBoxTampilkanPassword;
+    @FXML private StackPane pesanPane;
+    @FXML private Label lblPesan;
     private Stage dialogStage;
     
     @Override
@@ -39,6 +43,12 @@ public class GantiPasswordController implements Initializable {
     
     @FXML
     private void gantiPassword(){
+        if(txtPasswordLamaVisible.isVisible() == true){
+            txtPasswordLama.setText(txtPasswordLamaVisible.getText().trim());
+            txtPasswordBaru.setText(txtPasswordBaruVisible.getText().trim());
+            txtKonfirmasiPassword.setText(txtKonfirmasiPasswordVisible.getText().trim());
+        }
+        
         String passwordLama = txtPasswordLama.getText().trim();
         String passwordBaru = txtPasswordBaru.getText().trim();
         String konfirmasiPassword = txtKonfirmasiPassword.getText().trim();
@@ -78,6 +88,13 @@ public class GantiPasswordController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @FXML
+    private void tampilkanPassword(){
+        Session.togglePassword(txtPasswordLama, txtPasswordLamaVisible);
+        Session.togglePassword(txtPasswordBaru, txtPasswordBaruVisible);
+        Session.togglePassword(txtKonfirmasiPassword, txtKonfirmasiPasswordVisible);
     }
     
     private void animasiPesanPane(String pesan){

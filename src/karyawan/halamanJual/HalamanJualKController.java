@@ -79,7 +79,7 @@ public class HalamanJualKController implements Initializable {
     
     private void setTextFieldNumeric(){
         Session.setTextFieldNumeric(txtBayar);
-        Session.setTextFieldNumeric(txtBarcode);
+        Session.setTextFieldNumeric(txtBarcode, 13);
         Session.setTextFieldNumeric(txtBarcodeQty);
         Session.setTextFieldNumeric(txtManualQty);
     }
@@ -775,8 +775,8 @@ public class HalamanJualKController implements Initializable {
             }
                         
             //MENGHITUNG TOTAL SALDO
-            query = "SELECT SUM(total_minus) As total_minus\n" +
-            "FROM minus_saldo\n" +
+            query = "SELECT SUM(total_topup) AS total_topup\n" +
+            "FROM topup_saldo_pelanggan\n" +
             "WHERE DATE(tanggal) BETWEEN ? AND ?\n" +
             "AND TIME(tanggal) BETWEEN ? AND ?";
             statement = Koneksi.getCon().prepareStatement(query);
@@ -787,12 +787,35 @@ public class HalamanJualKController implements Initializable {
             result = statement.executeQuery();
             
             if(result.next()){
-                totalPenjualanSaldo = result.getInt("total_minus");
+                totalPenjualanSaldo = result.getInt("total_topup");
             }
             
             totalPenjualan = totalPenjualanBarang + totalPenjualanSaldo;
             lblTotalPenjualanBarang.setText(Session.convertIntToRupiah(totalPenjualanBarang));
             lblTotalPenjualanSaldo.setText(Session.convertIntToRupiah(totalPenjualanSaldo));
+            
+            //MENGHITUNG TOTAL TRANSAKSI LAIN
+            query = "SELECT SUM(\n" +
+            "    CASE\n" +
+            "        WHEN jenis_transaksi = 'Pemasukan' THEN nominal\n" +
+            "        WHEN jenis_transaksi = 'Pengeluaran' THEN -nominal\n" +
+            "        ELSE 0\n" +
+            "    END\n" +
+            ") AS total_transaksi_lain\n" +
+            "FROM transaksi_lain\n" +
+            "WHERE DATE(tanggal_transaksi) BETWEEN ? AND ?\n" +
+            "AND TIME(tanggal_transaksi) BETWEEN ? AND ?";
+            statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, tanggalAwal);
+            statement.setString(2, tanggalAkhir);
+            statement.setString(3, waktuShift[0]);
+            statement.setString(4, waktuShift[1]);
+            result = statement.executeQuery();
+            
+            if(result.next()){
+                totalPenjualan += result.getInt("total_transaksi_lain");
+            }
+            
             lblTotalPenjualan.setText(Session.convertIntToRupiah(totalPenjualan));
             
             result.close();

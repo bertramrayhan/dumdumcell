@@ -1,12 +1,13 @@
 package karyawan.halamanStok;
 
 public class Stok {
-    private String  idBarang, namaBarang, kategori, merek, hargaJual, exp, barcode;
+
+    private String idBarang, namaBarang, kategori, merek, hargaJual, exp, barcode;
     private int stok;
 
     // Constructor lengkap
-    public Stok( String idBarang, String namaBarang, String kategori, String merek, String exp, String hargaJual, String barcode, int stok) {
-        
+    public Stok(String idBarang, String namaBarang, String kategori, String merek, String exp, String hargaJual, String barcode, int stok) {
+
         this.idBarang = idBarang;
         this.namaBarang = namaBarang;
         this.kategori = kategori;
@@ -18,9 +19,10 @@ public class Stok {
     }
 
     // Getter
-    public String getIdBarang(){
+    public String getIdBarang() {
         return idBarang;
     }
+
     public String getNamaBarang() {
         return namaBarang;
     }
@@ -44,7 +46,7 @@ public class Stok {
     public int getStok() {
         return stok;
     }
-    
+
     public String getBarcode() {
         return barcode;
     }
