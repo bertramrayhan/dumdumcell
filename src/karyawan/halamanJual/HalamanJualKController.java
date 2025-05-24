@@ -34,7 +34,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -48,8 +47,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanJualKController implements Initializable {
     @FXML private AnchorPane paneCetakStruk;
-    @FXML private StackPane panePesan;
-    @FXML private Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian, lblPesan;
+    @FXML private Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian;
     @FXML private TextField txtBarcode, txtBarcodeQty, txtBayar, txtManualQty;
     @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual, btnBatalTransaksi, btnKonfirmasiTransaksi, btnTutupCetakStruk, btnIyaCetakStruk;
     @FXML private TextArea txtACatatan;
@@ -111,10 +109,10 @@ public class HalamanJualKController implements Initializable {
         Button btn = (Button) event.getSource();
         if (btn.getId().equals("btnTambahProdukManual")) {
             if (txtManualQty.getText().isEmpty() || txtManualQty.getText().equals("0")) {
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if(cbxProduk.getValue() == null){
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else{
                 String namaProduk = cbxProduk.getValue();
@@ -123,10 +121,10 @@ public class HalamanJualKController implements Initializable {
             }
         } else if (btn.getId().equals("btnTambahProdukBarcode")) {
             if(txtBarcode.getText().trim().isEmpty()){
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if (txtBarcodeQty.getText().isEmpty() || txtBarcodeQty.getText().equals("0")) {
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             } else {
                 String inpBarcode = txtBarcode.getText().trim();
@@ -149,7 +147,7 @@ public class HalamanJualKController implements Initializable {
                             barang.setQty(barang.getQty() + qty);
                             setTotal();
                         } else {
-                            Session.animasiPanePesan(true, panePesan, lblPesan, "Stok tidak cukup untuk " + barang.getBarang(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                            Session.animasiPanePesan(true, "Stok tidak cukup untuk " + barang.getBarang(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                         }
                         produkAda = true;
                         break;
@@ -160,7 +158,7 @@ public class HalamanJualKController implements Initializable {
                             barang.setQty(barang.getQty() + qty);
                             setTotal();
                         } else {
-                            Session.animasiPanePesan(true, panePesan, lblPesan, "Stok tidak cukup untuk " + barang.getBarang(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                            Session.animasiPanePesan(true, "Stok tidak cukup untuk " + barang.getBarang(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                         }
                         produkAda = true;
                         break;
@@ -209,7 +207,7 @@ public class HalamanJualKController implements Initializable {
                     });
                     listBarang.add(barang);
                 }else{
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Produk sudah expired", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                    Session.animasiPanePesan(true, "Produk sudah expired", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 }
 
                 result.close();
@@ -217,7 +215,7 @@ public class HalamanJualKController implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Terjadi kesalahan: " + e.getMessage(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(true, "Terjadi kesalahan: " + e.getMessage(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
         }
 
         if (isBarcode) {
@@ -232,10 +230,10 @@ public class HalamanJualKController implements Initializable {
     @FXML
     private void konfirmasiTransaksi() {
         if (listBarang.isEmpty()) {
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Tabel pesan masih kosong", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(true, "Tabel pesan masih kosong", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             return;
         } else if (lblKembalian.getText().contains("-")) {
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Pembayaran kurang", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(true, "Pembayaran kurang", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             return;
         }
 
@@ -270,7 +268,7 @@ public class HalamanJualKController implements Initializable {
 
             statement.close();
             refresh();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Transaksi berhasil!", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(false, "Transaksi berhasil!", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -468,10 +466,10 @@ public class HalamanJualKController implements Initializable {
                 if(result.getInt("stok_utama") >= qty){
                     cukup = true;
                 }else{
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Stok tidak cukup untuk " + merek, btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                    Session.animasiPanePesan(true, "Stok tidak cukup untuk " + merek, btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 }
             }else{
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             }
             result.close();
             statement.close();

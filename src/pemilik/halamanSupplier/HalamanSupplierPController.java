@@ -3,30 +3,23 @@ package pemilik.halamanSupplier;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanSupplierPController implements Initializable {
 
-    @FXML private StackPane panePesan;
-    @FXML private Label lblPesan;
     @FXML private TextField txtSearchBar;
     @FXML private ImageView btnX;
     @FXML private TableView<Supplier> tabelSupplier;
@@ -171,28 +164,28 @@ public class HalamanSupplierPController implements Initializable {
         String alamat = txtAlamatTambah.getText().trim();
         
         if(namaSupplier.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Supplier", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Masukkan Nama Supplier", btnIyaTambahSupplier);
             return;
         }else if(namaToko.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Toko", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Masukkan Nama Toko", btnIyaTambahSupplier);
             return;
         }else if(kontak.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Kontak", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Masukkan Kontak", btnIyaTambahSupplier);
             return;
         }else if(alamat.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Alamat", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Masukkan Alamat", btnIyaTambahSupplier);
             return;
         }else if(kontak.length() < 12){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak minimal 12 digit", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Panjang Kontak minimal 12 digit", btnIyaTambahSupplier);
             return;
         }else if(kontak.length() > 13){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak maksimal 13 digit", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Panjang Kontak maksimal 13 digit", btnIyaTambahSupplier);
             return;
         }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_supplier=?", namaSupplier)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Supplier sudah ada", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Nama Supplier sudah ada", btnIyaTambahSupplier);
             return;
         }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=?", namaToko)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Toko sudah ada", btnIyaTambahSupplier);
+            Session.animasiPanePesan(true, "Nama Toko sudah ada", btnIyaTambahSupplier);
             return;
         }
         
@@ -208,7 +201,7 @@ public class HalamanSupplierPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelSupplier();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Supplier berhasil ditambahkan");
+            Session.animasiPanePesan(false, "Supplier berhasil ditambahkan");
             clearTambahSupplier();
             
             statement.close();
@@ -248,28 +241,28 @@ public class HalamanSupplierPController implements Initializable {
         String alamat = txtAlamatEdit.getText().trim().trim();
         
         if(namaSupplier.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Supplier", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Masukkan Nama Supplier", btnIyaEditSupplier);
             return;
         }else if(namaToko.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Toko", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Masukkan Nama Toko", btnIyaEditSupplier);
             return;
         }else if(kontak.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Kontak", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Masukkan Kontak", btnIyaEditSupplier);
             return;
         }else if(alamat.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Alamat", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Masukkan Alamat", btnIyaEditSupplier);
             return;
         }else if(kontak.length() < 12){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak minimal 12 digit", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Panjang Kontak minimal 12 digit", btnIyaEditSupplier);
             return;
         }else if(kontak.length() > 13){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Panjang Kontak maksimal 13 digit", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Panjang Kontak maksimal 13 digit", btnIyaEditSupplier);
             return;
         }else if(!supplierTerpilih.getNamaSupplier().toLowerCase().equals(namaSupplier.toLowerCase()) && Session.cekDataSama("SELECT * FROM supplier WHERE nama_supplier=?", namaSupplier)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Supplier sudah ada", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Nama Supplier sudah ada", btnIyaEditSupplier);
             return;
         }else if(!supplierTerpilih.getNamaToko().toLowerCase().equals(namaToko.toLowerCase()) && Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=?", namaToko)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Nama Toko sudah ada", btnIyaEditSupplier);
+            Session.animasiPanePesan(true, "Nama Toko sudah ada", btnIyaEditSupplier);
             return;
         } 
         
@@ -286,7 +279,7 @@ public class HalamanSupplierPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelSupplier();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Supplier berhasil diperbarui");
+            Session.animasiPanePesan(false, "Supplier berhasil diperbarui");
             tutupEditSupplier();
             
             statement.close();
@@ -319,7 +312,7 @@ public class HalamanSupplierPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelSupplier();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Supplier berhasil dihapus");
+            Session.animasiPanePesan(false, "Supplier berhasil dihapus");
             tutupHapusSupplier();
             
             statement.close();

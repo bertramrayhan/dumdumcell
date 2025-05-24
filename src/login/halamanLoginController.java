@@ -37,6 +37,7 @@ public class halamanLoginController implements Initializable {
         btnShowPassword.setOnMouseClicked(event -> {
             Session.togglePassword(txtPassword, txtPasswordVisible, btnShowPassword, "assets/icons/eye36px.png", "assets/icons/eye-off36px.png");
         });
+        Session.inisialisasiPesan(panePesan, lblPesan);
     }  
     
     @FXML
@@ -60,17 +61,22 @@ public class halamanLoginController implements Initializable {
             if(result.next()){
                 Session.setIdAdmin(result.getString("id_admin"));
                 DumdumKasir.switchToBeranda(result.getString("role"));
+            }else{
+                Session.animasiPanePesan(true, "Username atau Password Salah", btnLogin);
+                txtUsername.requestFocus();
+                txtUsername.positionCaret(txtUsername.getText().length());
+                txtPassword.clear();
             }
             
             result.close();
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
+            Session.animasiPanePesan(true, "Username atau Password Salah", btnLogin);
+            txtUsername.requestFocus();
+            txtUsername.positionCaret(txtUsername.getText().length());
+            txtPassword.clear();
         }
-        Session.animasiPanePesan(true, panePesan, lblPesan, "Username atau Password Salah", btnLogin);
-        txtUsername.requestFocus();
-        txtUsername.positionCaret(txtUsername.getText().length());
-        txtPassword.clear();
     }
     
     private void loginDenganRFID(){
@@ -83,16 +89,20 @@ public class halamanLoginController implements Initializable {
             if(result.next()){
                 Session.setIdAdmin(result.getString("id_admin"));
                 DumdumKasir.switchToBeranda(result.getString("role"));
+            }else{
+                Session.animasiPanePesan(true, "Kode Kartu Salah", btnLogin);
+                txtUsername.requestFocus();
+                txtUsername.positionCaret(txtUsername.getText().trim().length());
             }
             
             result.close();
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
+            Session.animasiPanePesan(true, "Kode Kartu Salah", btnLogin);
+            txtUsername.requestFocus();
+            txtUsername.positionCaret(txtUsername.getText().trim().length());
         }
-        Session.animasiPanePesan(true, panePesan, lblPesan, "Kode Kartu Salah", btnLogin);
-        txtUsername.requestFocus();
-        txtUsername.positionCaret(txtUsername.getText().trim().length());
     }
     
     private void setupRFIDListener(TextField field) {

@@ -209,5 +209,14 @@
          </children>
       </AnchorPane>
       <StackPane fx:id="halamanUtama" layoutX="280.0" prefHeight="760.0" prefWidth="1000.0" />
+      <StackPane fx:id="panePesan" layoutX="600.0" layoutY="680.0" opacity="0.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;">
+         <children>
+            <Label fx:id="lblPesan" alignment="CENTER" prefWidth="370.0" text="Username atau Password salah" textAlignment="CENTER" textFill="#ffebee" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
    </children>
 </AnchorPane>

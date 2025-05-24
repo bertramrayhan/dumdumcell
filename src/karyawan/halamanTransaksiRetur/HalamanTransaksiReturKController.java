@@ -28,14 +28,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanTransaksiReturKController implements Initializable {
 
-    @FXML private StackPane panePesan;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
     @FXML private ChoiceBox<String> cbxJenisTransaksi, cbxTipePengembalian;
     @FXML private ComboBox<String> cbxIdTransaksi;
@@ -43,7 +41,7 @@ public class HalamanTransaksiReturKController implements Initializable {
     @FXML private TableView<Barang> tabelDetailBarang;
     @FXML private TableColumn<Barang, String> colNamaBarang, colSubtotal;
     @FXML private TableColumn<Barang, Integer> colJumlahBarang;
-    @FXML private Label lblTotalRetur, lblPesan;
+    @FXML private Label lblTotalRetur;
     @FXML private Button btnEdit, btnHapus, btnProses;
 
     private ObservableList<Barang> listDetailBarang = FXCollections.observableArrayList();
@@ -373,7 +371,7 @@ public class HalamanTransaksiReturKController implements Initializable {
     @FXML
     private void prosesRetur(){
         if(listDetailBarang.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Tabel retur kosong", btnProses);
+            Session.animasiPanePesan(true, "Tabel retur kosong", btnProses);
             return;
         }
 
@@ -416,7 +414,7 @@ public class HalamanTransaksiReturKController implements Initializable {
             }
             
             getIdTransaksi();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Retur berhasil diproses", btnProses);
+            Session.animasiPanePesan(false, "Retur berhasil diproses", btnProses);
             txtAAlasanRetur.setText("");
             
             statement.close();

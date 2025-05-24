@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,19 +18,21 @@ import javafx.util.Duration;
 import main.Session;
 
 public class HalamanUtamaPController implements Initializable {
-    @FXML private StackPane halamanUtama;
+    @FXML private StackPane halamanUtama, panePesan;
+    @FXML private Label lblPesan;
     
     @FXML private Pane indikatorBeranda, indikatorKas, indikatorSaldo, indikatorProduk, indikatorSupplier,indikatorDiskon;
-    @FXML private Pane indikatorPresensiPusat, indikatorPresensiCabang, indikatorLaporan, indikatorBeli;
+    @FXML private Pane indikatorLaporan, indikatorBeli;
     
-    @FXML private Button btnBeranda, btnKas, btnSaldo, btnProduk, btnSupplier,btnDiskon;
-    @FXML private Button btnPresensiPusat, btnPresensiCabang, btnLaporan;
+    @FXML private Button btnBeranda, btnKas, btnSaldo, btnProduk, btnSupplier, btnDiskon;
+    @FXML private Button btnLaporan;
     
     public static Map<String, AnchorPane> penyimpananPanePemilik = new HashMap<>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadPane(Session.getPathBerandaP());
+        Session.inisialisasiPesan(panePesan, lblPesan);
     }    
     
     private void loadPane(String pathPane) {
@@ -104,20 +107,6 @@ public class HalamanUtamaPController implements Initializable {
     }
 
     @FXML
-    void goToPrensensiPusat(){
-        resetIndikator();
-        animateIndikator(indikatorPresensiPusat);
-        loadPane(Session.getPathHalamanPresensiPusatP());
-    }
-
-    @FXML
-    void goToPresensiCabang(){
-        resetIndikator();
-        animateIndikator(indikatorPresensiCabang);
-        loadPane(Session.getPathHalamanPresensiCabangP());
-    }
-
-    @FXML
     void goToLaporan(){
         resetIndikator();
         animateIndikator(indikatorLaporan);
@@ -132,8 +121,6 @@ public class HalamanUtamaPController implements Initializable {
         indikatorProduk.setScaleY(0);
         indikatorSupplier.setScaleY(0);
         indikatorDiskon.setScaleY(0);
-        indikatorPresensiPusat.setScaleY(0);
-        indikatorPresensiCabang.setScaleY(0);
         indikatorLaporan.setScaleY(0);
     }
     

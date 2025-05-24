@@ -30,7 +30,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
@@ -38,8 +37,7 @@ import main.Session;
 
 public class HalamanTransaksiBeliPController implements Initializable {
     
-    @FXML private StackPane panePesan;
-    @FXML private Label lblTanggal, lblJam, lblKasir, lblTotal, lblKembalian, lblPesan;
+    @FXML private Label lblTanggal, lblJam, lblKasir, lblTotal, lblKembalian;
     @FXML private TextField txtBarcode, txtHargaBeliBarcode, txtQtyBarcode;
     @FXML private TextField txtHargaBeliManual, txtQtyManual, txtBayar;//txtBayar onKeyReleased
     @FXML private TextArea txtACatatan;
@@ -374,13 +372,13 @@ public class HalamanTransaksiBeliPController implements Initializable {
         Button btn = (Button) event.getSource();
         if (btn.getId().equals("btnTambahProdukManual")) {
             if(cbxProduk.getValue() == null){
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if(txtHargaBeliManual.getText().isEmpty() || txtHargaBeliManual.getText().equals("0")){
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan harga beli produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan harga beli produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if (txtQtyManual.getText().isEmpty() || txtQtyManual.getText().equals("0")) {
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else{
                 String namaProduk = cbxProduk.getValue();
@@ -390,13 +388,13 @@ public class HalamanTransaksiBeliPController implements Initializable {
             }
         } else if (btn.getId().equals("btnTambahProdukBarcode")) {
             if(txtBarcode.getText().trim().isEmpty()){
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if (txtHargaBeliBarcode.getText().isEmpty() || txtHargaBeliBarcode.getText().equals("0")) {
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan harga beli produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan harga beli produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if (txtQtyBarcode.getText().isEmpty() || txtQtyBarcode.getText().equals("0")) {
-                Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             } else {
                 String inpBarcode = txtBarcode.getText().trim();
@@ -473,7 +471,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
                     });
                     listBarang.add(barang);
                 }else{
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                    Session.animasiPanePesan(true, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 }
 
                 result.close();
@@ -481,7 +479,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Terjadi kesalahan: " + e.getMessage(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(true, "Terjadi kesalahan: " + e.getMessage(), btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
         }
 
         if (isBarcode) {
@@ -517,10 +515,10 @@ public class HalamanTransaksiBeliPController implements Initializable {
     @FXML
     private void konfirmasiTransaksi() {
         if (listBarang.isEmpty()) {
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Tabel pesan masih kosong", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(true, "Tabel pesan masih kosong", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             return;
         } else if (lblKembalian.getText().contains("-")) {
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Pembayaran kurang", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(true, "Pembayaran kurang", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
             return;
         }
 
@@ -555,7 +553,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
 
             statement.close();
             refresh();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Transaksi berhasil!", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+            Session.animasiPanePesan(false, "Transaksi berhasil!", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
         } catch (Exception e) {
             e.printStackTrace();
         }        

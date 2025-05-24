@@ -17,19 +17,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanTransaksiLainLainKController implements Initializable {
 
-    @FXML private StackPane panePesan;
     @FXML private ChoiceBox<String> cbxJenisTransaksi;
     @FXML private TextField txtNominal, txtSearchBar;
     @FXML private TextArea txtAKeterangan;
     @FXML private Button btnBatal, btnProses;
     @FXML private ImageView btnX;
-    @FXML private Label lblTotalTransaksi, lblPesan;
+    @FXML private Label lblTotalTransaksi;
     @FXML private TableView<Transaksi> tabelTransaksi;
     @FXML private TableColumn<Transaksi, String> colJenisTransaksi, colKaryawan, colTanggal, colNominal, colKeterangan;
     
@@ -135,10 +133,10 @@ public class HalamanTransaksiLainLainKController implements Initializable {
     @FXML
     private void prosesTransaksi(){
         if(txtNominal.getText().isEmpty() || txtNominal.getText().equals("0")){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan nominal transaksi", btnProses);
+            Session.animasiPanePesan(true, "Masukkan nominal transaksi", btnProses);
             return;
         }else if(txtAKeterangan.getText().isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan keterangan transaksi", btnProses);
+            Session.animasiPanePesan(true, "Masukkan keterangan transaksi", btnProses);
             return;
         }
 
@@ -158,7 +156,7 @@ public class HalamanTransaksiLainLainKController implements Initializable {
             
             statement.executeUpdate();
             
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Transaksi berhasil diproses", btnProses);
+            Session.animasiPanePesan(false, "Transaksi berhasil diproses", btnProses);
             
             statement.close();
             getDataTabelTransaksi();

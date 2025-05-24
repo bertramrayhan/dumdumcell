@@ -22,14 +22,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanDiskonPController implements Initializable {
 
-    @FXML private StackPane panePesan;
-    @FXML private Label lblPesan;
     @FXML private TextField txtSearchBar;
     @FXML private ImageView btnX;
     @FXML private TableView<Diskon> tabelDiskon;
@@ -265,13 +262,13 @@ public class HalamanDiskonPController implements Initializable {
         String tanggalBerakhir = dtPTanggalBerakhirTambah.getValue().toString();
         
         if(namaDiskon.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Diskon", btnIyaTambahDiskon);
+            Session.animasiPanePesan(true, "Masukkan Nama Diskon", btnIyaTambahDiskon);
             return;
         }else if(potonganHarga.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Potongan Harga", btnIyaTambahDiskon);
+            Session.animasiPanePesan(true, "Masukkan Potongan Harga", btnIyaTambahDiskon);
             return;
         }else if(Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=?", namaDiskon)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Diskon Sudah Ada", btnIyaTambahDiskon);
+            Session.animasiPanePesan(true, "Diskon Sudah Ada", btnIyaTambahDiskon);
             return;
         }
         
@@ -289,7 +286,7 @@ public class HalamanDiskonPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelDiskon();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Diskon berhasil ditambahkan");
+            Session.animasiPanePesan(false, "Diskon berhasil ditambahkan");
             clearTambahDiskon();
             
             statement.close();
@@ -402,13 +399,13 @@ public class HalamanDiskonPController implements Initializable {
         String tanggalBerakhir = dtPTanggalBerakhirEdit.getValue().toString();
         
         if(namaDiskon.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Diskon", btnIyaEditDiskon);
+            Session.animasiPanePesan(true, "Masukkan Nama Diskon", btnIyaEditDiskon);
             return;
         }else if(potonganHarga.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Potongan Harga", btnIyaEditDiskon);
+            Session.animasiPanePesan(true, "Masukkan Potongan Harga", btnIyaEditDiskon);
             return;
         }else if(!diskonTerpilih.getNamaDiskon().toLowerCase().equals(namaDiskon.toLowerCase()) && Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=?", namaDiskon)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Diskon Sudah Ada", btnIyaEditDiskon);
+            Session.animasiPanePesan(true, "Diskon Sudah Ada", btnIyaEditDiskon);
             return;
         }
         
@@ -426,7 +423,7 @@ public class HalamanDiskonPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelDiskon();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Diskon berhasil diperbarui");
+            Session.animasiPanePesan(false, "Diskon berhasil diperbarui");
             tutupEditDiskon();
             
             statement.close();
@@ -458,7 +455,7 @@ public class HalamanDiskonPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelDiskon();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Diskon berhasil dihapus");
+            Session.animasiPanePesan(false, "Diskon berhasil dihapus");
             tutupHapusDiskon();
             
             statement.close();

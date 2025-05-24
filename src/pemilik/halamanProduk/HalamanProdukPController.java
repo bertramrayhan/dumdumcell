@@ -26,14 +26,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.util.converter.DefaultStringConverter;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanProdukPController implements Initializable {
-    @FXML private StackPane panePesan;
-    @FXML private Label lblPesan;
     @FXML private Button btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori;
     @FXML private ImageView btnX;
     @FXML private TextField txtSearchBar;
@@ -294,19 +291,22 @@ public class HalamanProdukPController implements Initializable {
         String expired = dtPTanggalExpTambah.getValue().toString();
         
         if(namaBarang.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Barang", btnIyaTambahBarang, btnBatalTambahBarang);
+            Session.animasiPanePesan(true, "Masukkan Nama Barang", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(namaMerek.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Merek", btnIyaTambahBarang, btnBatalTambahBarang);
+            Session.animasiPanePesan(true, "Masukkan Nama Merek", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Merek Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
+            Session.animasiPanePesan(true, "Merek Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(barcodeBarang.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Barcode Barang", btnIyaTambahBarang, btnBatalTambahBarang);
+            Session.animasiPanePesan(true, "Masukkan Barcode Barang", btnIyaTambahBarang, btnBatalTambahBarang);
+            return;
+        }else if(Session.cekDataSama("SELECT * FROM barang WHERE barcode=?", barcodeBarang)){
+            Session.animasiPanePesan(true, "Barcode Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(hargaJual.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Harga Jual Barang", btnIyaTambahBarang, btnBatalTambahBarang);
+            Session.animasiPanePesan(true, "Masukkan Harga Jual Barang", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }
         
@@ -326,7 +326,7 @@ public class HalamanProdukPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelBarang();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Barang berhasil ditambahkan");
+            Session.animasiPanePesan(false, "Barang berhasil ditambahkan");
             tutupTambahBarang();
             
             statement.close();
@@ -448,19 +448,22 @@ public class HalamanProdukPController implements Initializable {
         String expired = dtPTanggalExpEdit.getValue().toString();
                 
         if(namaBarang.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Barang", btnIyaEditBarang, btnBatalEditBarang);
+            Session.animasiPanePesan(true, "Masukkan Nama Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }else if(namaMerek.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Nama Merek", btnIyaEditBarang, btnBatalEditBarang);
+            Session.animasiPanePesan(true, "Masukkan Nama Merek", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }else if(barcodeBarang.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Barcode Barang", btnIyaEditBarang, btnBatalEditBarang);
+            Session.animasiPanePesan(true, "Masukkan Barcode Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }else if(hargaJual.isEmpty()){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
+            Session.animasiPanePesan(true, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }else if(!barangTerpilih.getMerek().toLowerCase().equals(namaMerek.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
-            Session.animasiPanePesan(true, panePesan, lblPesan, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
+            Session.animasiPanePesan(true, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
+            return;
+        }else if(!barangTerpilih.getBarcode().toLowerCase().equals(barcodeBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE barcode=?", barcodeBarang)){
+            Session.animasiPanePesan(true, "Barcode Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }
         
@@ -480,7 +483,7 @@ public class HalamanProdukPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelBarang();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Barang berhasil diedit");
+            Session.animasiPanePesan(false, "Barang berhasil diedit");
             tutupEditBarang();
             
             statement.close();
@@ -515,7 +518,7 @@ public class HalamanProdukPController implements Initializable {
             statement.executeUpdate();
             
             getDataTabelBarang();
-            Session.animasiPanePesan(false, panePesan, lblPesan, "Barang berhasil dihapus");
+            Session.animasiPanePesan(false, "Barang berhasil dihapus");
             tutupHapusBarang();
             
             statement.close();
@@ -576,24 +579,24 @@ public class HalamanProdukPController implements Initializable {
             
             if(kategori.getIdKategori().equals("temp")){
                 if (isDuplicate) {
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Nama kategori sudah digunakan");
+                    Session.animasiPanePesan(true, "Nama kategori sudah digunakan");
                     listKategori.remove(kategori);
                     return;
                 }else if(newValue == null || newValue.trim().isEmpty()) {
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Nama kategori tidak boleh kosong");
+                    Session.animasiPanePesan(true, "Nama kategori tidak boleh kosong");
                     listKategori.remove(kategori);
                     return;
                 }
             }else{
                 if (isDuplicate) {
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Nama kategori sudah digunakan");
+                    Session.animasiPanePesan(true, "Nama kategori sudah digunakan");
                     return;
                 }
                 if (newValue.equals(kategori.getNamaKategori())) {
                     return;
                 }
                 if(newValue == null || newValue.trim().isEmpty()) {
-                    Session.animasiPanePesan(true, panePesan, lblPesan, "Nama kategori tidak boleh kosong");
+                    Session.animasiPanePesan(true, "Nama kategori tidak boleh kosong");
                     return;
                 }
             }
@@ -608,7 +611,7 @@ public class HalamanProdukPController implements Initializable {
                     statement.setString(2, newValue);
                     statement.executeUpdate();
                     
-                    Session.animasiPanePesan(false, panePesan, lblPesan, "Kategori berhasil ditambahkan");
+                    Session.animasiPanePesan(false, "Kategori berhasil ditambahkan");
                     
                     kategori.setIdKategori(idKategoriBaru);
                     Button btnEdit = new Button();
@@ -667,11 +670,11 @@ public class HalamanProdukPController implements Initializable {
                             statementHapus.executeUpdate();
 
                             listKategori.remove(kategori);
-                            Session.animasiPanePesan(false, panePesan, lblPesan, "Kategori Berhasil dihapus");
+                            Session.animasiPanePesan(false, "Kategori Berhasil dihapus");
 
                             statementHapus.close();
                         } catch (Exception ex) {
-                            Session.animasiPanePesan(true, panePesan, lblPesan, "Kategori terkait suatu barang");
+                            Session.animasiPanePesan(true, "Kategori terkait suatu barang");
                         }
                     });
                     
@@ -689,7 +692,7 @@ public class HalamanProdukPController implements Initializable {
                     statement.setString(2, kategori.getIdKategori());
                     statement.executeUpdate();
 
-                    Session.animasiPanePesan(false, panePesan, lblPesan, "Kategori berhasil diperbarui");
+                    Session.animasiPanePesan(false, "Kategori berhasil diperbarui");
 
                     statement.close();
                 } catch (Exception e) {
@@ -770,11 +773,11 @@ public class HalamanProdukPController implements Initializable {
                         statementHapus.executeUpdate();
                         
                         listKategori.remove(kategoriBaru);
-                        Session.animasiPanePesan(false, panePesan, lblPesan, "Kategori Berhasil dihapus");
+                        Session.animasiPanePesan(false, "Kategori Berhasil dihapus");
                         
                         statementHapus.close();
                     } catch (Exception ex) {
-                        Session.animasiPanePesan(true, panePesan, lblPesan, "Kategori terkait suatu barang");
+                        Session.animasiPanePesan(true, "Kategori terkait suatu barang");
                     }
                 });
                 

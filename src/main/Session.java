@@ -25,12 +25,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 public class Session {
     private static final DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
     private static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+    
+    private static StackPane panePesan;
+    private static Label lblPesan;
     
     private static String idAdmin = "";
     //SHARE
@@ -46,9 +49,9 @@ public class Session {
     private static final String pathHalamanSaldoK = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
     private static final String pathHalamanStokK =  "/karyawan/halamanStok/halamanStokK.fxml";
     private static final String pathHalamanTransaksiAntarCabang = "/karyawan/halamanTransaksiAntarCabang/halamanTransaksiAntarCabang.fxml";
-    private static final String pathHalamanTransaksiRetur =  "/karyawan/halamanTransaksiRetur/halamanTransaksiReturK.fxml";
+    private static final String pathHalamanTransaksiReturK =  "/karyawan/halamanTransaksiRetur/halamanTransaksiReturK.fxml";
     private static final String pathHalamanKasK =  "/karyawan/halamanKas/halamanKasK.fxml";
-    private static final String pathHalamanRekap = "/karyawan/halamanRekap/halamanRekapK.fxml";
+    private static final String pathHalamanTopupSaldoK = "/karyawan/halamanTopupSaldo/halamanTopupSaldoK.fxml";
     private static final String pathHalamanTransaksiLainLainK = "/karyawan/halamanTransaksiLainLain/halamanTransaksiLainLainK.fxml";
     //PEMILIK
     private static final String pathHalamanUtamaP = "/pemilik/halamanUtama/halamanUtamaP.fxml";
@@ -59,8 +62,6 @@ public class Session {
     private static final String pathHalamanProdukP = "/pemilik/halamanProduk/halamanProdukP.fxml";
     private static final String pathHalamanSupplierP = "/pemilik/halamanSupplier/halamanSupplierP.fxml";
     private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskonP.fxml";
-    private static final String pathHalamanPresensiPusatP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
-    private static final String pathHalamanPresensiCabangP = "/pemilik/halamanAbsensiShifter/halamanAbsensiShifter.fxml";
     private static final String pathHalamanLaporanP = "/pemilik/halamanLaporan/halamanLaporanPenjualan.fxml";
     
     public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}
@@ -78,16 +79,14 @@ public class Session {
     public static String getPathHalamanBeliP() {return pathHalamanBeliP;}
     public static String getPathHalamanSupplierP() {return pathHalamanSupplierP;}
     public static String getPathHalamanTransaksiAntarCabang() { return pathHalamanTransaksiAntarCabang;};
-    public static String getPathHalamanTransaksiRetur() { return pathHalamanTransaksiRetur;};
+    public static String getPathHalamanTransaksiReturK() { return pathHalamanTransaksiReturK;};
     public static String getPathHalamanKas() { return pathHalamanKasK;};
-    public static String getPathHalamanRekap() { return pathHalamanRekap;};
+    public static String getPathHalamanTopupSaldoK() { return pathHalamanTopupSaldoK;};
     public static String getPathHalamanTransaksiLainLainK(){ return pathHalamanTransaksiLainLainK;}; 
     public static String getPathHalamanKasK() {return pathHalamanKasK;}
     public static String getPathHalamanKasP() {return pathHalamanKasP;}
     public static String getPathHalamanSaldoP() {return pathHalamanSaldoP;}
     public static String getPathHalamanDiskonP() {return pathHalamanDiskonP;}
-    public static String getPathHalamanPresensiPusatP() {return pathHalamanPresensiPusatP;}
-    public static String getPathHalamanPresensiCabangP() {return pathHalamanPresensiCabangP;}
     public static String getPathHalamanLaporanP() {return pathHalamanLaporanP;}
     
     public static String convertTanggalIndo(String tanggal){
@@ -146,7 +145,12 @@ public class Session {
         textField.setTextFormatter(new TextFormatter<>(filter));
     }
     
-    public static void animasiPanePesan(boolean isGagal, Pane panePesan, Label lblPesan, String pesan, Button ... buttons) {
+    public static void inisialisasiPesan(StackPane pane, Label label){
+        panePesan = pane;
+        lblPesan = label;
+    }
+        
+    public static void animasiPanePesan(boolean isGagal, String pesan, Button ... buttons) {
         if(isGagal){
             panePesan.setStyle("-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;");
             lblPesan.setStyle("-fx-text-fill: #ffebee;");

@@ -17,7 +17,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanTransaksiBeli.HalamanTransaksiBeliPController">
@@ -154,15 +153,6 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <StackPane fx:id="panePesan" layoutX="320.0" layoutY="550.0" mouseTransparent="true" opacity="0.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;">
-                           <children>
-                              <Label fx:id="lblPesan" alignment="CENTER" prefWidth="370.0" text="Username atau Password salah" textAlignment="CENTER" textFill="#ffebee" wrapText="true">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </StackPane>
                         <AnchorPane layoutX="705.0" layoutY="480.0" prefHeight="100.0" prefWidth="262.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
                            <children>
                               <Label layoutX="17.0" layoutY="12.0" text="Catatan" textFill="WHITE">

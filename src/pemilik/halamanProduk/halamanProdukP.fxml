@@ -12,7 +12,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanProduk.HalamanProdukPController">
@@ -89,15 +88,6 @@
             <TableColumn fx:id="colBarcode" editable="false" prefWidth="75.0" sortable="false" text="Barcode" />
          </columns>
       </TableView>
-      <StackPane fx:id="panePesan" layoutX="320.0" layoutY="680.0" opacity="0.0" prefHeight="80.0" prefWidth="350.0" style="-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;">
-         <children>
-            <Label fx:id="lblPesan" alignment="CENTER" prefWidth="370.0" text="Username atau Password salah" textAlignment="CENTER" textFill="#ffebee" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </StackPane>
       <AnchorPane id="AnchorPane" fx:id="paneTambahBarang" layoutX="163.0" layoutY="205.0" mouseTransparent="true" prefHeight="364.0" prefWidth="674.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
          <children>
             <Label layoutX="24.0" layoutY="22.0" prefHeight="30.0" prefWidth="135.0" text="Nama Barang" textFill="WHITE">
