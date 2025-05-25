@@ -10,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pemilik.halamanSupplier.HalamanSupplierPController">
@@ -116,6 +117,7 @@
             </TextField>
          </children>
       </AnchorPane>
+      <Pane fx:id="paneGelap" layoutX="10.0" layoutY="10.0" mouseTransparent="true" opacity="0.4" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: black;" visible="false" />
       <AnchorPane fx:id="paneEditSupplier" layoutX="36.0" layoutY="210.0" mouseTransparent="true" prefHeight="218.0" prefWidth="898.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-background-radius: 10; -fx-border-radius: 8; -fx-border-width: 3;" stylesheets="@../../main/buttons.css" visible="false">
          <children>
             <Label layoutX="12.0" layoutY="25.0" text="Nama Supplier" textFill="WHITE">

@@ -16,6 +16,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: #caf0f8;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="karyawan.halamanJual.HalamanJualKController">
@@ -35,7 +36,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <TabPane focusTraversable="false" layoutY="130.0" prefHeight="630.0" prefWidth="1000.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPaneTransaksiJual" focusTraversable="false" layoutY="130.0" prefHeight="630.0" prefWidth="1000.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab style="-fx-font-size: 15;" text="Transaksi">
             <content>
@@ -277,34 +278,11 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Button>
-                        <AnchorPane id="AnchorPane" fx:id="paneCetakStruk" layoutX="255.0" layoutY="135.0" mouseTransparent="true" prefHeight="230.0" prefWidth="490.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
-                           <children>
-                              <Label alignment="CENTER" layoutX="91.0" layoutY="72.0" prefWidth="312.0" text="Cetak Struk" textAlignment="CENTER" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="25.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="btnIyaCetakStruk" layoutX="298.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#cetakStruk" prefHeight="37.0" prefWidth="100.0" styleClass="btnKonfirmasi" text="Iya" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btnTutupCetakStruk" layoutX="92.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#tutupCetakStruk" prefHeight="37.0" prefWidth="100.0" styleClass="btnBatal" text="Tidak" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                           <stylesheets>
-                              <URL value="@../../main/styles.css" />
-                              <URL value="@../../main/buttons.css" />
-                           </stylesheets>
-                        </AnchorPane>
                      </children>
                 </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabRiwayatTransaksi" onSelectionChanged="#getSemuaTransaksi" style="-fx-font-size: 15;" text="Riwayat Transaksi">
+          <Tab onSelectionChanged="#getSemuaTransaksi" style="-fx-font-size: 15;" text="Riwayat Transaksi">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../../main/table2.css">
                      <children>
@@ -399,6 +377,30 @@
           </Tab>
         </tabs>
       </TabPane>
+      <Pane fx:id="paneGelap" mouseTransparent="true" opacity="0.4" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: black;" visible="false" />
+      <AnchorPane id="AnchorPane" fx:id="paneCetakStruk" layoutX="255.0" layoutY="265.0" mouseTransparent="true" prefHeight="230.0" prefWidth="490.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
+         <children>
+            <Label alignment="CENTER" layoutX="91.0" layoutY="72.0" prefWidth="312.0" text="Cetak Struk" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnIyaCetakStruk" layoutX="298.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#cetakStruk" prefHeight="37.0" prefWidth="100.0" styleClass="btnKonfirmasi" text="Iya" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnTutupCetakStruk" layoutX="92.0" layoutY="155.0" mnemonicParsing="false" onMouseClicked="#tutupCetakStruk" prefHeight="37.0" prefWidth="100.0" styleClass="btnBatal" text="Tidak" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Button>
+         </children>
+         <stylesheets>
+            <URL value="@../../main/styles.css" />
+            <URL value="@../../main/buttons.css" />
+         </stylesheets>
+      </AnchorPane>
    </children>
    <stylesheets>
       <URL value="@../../main/styles.css" />

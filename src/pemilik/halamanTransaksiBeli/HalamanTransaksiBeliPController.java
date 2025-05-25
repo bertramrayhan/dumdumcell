@@ -20,6 +20,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -30,6 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
@@ -37,6 +39,8 @@ import main.Session;
 
 public class HalamanTransaksiBeliPController implements Initializable {
     
+    @FXML private Pane paneGelap;
+    @FXML private TabPane tabPaneTransaksiBeli;
     @FXML private Label lblTanggal, lblJam, lblKasir, lblTotal, lblKembalian;
     @FXML private TextField txtBarcode, txtHargaBeliBarcode, txtQtyBarcode;
     @FXML private TextField txtHargaBeliManual, txtQtyManual, txtBayar;//txtBayar onKeyReleased
@@ -284,12 +288,8 @@ public class HalamanTransaksiBeliPController implements Initializable {
     }
     
     private void setTextFieldNumeric(){
-        Session.setTextFieldNumeric(txtBayar);
-        Session.setTextFieldNumeric(txtBarcode, 13);
-        Session.setTextFieldNumeric(txtQtyBarcode);
-        Session.setTextFieldNumeric(txtHargaBeliBarcode);
-        Session.setTextFieldNumeric(txtQtyManual);
-        Session.setTextFieldNumeric(txtHargaBeliManual);
+        Session.setTextFieldNumeric(txtBayar, txtQtyBarcode, txtHargaBeliBarcode, txtQtyManual, txtHargaBeliManual);
+        Session.setTextFieldNumeric(13, txtBarcode);
     }
     
     private void setCbxTransaksi(){
@@ -808,7 +808,8 @@ public class HalamanTransaksiBeliPController implements Initializable {
     
     @FXML
     private void bukaDetailTransaksi(){
-        Session.setShowPane(paneDetailTransaksi);
+        Session.setShowPane(paneDetailTransaksi, paneGelap);
+        Session.setMouseTransparentTrue(tabPaneTransaksiBeli);
         
         listDetailTransaksi.clear();
         try {
@@ -852,6 +853,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
     
     @FXML
     private void tutupDetailTransaksi(){
-        Session.setHidePane(paneDetailTransaksi);
+        Session.setHidePane(paneDetailTransaksi, paneGelap);
+        Session.setMouseTransparentFalse(tabPaneTransaksiBeli);
     }    
 }

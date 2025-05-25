@@ -26,11 +26,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.util.converter.DefaultStringConverter;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanProdukPController implements Initializable {
+    
+    @FXML private Pane paneGelap;
     @FXML private Button btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori;
     @FXML private ImageView btnX;
     @FXML private TextField txtSearchBar;
@@ -243,7 +246,7 @@ public class HalamanProdukPController implements Initializable {
         });
         dtPTanggalExpTambah.setValue(LocalDate.now().plusDays(1));
 
-        Session.setTextFieldNumeric(txtBarcodeTambah, 13);
+        Session.setTextFieldNumeric(13, txtBarcodeTambah);
         Session.setTextFieldNumeric(txtHargaJualTambah);
         
         try {
@@ -266,14 +269,14 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void bukaTambahBarang(){
-        Session.setShowPane(paneTambahBarang);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
+        Session.setShowPane(paneTambahBarang, paneGelap);
+        Session.setMouseTransparentTrue(tabelBarang, btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori, txtSearchBar, btnX, sortBy);
     }
     
     @FXML
     private void tutupTambahBarang(){
-        Session.setHidePane(paneTambahBarang);
-        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori);
+        Session.setHidePane(paneTambahBarang, paneGelap);
+        Session.setMouseTransparentFalse(tabelBarang, btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori, txtSearchBar, btnX, sortBy);
         txtNamaBarangTambah.setText("");
         txtNamaMerekTambah.setText("");
         txtBarcodeTambah.setText("");
@@ -375,7 +378,7 @@ public class HalamanProdukPController implements Initializable {
         });
         dtPTanggalExpEdit.setValue(LocalDate.now());
 
-        Session.setTextFieldNumeric(txtBarcodeEdit, 13);
+        Session.setTextFieldNumeric(13, txtBarcodeEdit);
         Session.setTextFieldNumeric(txtHargaJualEdit);
 
         try {
@@ -398,8 +401,8 @@ public class HalamanProdukPController implements Initializable {
 
     @FXML
     private void bukaEditBarang(){
-        Session.setShowPane(paneEditBarang);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
+        Session.setShowPane(paneEditBarang, paneGelap);
+        Session.setMouseTransparentTrue(tabelBarang, btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori, txtSearchBar, btnX, sortBy);
         
         int barisTerpilih = tabelBarang.getSelectionModel().getSelectedIndex();
         barangTerpilih = listBarang.get(barisTerpilih);
@@ -435,8 +438,8 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void tutupEditBarang(){
-        Session.setHidePane(paneEditBarang);
-        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori);
+        Session.setHidePane(paneEditBarang, paneGelap);
+        Session.setMouseTransparentFalse(tabelBarang, btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori, txtSearchBar, btnX, sortBy);
     }
     
     @FXML
@@ -495,8 +498,8 @@ public class HalamanProdukPController implements Initializable {
     //HAPUS BARANG
     @FXML
     private void bukaHapusBarang(){
-        Session.setShowPane(paneHapusBarang);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
+        Session.setShowPane(paneHapusBarang, paneGelap);
+        Session.setMouseTransparentTrue(tabelBarang, btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori, txtSearchBar, btnX, sortBy);
         
         int barisTerpilih = tabelBarang.getSelectionModel().getSelectedIndex();
         Barang barangTerpilih = listBarang.get(barisTerpilih);
@@ -505,8 +508,8 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void tutupHapusBarang(){
-        Session.setHidePane(paneHapusBarang);
-        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori);
+        Session.setHidePane(paneHapusBarang, paneGelap);
+        Session.setMouseTransparentFalse(tabelBarang, btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori, txtSearchBar, btnX, sortBy);
     }
     
     @FXML
@@ -705,8 +708,8 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void bukaKelolaKategori(){
-        Session.setShowPane(paneKelolaKategori);
-        Session.setDisableButtons(btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori);
+        Session.setShowPane(paneKelolaKategori, paneGelap);
+        Session.setMouseTransparentTrue(tabelBarang, btnTambahBarang, btnEditBarang, txtSearchBar, btnX, sortBy);
         
         try {
             String query = "SELECT id_kategori, nama_kategori FROM kategori";
@@ -795,8 +798,8 @@ public class HalamanProdukPController implements Initializable {
     
     @FXML
     private void tutupKelolaKategori(){
-        Session.setHidePane(paneKelolaKategori);
-        Session.setEnableButtons(btnTambahBarang, btnKelolaKategori, btnTambahKategori);
+        Session.setHidePane(paneKelolaKategori, paneGelap);
+        Session.setMouseTransparentFalse(tabelBarang, btnTambahBarang, btnEditBarang, txtSearchBar, btnX, sortBy);
         listKategori.clear();
         getDataTabelBarang();
     }

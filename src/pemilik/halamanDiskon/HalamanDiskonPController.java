@@ -22,11 +22,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanDiskonPController implements Initializable {
 
+    @FXML private Pane paneGelap;
     @FXML private TextField txtSearchBar;
     @FXML private ImageView btnX;
     @FXML private TableView<Diskon> tabelDiskon;
@@ -364,8 +366,8 @@ public class HalamanDiskonPController implements Initializable {
     
     @FXML
     private void bukaEditDiskon(){
-        Session.setShowPane(paneEditDiskon);
-        Session.setDisableButtons(btnIyaTambahDiskon);
+        Session.setShowPane(paneEditDiskon, paneGelap);
+        Session.setMouseTransparentTrue(txtNamaDiskonTambah, dtPTanggalMulaiTambah, dtPTanggalBerakhirTambah, btnIyaTambahDiskon, txtSearchBar, tabelDiskon);
                 
         txtNamaDiskonEdit.setText(diskonTerpilih.getNamaDiskon());
         cbxJenisDiskonEdit.setValue(diskonTerpilih.getJenisDiskon());
@@ -386,8 +388,8 @@ public class HalamanDiskonPController implements Initializable {
     
     @FXML
     private void tutupEditDiskon(){
-        Session.setHidePane(paneEditDiskon);
-        Session.setEnableButtons(btnIyaTambahDiskon);
+        Session.setHidePane(paneEditDiskon, paneGelap);
+        Session.setMouseTransparentFalse(txtNamaDiskonTambah, dtPTanggalMulaiTambah, dtPTanggalBerakhirTambah, btnIyaTambahDiskon, txtSearchBar, tabelDiskon);
     }
     
     @FXML
@@ -435,15 +437,14 @@ public class HalamanDiskonPController implements Initializable {
     //HAPUS DISKON
     @FXML
     private void bukaHapusDiskon(){
-        Session.setShowPane(paneHapusDiskon);
-        Session.setDisableButtons(btnIyaTambahDiskon, btnHapusDiskon);
+        Session.setShowPane(paneHapusDiskon, paneGelap);
+        Session.setMouseTransparentTrue(txtNamaDiskonTambah, cbxJenisDiskonTambah, txtPotonganHargaTambah, dtPTanggalMulaiTambah, dtPTanggalBerakhirTambah, btnIyaTambahDiskon, btnBatalTambahDiskon, btnHapusDiskon, txtSearchBar, tabelDiskon);
     }
     
     @FXML
     private void tutupHapusDiskon(){
-        Session.setHidePane(paneHapusDiskon);
-        Session.setEnableButtons(btnIyaTambahDiskon);
-        btnHapusDiskon.setDisable(btnEditDiskon.isDisable());
+        Session.setHidePane(paneHapusDiskon, paneGelap);
+        Session.setMouseTransparentFalse(txtNamaDiskonTambah, cbxJenisDiskonTambah, txtPotonganHargaTambah, dtPTanggalMulaiTambah, dtPTanggalBerakhirTambah, btnIyaTambahDiskon, btnBatalTambahDiskon, btnHapusDiskon, txtSearchBar, tabelDiskon);
     }
     
     @FXML

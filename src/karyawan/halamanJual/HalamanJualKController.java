@@ -24,6 +24,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -34,6 +35,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -46,6 +48,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanJualKController implements Initializable {
+    
+    @FXML private Pane paneGelap;
+    @FXML private TabPane tabPaneTransaksiJual;
     @FXML private AnchorPane paneCetakStruk;
     @FXML private Label lblTanggal, lblJam, lblKasir, lblSubtotal, lblTotal, lblKembalian;
     @FXML private TextField txtBarcode, txtBarcodeQty, txtBayar, txtManualQty;
@@ -61,7 +66,6 @@ public class HalamanJualKController implements Initializable {
     private String idTransaksiBaru = "";
     
     //RIWAYAT TRANSAKSI
-    @FXML private Tab tabRiwayatTransaksi;
     @FXML private Label lblTotalPenjualanBarang, lblTotalPenjualanSaldo, lblTotalPenjualan;
     @FXML private ChoiceBox<String> cbxShift;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
@@ -76,10 +80,8 @@ public class HalamanJualKController implements Initializable {
     static String idTransaksiTerpilih = "";
     
     private void setTextFieldNumeric(){
-        Session.setTextFieldNumeric(txtBayar);
-        Session.setTextFieldNumeric(txtBarcode, 13);
-        Session.setTextFieldNumeric(txtBarcodeQty);
-        Session.setTextFieldNumeric(txtManualQty);
+        Session.setTextFieldNumeric(txtBayar, txtBarcodeQty, txtManualQty);
+        Session.setTextFieldNumeric(13, txtBarcode);
     }
     
     @Override
@@ -534,15 +536,14 @@ public class HalamanJualKController implements Initializable {
     }
     
     private void bukaCetakStruk(){
-        Session.setShowPane(paneCetakStruk);
-        tabRiwayatTransaksi.setDisable(true);
-        
+        Session.setShowPane(paneCetakStruk, paneGelap);
+        Session.setMouseTransparentTrue(tabPaneTransaksiJual);
     }
     
     @FXML
     private void tutupCetakStruk(){
-        Session.setHidePane(paneCetakStruk);
-        tabRiwayatTransaksi.setDisable(false);
+        Session.setHidePane(paneCetakStruk, paneGelap);
+        Session.setMouseTransparentFalse(tabPaneTransaksiJual);
     }
     
     @FXML
@@ -773,7 +774,7 @@ public class HalamanJualKController implements Initializable {
             }
                         
             //MENGHITUNG TOTAL SALDO
-            query = "SELECT SUM(total_topup) AS total_topup\n" +
+            query = "SELECT SUM(harga_jual_saldo) AS harga_jual_saldo\n" +
             "FROM topup_saldo_pelanggan\n" +
             "WHERE DATE(tanggal) BETWEEN ? AND ?\n" +
             "AND TIME(tanggal) BETWEEN ? AND ?";
@@ -785,7 +786,7 @@ public class HalamanJualKController implements Initializable {
             result = statement.executeQuery();
             
             if(result.next()){
-                totalPenjualanSaldo = result.getInt("total_topup");
+                totalPenjualanSaldo = result.getInt("harga_jual_saldo");
             }
             
             totalPenjualan = totalPenjualanBarang + totalPenjualanSaldo;

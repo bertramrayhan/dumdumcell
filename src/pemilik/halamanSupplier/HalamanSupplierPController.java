@@ -15,11 +15,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanSupplierPController implements Initializable {
 
+    @FXML Pane paneGelap;
     @FXML private TextField txtSearchBar;
     @FXML private ImageView btnX;
     @FXML private TableView<Supplier> tabelSupplier;
@@ -145,7 +147,7 @@ public class HalamanSupplierPController implements Initializable {
     //TAMBAH SUPPLIER
     private void setKomponenTambahSupplier(){
         Session.triggerOnEnter(this::tambahSupplier, txtNamaSupplierTambah, txtNamaTokoTambah, txtKontakTambah, txtAlamatTambah);
-        Session.setTextFieldNumeric(txtKontakTambah, 13);
+        Session.setTextFieldNumeric(13, txtKontakTambah);
     }
     
     @FXML
@@ -213,13 +215,13 @@ public class HalamanSupplierPController implements Initializable {
     //EDIT SUPPLIER
     private void setKomponenEditSupplier(){
         Session.triggerOnEnter(this::editSupplier, txtNamaSupplierEdit, txtNamaTokoEdit, txtKontakEdit, txtAlamatEdit);
-        Session.setTextFieldNumeric(txtKontakEdit, 13);
+        Session.setTextFieldNumeric(13, txtKontakEdit);
     }
     
     @FXML
     private void bukaEditSupplier(){
-        Session.setShowPane(paneEditSupplier);
-        Session.setDisableButtons(btnIyaTambahSupplier);
+        Session.setShowPane(paneEditSupplier, paneGelap);
+        Session.setMouseTransparentTrue(txtNamaSupplierTambah, txtAlamatTambah, btnIyaTambahSupplier, txtSearchBar, tabelSupplier);
         
         txtNamaSupplierEdit.setText(supplierTerpilih.getNamaSupplier());
         txtNamaTokoEdit.setText(supplierTerpilih.getNamaToko());
@@ -229,8 +231,8 @@ public class HalamanSupplierPController implements Initializable {
     
     @FXML
     private void tutupEditSupplier(){
-        Session.setHidePane(paneEditSupplier);
-        Session.setEnableButtons(btnIyaTambahSupplier);
+        Session.setHidePane(paneEditSupplier, paneGelap);
+        Session.setMouseTransparentFalse(txtNamaSupplierTambah, txtAlamatTambah, btnIyaTambahSupplier, txtSearchBar, tabelSupplier);
     }
     
     @FXML
@@ -291,21 +293,19 @@ public class HalamanSupplierPController implements Initializable {
     //HAPUS SUPPLIER
     @FXML
     private void bukaHapusSupplier(){
-        Session.setShowPane(paneHapusSupplier);
-        Session.setDisableButtons(btnIyaTambahSupplier, btnHapusSupplier);
+        Session.setShowPane(paneHapusSupplier, paneGelap);
+        Session.setMouseTransparentTrue(txtNamaSupplierTambah, txtAlamatTambah, txtNamaTokoTambah, txtKontakTambah, btnBatalTambahSupplier, btnIyaTambahSupplier, txtSearchBar, btnHapusSupplier, tabelSupplier);
     }
     
     @FXML
     private void tutupHapusSupplier(){
-        Session.setHidePane(paneHapusSupplier);
-        Session.setEnableButtons(btnIyaTambahSupplier);
-        btnHapusSupplier.setDisable(btnEditSupplier.isDisable());
+        Session.setHidePane(paneHapusSupplier, paneGelap);
+        Session.setMouseTransparentFalse(txtNamaSupplierTambah, txtAlamatTambah, txtNamaTokoTambah, txtKontakTambah, btnBatalTambahSupplier, btnIyaTambahSupplier, txtSearchBar, btnHapusSupplier, tabelSupplier);
     }
     
     @FXML
     private void hapusSupplier(){
         try {
-            System.out.println(idSupplierTerpilih);
             String query = "DELETE FROM supplier WHERE id_supplier=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idSupplierTerpilih);

@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -28,12 +29,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Session;
 
 public class HalamanTransaksiReturKController implements Initializable {
 
+    @FXML private Pane paneGelap;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
     @FXML private ChoiceBox<String> cbxJenisTransaksi, cbxTipePengembalian;
     @FXML private ComboBox<String> cbxIdTransaksi;
@@ -47,6 +50,7 @@ public class HalamanTransaksiReturKController implements Initializable {
     private ObservableList<Barang> listDetailBarang = FXCollections.observableArrayList();
     
     //RIWAYAT RETUR
+    @FXML private TabPane tabPaneTransaksiRetur;
     @FXML private ChoiceBox<String> cbxJenisReturRiwayat, cbxTipePengembalianRiwayat, cbxStatusReturRiwayat;
     @FXML private DatePicker dtPTanggalAwalRiwayat, dtPTanggalAkhirRiwayat;
     @FXML private Button btnDetail;
@@ -722,9 +726,8 @@ public class HalamanTransaksiReturKController implements Initializable {
     
     @FXML
     private void bukaDetailRetur(){
-        Session.setShowPane(paneDetailRetur);
-        btnDetail.setDisable(true);
-        imgDetail.setOpacity(0.5F);
+        Session.setShowPane(paneDetailRetur, paneGelap);
+        Session.setMouseTransparentTrue(tabPaneTransaksiRetur);
         
         listDetailRetur.clear();
         try {
@@ -764,6 +767,7 @@ public class HalamanTransaksiReturKController implements Initializable {
     
     @FXML
     private void tutupDetailRetur(){
-        Session.setHidePane(paneDetailRetur);
+        Session.setHidePane(paneDetailRetur, paneGelap);
+        Session.setMouseTransparentFalse(tabPaneTransaksiRetur);
     }
 }

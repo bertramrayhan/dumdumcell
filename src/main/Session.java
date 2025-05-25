@@ -13,8 +13,10 @@ import java.util.regex.Pattern;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -25,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -123,15 +126,18 @@ public class Session {
         }
     }
     
-    public static void setTextFieldNumeric(TextField textField) {
+    public static void setTextFieldNumeric(TextField... textFields) {
         Pattern pattern = Pattern.compile("\\d*"); // Hanya angka
         UnaryOperator<TextFormatter.Change> filter = change -> {
             return pattern.matcher(change.getControlNewText()).matches() ? change : null;
         };
-        textField.setTextFormatter(new TextFormatter<>(filter));
+
+        for (TextField tf : textFields) {
+            tf.setTextFormatter(new TextFormatter<>(filter));
+        }
     }
     
-    public static void setTextFieldNumeric(TextField textField, int maxLength) {
+    public static void setTextFieldNumeric(int maxLength, TextField... textFields) {
         Pattern pattern = Pattern.compile("\\d*"); // hanya angka
 
         UnaryOperator<TextFormatter.Change> filter = change -> {
@@ -142,7 +148,9 @@ public class Session {
             return null;
         };
 
-        textField.setTextFormatter(new TextFormatter<>(filter));
+        for (TextField tf : textFields) {
+            tf.setTextFormatter(new TextFormatter<>(filter));
+        }
     }
     
     public static void inisialisasiPesan(StackPane pane, Label label){
@@ -269,6 +277,18 @@ public class Session {
         }
     }
     
+    public static void setMouseTransparentTrue(Node... nodes) {
+        for (Node node : nodes) {
+            node.setMouseTransparent(true);
+        }
+    }
+
+    public static void setMouseTransparentFalse(Node... nodes) {
+        for (Node node : nodes) {
+            node.setMouseTransparent(false);
+        }
+    }
+    
     public static void setShowPane(AnchorPane pane){
         pane.setVisible(true);
         pane.setMouseTransparent(false);
@@ -277,6 +297,41 @@ public class Session {
     public static void setHidePane(AnchorPane pane){
         pane.setVisible(false);
         pane.setMouseTransparent(true);
+    }
+    
+    public static void setShowPane(AnchorPane pane, Pane paneGelap){
+        pane.setVisible(true);
+        pane.setMouseTransparent(false);
+        paneGelap.setVisible(true);
+
+        // Set initial scale kecil
+        pane.setScaleX(0.8);
+        pane.setScaleY(0.8);
+
+        // Animasi scale up
+        ScaleTransition scaleUp = new ScaleTransition(Duration.millis(300), pane);
+        scaleUp.setFromX(0.8);
+        scaleUp.setFromY(0.8);
+        scaleUp.setToX(1);
+        scaleUp.setToY(1);
+        scaleUp.play();
+    }
+
+    public static void setHidePane(AnchorPane pane, Pane paneGelap){
+        // Animasi scale down dulu, setelah selesai baru disembunyiin
+        ScaleTransition scaleDown = new ScaleTransition(Duration.millis(300), pane);
+        scaleDown.setFromX(1);
+        scaleDown.setFromY(1);
+        scaleDown.setToX(0.8);
+        scaleDown.setToY(0.8);
+
+        scaleDown.setOnFinished(e -> {
+            pane.setVisible(false);
+            pane.setMouseTransparent(true);
+            paneGelap.setVisible(false);
+        });
+
+        scaleDown.play();
     }
     
     public static void triggerOnEnter(Runnable action, TextInputControl... inputs) {
