@@ -127,17 +127,17 @@
             </ImageView>
          </children>
       </Pane>
-      <Button fx:id="btnEditDiskon" layoutX="65.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#bukaEditDiskon" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Pembelian" textFill="WHITE">
+      <Button fx:id="btnPembelian" layoutX="65.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#bukaEditDiskon" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Pembelian" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnEditDiskon1" layoutX="200.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#bukaEditDiskon" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Penjualan" textFill="WHITE">
+      <Button fx:id="btnPenjualan" layoutX="200.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#bukaEditDiskon" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Penjualan" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnEditDiskon11" layoutX="336.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#bukaEditDiskon" prefHeight="48.0" prefWidth="131.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Stok Barang" textFill="WHITE">
+      <Button fx:id="btnStok" layoutX="336.0" layoutY="163.0" mnemonicParsing="false" onMouseClicked="#bukaEditDiskon" prefHeight="48.0" prefWidth="131.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Stok Barang" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

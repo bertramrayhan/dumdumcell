@@ -209,6 +209,7 @@ public class HalamanTopupSaldoKController implements Initializable {
         txtNomorTelepon.clear();
         txtSaldoMinus.clear();
         txtNamaRekening.clear();
+        txtCashback.clear();
     }
 
     @FXML
