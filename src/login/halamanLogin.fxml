@@ -65,20 +65,20 @@
             <DropShadow blurType="GAUSSIAN" offsetX="-1.4" spread="0.1" />
          </effect>
       </AnchorPane>
-      <Label layoutX="50.0" layoutY="150.0" text="Selamat Datang" textFill="#353499">
-         <font>
-            <Font name="System Bold" size="50.0" />
-         </font>
-      </Label>
-      <Label layoutX="50.0" layoutY="230.0" text="di DumDumCellular" textFill="#353499">
-         <font>
-            <Font name="System Bold" size="50.0" />
-         </font>
-      </Label>
       <Label layoutX="853.0" layoutY="135.0" text="LOGIN" textFill="WHITE">
          <font>
             <Font name="Verdana Bold" size="50.0" />
          </font>
       </Label>
+      <ImageView fitHeight="182.0" fitWidth="276.0" layoutX="150.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo/LogomarkBesar.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="280.0" fitWidth="457.0" layoutX="64.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo/WhatsApp_Image_2025-05-25_at_20.05.22_87b914c5-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
