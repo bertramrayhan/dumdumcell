@@ -35,6 +35,9 @@ public class Session {
     private static final DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
     private static final NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
     
+    private static SequentialTransition animasiSedangBerjalan;
+    private static String pesanTerakhir = "";
+    private static long waktuTerakhir = 0;
     private static StackPane panePesan;
     private static Label lblPesan;
     
@@ -159,50 +162,59 @@ public class Session {
     }
         
     public static void animasiPanePesan(boolean isGagal, String pesan, Button ... buttons) {
-        if(isGagal){
+        long sekarang = System.currentTimeMillis();
+        if(pesan.contains(pesanTerakhir) && (sekarang - waktuTerakhir < 2000)){
+            return;
+        }
+        
+        if (animasiSedangBerjalan != null) {
+            animasiSedangBerjalan.stop(); // Hentikan animasi sebelumnya
+            panePesan.setOpacity(0); // Reset tampilan
+            panePesan.setTranslateY(50);
+        }
+
+        pesanTerakhir = pesan;
+        waktuTerakhir = sekarang;
+        
+        if (isGagal) {
             panePesan.setStyle("-fx-background-color: #D32F2F; -fx-border-color: #B71C1C; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;");
             lblPesan.setStyle("-fx-text-fill: #ffebee;");
-        }else{
+        } else {
             panePesan.setStyle("-fx-background-color: #388E3C; -fx-border-color: #1B5E20; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10;");
             lblPesan.setStyle("-fx-text-fill: #E8F5E9;");
         }
-        
+
         lblPesan.setText(pesan);
         setDisableButtons(buttons);
-        
-        // Animasi fade in
+
         FadeTransition fadeIn = new FadeTransition(Duration.millis(300), panePesan);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
 
-        // Animasi naik ke tengah
         TranslateTransition naik = new TranslateTransition(Duration.millis(500), panePesan);
         naik.setFromY(50);
         naik.setToY(-100);
 
         ParallelTransition naikSambilFade = new ParallelTransition(naik, fadeIn);
-        
-        // Pause biar pesan keliatan beberapa detik
+
         PauseTransition jeda = new PauseTransition(Duration.millis(1000));
 
-        // Animasi turun kembali
         TranslateTransition turun = new TranslateTransition(Duration.millis(500), panePesan);
         turun.setFromY(-100);
         turun.setToY(50);
 
-        // Animasi fade out
         FadeTransition fadeOut = new FadeTransition(Duration.millis(300), panePesan);
         fadeOut.setFromValue(1);
         fadeOut.setToValue(0);
 
         ParallelTransition turunSambilFade = new ParallelTransition(turun, fadeOut);
-        
-        // Gabung semua animasi dengan jeda tambahan
-        SequentialTransition animasi = new SequentialTransition(naikSambilFade, jeda, turunSambilFade);
-        animasi.setOnFinished(event -> {
+
+        animasiSedangBerjalan = new SequentialTransition(naikSambilFade, jeda, turunSambilFade);
+        animasiSedangBerjalan.setOnFinished(event -> {
             setEnableButtons(buttons);
+            animasiSedangBerjalan = null; // reset biar bisa deteksi animasi baru lagi nanti
         });
-        animasi.play();
+        animasiSedangBerjalan.play();
     }
     
     public static void togglePassword(PasswordField txtPassword, TextField txtPasswordVisible, ImageView btnShowPassword,
