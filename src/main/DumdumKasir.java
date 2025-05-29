@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,6 +22,7 @@ public class DumdumKasir extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.centerOnScreen();
+        stage.getIcons().add(new Image("/assets/logo/Logomark128px.png"));
         //stage.setMaximized(true);
         stage.show();
     }
@@ -41,6 +43,7 @@ public class DumdumKasir extends Application {
 
         newStage.setScene(scene);
         newStage.centerOnScreen();
+        newStage.getIcons().add(new Image("/assets/logo/Logomark128px.png"));
         newStage.show();
         halamanUtama.close();
         
@@ -53,5 +56,4 @@ public class DumdumKasir extends Application {
         
         launch(args);
     }
-    
 }
