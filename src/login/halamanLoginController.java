@@ -1,6 +1,7 @@
 package login;
 
 import java.net.URL;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
@@ -11,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import main.DumdumKasir;
 import main.Koneksi;
@@ -21,12 +24,14 @@ public class halamanLoginController implements Initializable {
     private long lastTime = 0;
     private final long RFID_THRESHOLD = 100;
     
-    @FXML TextField txtUsername, txtPasswordVisible;
-    @FXML PasswordField txtPassword;
-    @FXML Button btnLogin;
-    @FXML ImageView btnShowPassword;
-    @FXML StackPane panePesan;
-    @FXML Label lblPesan;
+    @FXML private Pane paneGelap;
+    @FXML private AnchorPane panePilihanHalaman;
+    @FXML private TextField txtUsername, txtPasswordVisible;
+    @FXML private PasswordField txtPassword;
+    @FXML private Button btnLogin, btnKaryawan, btnPemilik;
+    @FXML private ImageView btnShowPassword;
+    @FXML private StackPane panePesan;
+    @FXML private Label lblPesan;
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,8 +64,16 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
+                String role = result.getString("role");
                 Session.setIdAdmin(result.getString("id_admin"));
-                DumdumKasir.switchToBeranda(result.getString("role"));
+                
+                query = "{CALL generate_log_saldo_shift_berdasarkan_waktu()}";
+                CallableStatement statementProcedure = Koneksi.getCon().prepareCall(query);
+                statementProcedure.executeQuery();
+                
+                if(role.equals("pemilik")){
+                    bukaPanePilihanHalaman();
+                }
             }else{
                 Session.animasiPanePesan(true, "Username atau Password Salah", btnLogin);
                 txtUsername.requestFocus();
@@ -87,8 +100,17 @@ public class halamanLoginController implements Initializable {
             ResultSet result = statement.executeQuery();
             
             if(result.next()){
+                String role = result.getString("role");
                 Session.setIdAdmin(result.getString("id_admin"));
-                DumdumKasir.switchToBeranda(result.getString("role"));
+                DumdumKasir.switchToBeranda(role);
+                
+                query = "{CALL generate_log_saldo_shift_berdasarkan_waktu()}";
+                CallableStatement statementProcedure = Koneksi.getCon().prepareCall(query);
+                statementProcedure.executeQuery();
+                
+                if(role.equals("pemilik")){
+                    bukaPanePilihanHalaman();
+                }
             }else{
                 Session.animasiPanePesan(true, "Kode Kartu Salah", btnLogin);
                 txtUsername.requestFocus();
@@ -134,5 +156,28 @@ public class halamanLoginController implements Initializable {
         });
 
         Session.triggerOnEnter(this::btnLogin, field);
-    }    
+    }
+    
+    @FXML
+    private void bukaPanePilihanHalaman(){
+        Session.setShowPane(panePilihanHalaman, paneGelap);
+    }
+    
+    @FXML
+    private void goToHalamanKaryawan(){
+        try {
+            DumdumKasir.switchToBeranda("karyawan");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void goToHalamanPemilik(){
+        try {
+            DumdumKasir.switchToBeranda("pemilik");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

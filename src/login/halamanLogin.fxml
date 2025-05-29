@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
@@ -80,5 +82,29 @@
             <Image url="@../assets/logo/WhatsApp_Image_2025-05-25_at_20.05.22_87b914c5-removebg-preview.png" />
          </image>
       </ImageView>
+      <Pane fx:id="paneGelap" mouseTransparent="true" opacity="0.4" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false" />
+      <AnchorPane id="AnchorPane" fx:id="panePilihanHalaman" layoutX="395.0" layoutY="285.0" mouseTransparent="true" prefHeight="230.0" prefWidth="490.0" style="-fx-background-color: #02045e; -fx-border-color: #0077b6; -fx-border-width: 3;" visible="false">
+         <children>
+            <Label layoutX="91.0" layoutY="50.0" prefWidth="312.0" text="Silakan Pilih Halaman Yang Ingin Anda Buka" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnPemilik" layoutX="305.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#goToHalamanPemilik" prefHeight="40.0" prefWidth="107.0" styleClass="button-effect" stylesheets="@../main/styles.css" text="Pemilik" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnKaryawan" layoutX="85.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#goToHalamanKaryawan" prefHeight="40.0" prefWidth="107.0" styleClass="button-effect" stylesheets="@../main/styles.css" text="Karyawan" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+         <stylesheets>
+            <URL value="@../main/styles.css" />
+            <URL value="@../main/buttons.css" />
+         </stylesheets>
+      </AnchorPane>
    </children>
 </AnchorPane>
