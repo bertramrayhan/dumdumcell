@@ -770,14 +770,17 @@ public class HalamanJualKController implements Initializable {
                 Session.convertIntToRupiah(totalPembelian), kembalian);
                 listTransaksi.add(trs);
                 
-                totalPenjualanBarang += totalPembelian;
+                if(jenisPembayaran.equals("Tunai")){
+                    totalPenjualanBarang += totalPembelian;
+                }
             }
                         
             //MENGHITUNG TOTAL SALDO
             query = "SELECT SUM(harga_jual_saldo) AS harga_jual_saldo\n" +
             "FROM topup_saldo_pelanggan\n" +
             "WHERE DATE(tanggal) BETWEEN ? AND ?\n" +
-            "AND TIME(tanggal) BETWEEN ? AND ?";
+            "AND TIME(tanggal) BETWEEN ? AND ?\n" + 
+            "AND (nama_rekening IS NULL OR nama_rekening = '')";
             statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, tanggalAwal);
             statement.setString(2, tanggalAkhir);

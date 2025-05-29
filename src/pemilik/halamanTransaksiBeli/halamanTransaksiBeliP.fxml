@@ -127,18 +127,8 @@
                               </TextField>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="362.0" layoutY="480.0" prefHeight="122.0" prefWidth="330.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
+                        <AnchorPane layoutX="362.0" layoutY="528.0" prefHeight="72.0" prefWidth="330.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
                            <children>
-                              <Label layoutX="17.0" layoutY="70.0" text="Cara Bayar" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                              </Label>
-                              <ChoiceBox fx:id="cbxCaraBayar" layoutX="129.0" layoutY="70.0" prefHeight="32.0" prefWidth="185.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </ChoiceBox>
                               <Label layoutX="17.0" layoutY="20.0" text="Kembalian" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
@@ -324,7 +314,6 @@
                               <TableColumn fx:id="colSupplier" editable="false" prefWidth="75.0" sortable="false" text="Supplier" />
                               <TableColumn fx:id="colTanggal" editable="false" prefWidth="75.0" sortable="false" text="Tanggal" />
                               <TableColumn fx:id="colWaktu" editable="false" prefWidth="75.0" sortable="false" text="Waktu" />
-                              <TableColumn fx:id="colJenisPembayaran" editable="false" prefWidth="75.0" sortable="false" text="Jenis Pembayaran" />
                               <TableColumn fx:id="colTotalPembelian" editable="false" prefWidth="75.0" sortable="false" text="Total Pembelian" />
                               <TableColumn fx:id="colKembalian" editable="false" prefWidth="75.0" sortable="false" text="Kembalian" />
                            </columns>

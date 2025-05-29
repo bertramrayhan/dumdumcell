@@ -51,7 +51,7 @@ public class Session {
     private static final String pathHalamanJualK = "/karyawan/halamanJual/halamanJualK.fxml";
     private static final String pathHalamanSaldoK = "/karyawan/halamanSaldo/halamanSaldoK.fxml";
     private static final String pathHalamanStokK =  "/karyawan/halamanStok/halamanStokK.fxml";
-    private static final String pathHalamanTransaksiAntarCabang = "/karyawan/halamanTransaksiAntarCabang/halamanTransaksiAntarCabang.fxml";
+    private static final String pathHalamanTransaksiAntarCabangK = "/karyawan/halamanTransaksiAntarCabang/halamanTransaksiAntarCabangK.fxml";
     private static final String pathHalamanTransaksiReturK =  "/karyawan/halamanTransaksiRetur/halamanTransaksiReturK.fxml";
     private static final String pathHalamanKasK =  "/karyawan/halamanKas/halamanKasK.fxml";
     private static final String pathHalamanTopupSaldoK = "/karyawan/halamanTopupSaldo/halamanTopupSaldoK.fxml";
@@ -81,7 +81,7 @@ public class Session {
     public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
     public static String getPathHalamanBeliP() {return pathHalamanBeliP;}
     public static String getPathHalamanSupplierP() {return pathHalamanSupplierP;}
-    public static String getPathHalamanTransaksiAntarCabang() { return pathHalamanTransaksiAntarCabang;};
+    public static String getPathHalamanTransaksiAntarCabangK() { return pathHalamanTransaksiAntarCabangK;};
     public static String getPathHalamanTransaksiReturK() { return pathHalamanTransaksiReturK;};
     public static String getPathHalamanKas() { return pathHalamanKasK;};
     public static String getPathHalamanTopupSaldoK() { return pathHalamanTopupSaldoK;};

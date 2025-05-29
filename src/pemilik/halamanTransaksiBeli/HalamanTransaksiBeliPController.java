@@ -41,13 +41,13 @@ public class HalamanTransaksiBeliPController implements Initializable {
     
     @FXML private Pane paneGelap;
     @FXML private TabPane tabPaneTransaksiBeli;
-    @FXML private Label lblTanggal, lblJam, lblKasir, lblTotal, lblKembalian;
+    @FXML private Label lblTanggal, lblJam, lblTotal, lblKembalian;
     @FXML private TextField txtBarcode, txtHargaBeliBarcode, txtQtyBarcode;
     @FXML private TextField txtHargaBeliManual, txtQtyManual, txtBayar;//txtBayar onKeyReleased
     @FXML private TextArea txtACatatan;
     @FXML private Button btnTambahProdukBarcode, btnTambahProdukManual;
     @FXML private Button btnBatalTransaksi, btnKonfirmasiTransaksi;
-    @FXML private ChoiceBox<String> cbxKategori, cbxSupplier, cbxCaraBayar;
+    @FXML private ChoiceBox<String> cbxKategori, cbxSupplier;
     @FXML private ComboBox<String> cbxProduk;
     @FXML private TableView<Barang> tabelBarang;
     @FXML private TableColumn<Barang, String> colBarcode, colBarang, colSubtotal;
@@ -64,7 +64,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
     @FXML private Button btnDetail;
     @FXML private ImageView imgDetail;
     @FXML private TableView<Transaksi> tabelTransaksi;
-    @FXML private TableColumn<Transaksi, String> colKaryawan, colSupplier, colTanggal, colWaktu, colJenisPembayaran, colTotalPembelian, colKembalian;
+    @FXML private TableColumn<Transaksi, String> colKaryawan, colSupplier, colTanggal, colWaktu, colTotalPembelian, colKembalian;
     
     private ObservableList<Transaksi> listTransaksi = FXCollections.observableArrayList();
     
@@ -81,7 +81,6 @@ public class HalamanTransaksiBeliPController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setKasir();
         setWaktuDanTanggal();
         setTextFieldNumeric();
         setCbxTransaksi();
@@ -122,7 +121,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
             this.qty = qty;
             setSubtotal();
         }
-        public void setSubtotal(){this.subtotal = Session.convertIntToRupiah(this.qty * this.harga);}
+        public void setSubtotal(){this.subtotal = Session.convertIntToRupiah(this.qty * this.harga);setTotal();}
         @Override
         public String toString() {return "Nama Barang : " + this.barang;}    
     }
@@ -226,15 +225,25 @@ public class HalamanTransaksiBeliPController implements Initializable {
                     if (newValue == null) {
                         cancelEdit();
                     } else {
-                        Barang barang = getTableView().getItems().get(getIndex());
-                        if (newValue == 0) {
-                            listBarang.remove(barang);
+                        int index = getIndex();
+                        ObservableList<Barang> items = getTableView().getItems();
+
+                        if (index >= 0 && index < items.size()) {
+                            Barang barang = items.get(index); // Now this line is safe
+
+                            if (newValue == 0) {
+                                listBarang.remove(barang);
+                            } else {
+                                super.commitEdit(newValue);
+                                barang.setQty(newValue);
+                            }
+                            tabelBarang.setItems(listBarang); 
+                            getTableView().refresh();
+
                         } else {
-                            super.commitEdit(newValue);
-                            barang.setQty(newValue);
+                            System.err.println("Attempted commitEdit with invalid index: " + index);
+                            cancelEdit(); // Cancel the edit if the index is bad
                         }
-                        tabelBarang.setItems(listBarang);
-                        getTableView().refresh();
                     }
                 }
             };
@@ -268,35 +277,12 @@ public class HalamanTransaksiBeliPController implements Initializable {
         lblTanggal.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
     
-    private void setKasir(){
-        try {
-            String query = "SELECT username FROM admin WHERE id_admin=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, Session.getIdAdmin());
-            
-            ResultSet result = statement.executeQuery();
-            
-            if(result.next()){
-                lblKasir.setText(result.getString("username"));
-            }
-            
-            result.close();
-            statement.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     private void setTextFieldNumeric(){
         Session.setTextFieldNumeric(txtBayar, txtQtyBarcode, txtHargaBeliBarcode, txtQtyManual, txtHargaBeliManual);
         Session.setTextFieldNumeric(13, txtBarcode);
     }
     
     private void setCbxTransaksi(){
-        //combo box cara bayar
-        cbxCaraBayar.getItems().addAll("Tunai", "Transfer");
-        cbxCaraBayar.setValue("Tunai");
-
         try {
             cbxKategori.getItems().add("Semua");
             
@@ -528,16 +514,15 @@ public class HalamanTransaksiBeliPController implements Initializable {
             int total = Session.convertRupiahToInt(lblTotal.getText());
             int kembalian = Session.convertRupiahToInt(lblKembalian.getText());
 
-            String query = "INSERT INTO transaksi_beli VALUES (?,?,?,NOW(),?,?,?,?)";
+            String query = "INSERT INTO transaksi_beli VALUES (?,?,?,NOW(),?,?,?)";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idTransaksiBaru);
             statement.setString(2, Session.getIdAdmin());
             String namaSupplier = cbxSupplier.getValue();
             statement.setString(3, Session.getId("supplier", "id_supplier", "nama_supplier", namaSupplier.split(",\\s*")[0]));
-            statement.setString(4, cbxCaraBayar.getValue());
-            statement.setInt(5, total);
-            statement.setInt(6, kembalian);
-            statement.setString(7, txtACatatan.getText().trim());
+            statement.setInt(4, total);
+            statement.setInt(5, kembalian);
+            statement.setString(6, txtACatatan.getText().trim());
 
             statement.executeUpdate();
 
@@ -561,17 +546,16 @@ public class HalamanTransaksiBeliPController implements Initializable {
     
     //RIWAYAT TRANSAKSI
     public class Transaksi{
-        String idTransaksi, karyawan, supplier, tanggal, waktu, jenisPembayaran, totalPembelian, kembalian;
+        String idTransaksi, karyawan, supplier, tanggal, waktu, totalPembelian, kembalian;
 
-        public Transaksi(String idTransaksi, String karyawan, String supplier, String tanggal, String waktu, String jenisPembayaran, 
+        public Transaksi(String idTransaksi, String karyawan, String supplier, String tanggal, String waktu, 
                 String totalPembelian, String kembalian) {
-            this.idTransaksi = idTransaksi;this.karyawan = karyawan;this.supplier = supplier;this.tanggal = tanggal;this.waktu = waktu;this.jenisPembayaran = jenisPembayaran;this.totalPembelian = totalPembelian;this.kembalian = kembalian;
+            this.idTransaksi = idTransaksi;this.karyawan = karyawan;this.supplier = supplier;this.tanggal = tanggal;this.waktu = waktu;this.totalPembelian = totalPembelian;this.kembalian = kembalian;
         }
         public String getIdTransaksi() {return idTransaksi;}
         public String getKaryawan() {return karyawan;}
         public String getTanggal() {return tanggal;}
         public String getWaktu() {return waktu;}
-        public String getJenisPembayaran() {return jenisPembayaran;}
         public String getSupplier() {return supplier;}
         public String getTotalPembelian() {return totalPembelian;}
         public String getKembalian() {return kembalian;}
@@ -579,7 +563,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
         public String toString() {
             return String.format(
             "Transaksi [Karyawan: %s, Supplier: %s, Tanggal: %s, Waktu: %s, Jenis Pembayaran: %s, Total Pembelian: %s, Kembalian: %s]",
-            karyawan, supplier, tanggal, waktu, jenisPembayaran, totalPembelian, kembalian);
+            karyawan, supplier, tanggal, waktu, totalPembelian, kembalian);
         }
     }
     
@@ -687,7 +671,6 @@ public class HalamanTransaksiBeliPController implements Initializable {
         colSupplier.setCellValueFactory(new PropertyValueFactory<>("supplier"));
         colTanggal.setCellValueFactory(new PropertyValueFactory<>("tanggal"));
         colWaktu.setCellValueFactory(new PropertyValueFactory<>("waktu"));
-        colJenisPembayaran.setCellValueFactory(new PropertyValueFactory<>("jenisPembayaran"));
         colTotalPembelian.setCellValueFactory(new PropertyValueFactory<>("totalPembelian"));
         colKembalian.setCellValueFactory(new PropertyValueFactory<>("kembalian"));
         
@@ -716,7 +699,7 @@ public class HalamanTransaksiBeliPController implements Initializable {
         listTransaksi.clear();
         try {
             String query = "SELECT tb.id_transaksi_beli AS id_transaksi, adm.username AS username, DATE(tb.tanggal_transaksi_beli) AS tanggal, \n" +
-            "TIME(tb.tanggal_transaksi_beli) AS waktu, tb.cara_bayar AS jenis_pembayaran,\n" +
+            "TIME(tb.tanggal_transaksi_beli) AS waktu,\n" +
             "spl.nama_supplier AS supplier, tb.total_transaksi_beli AS total_pembelian,\n" +
             "tb.kembalian AS kembalian\n" +
             "FROM transaksi_beli tb\n" +
@@ -739,13 +722,11 @@ public class HalamanTransaksiBeliPController implements Initializable {
                 String karyawan = result.getString("username");
                 String tanggal = Session.convertTanggalIndo(result.getString("tanggal"));
                 String waktu = result.getString("waktu");
-                String jenisPembayaran = result.getString("jenis_pembayaran");
                 String supplier = result.getString("supplier");
                 int totalPembelian = result.getInt("total_pembelian");
                 String kembalian = Session.convertIntToRupiah(result.getInt("kembalian"));
                 
-                Transaksi trs = new Transaksi(idTransaksi, karyawan, supplier, tanggal, waktu, jenisPembayaran, 
-                Session.convertIntToRupiah(totalPembelian), kembalian);
+                Transaksi trs = new Transaksi(idTransaksi, karyawan, supplier, tanggal, waktu, Session.convertIntToRupiah(totalPembelian), kembalian);
                 listTransaksi.add(trs);
                 
                 totalPembelianBarang += totalPembelian;

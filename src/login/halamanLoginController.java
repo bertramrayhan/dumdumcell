@@ -73,6 +73,8 @@ public class halamanLoginController implements Initializable {
                 
                 if(role.equals("pemilik")){
                     bukaPanePilihanHalaman();
+                }else{
+                    goToHalamanKaryawan();
                 }
             }else{
                 Session.animasiPanePesan(true, "Username atau Password Salah", btnLogin);
@@ -110,6 +112,8 @@ public class halamanLoginController implements Initializable {
                 
                 if(role.equals("pemilik")){
                     bukaPanePilihanHalaman();
+                }else{
+                    goToHalamanKaryawan();
                 }
             }else{
                 Session.animasiPanePesan(true, "Kode Kartu Salah", btnLogin);

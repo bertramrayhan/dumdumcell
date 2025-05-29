@@ -109,7 +109,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToAntarCabang(){
         resetIndikator();
         animateIndikator(indikatorAntarCabang);
-        loadPane(Session.getPathHalamanTransaksiAntarCabang());
+        loadPane(Session.getPathHalamanTransaksiAntarCabangK());
     }
 
     @FXML

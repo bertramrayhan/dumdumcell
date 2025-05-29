@@ -61,7 +61,7 @@ public class HalamanTransaksiLainLainKController implements Initializable {
             getDataTabelTransaksi();
         });
         Session.setTextFieldNumeric(txtNominal);
-        Session.triggerOnEnter(this::prosesTransaksi, txtNominal);
+        Session.triggerOnEnter(this::prosesTransaksi, txtNominal, txtAKeterangan);
     }
     
     private void setTabelTransaksi(){

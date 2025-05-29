@@ -45,40 +45,53 @@ public class HalamanSaldoKController implements Initializable, Pelengkap {
         Timestamp timestampSelesai = Timestamp.valueOf(dateTimeSelesai);
         
         try {
-            String query = "WITH TransaksiShift AS (\n" +
-            "    -- Menghitung total transaksi yang terjadi HANYA selama shift saat ini\n" +
-            "    SELECT\n" +
-            "        a.nama_aplikasi_saldo,\n" +
-            "        a.total_saldo AS sisa_saldo_sekarang, -- Saldo terkini dari tabel aplikasi_saldo\n" +
-            "        \n" +
-            "        COALESCE(SUM(tsa.total_topup), 0) AS total_topup_shift,\n" +
-            "        COALESCE(SUM(tsp.total_saldo_minus), 0) AS total_saldo_minus_shift,\n" +
-            "        COALESCE(SUM(tsp.total_cashback), 0) AS total_cashback_shift\n" +
-            "    FROM \n" +
-            "        aplikasi_saldo a\n" +
-            "    LEFT JOIN \n" +
-            "        topup_saldo_aplikasi tsa ON a.id_aplikasi_saldo = tsa.id_aplikasi_saldo \n" +
-            "                                 AND tsa.tanggal BETWEEN ? AND ? -- Filter waktu shift\n" +
-            "    LEFT JOIN \n" +
-            "        topup_saldo_pelanggan tsp ON a.id_aplikasi_saldo = tsp.id_aplikasi_saldo \n" +
-            "                                  AND tsp.tanggal BETWEEN ? AND ? -- Filter waktu shift\n" +
-            "    GROUP BY\n" +
-            "        a.id_aplikasi_saldo, a.nama_aplikasi_saldo, a.total_saldo\n" +
-            ")\n" +
-            "SELECT \n" +
-            "    T.nama_aplikasi_saldo,\n" +
-            "    (T.sisa_saldo_sekarang - T.total_topup_shift + T.total_saldo_minus_shift + T.total_cashback_shift) AS saldo_awal,\n" +
-            "    T.total_saldo_minus_shift AS minus_saldo,\n" +
-            "    T.total_topup_shift AS topup,\n" +
-            "    T.total_cashback_shift AS cashback,\n" +
-            "    T.sisa_saldo_sekarang AS sisa_saldo\n" +
-            "FROM \n" +
-            "    TransaksiShift T;";
+            String query = "SELECT \n" +
+            "    aps.nama_aplikasi_saldo,\n" +
+            "\n" +
+            "    -- saldo awal: ambil dari log terakhir\n" +
+            "    COALESCE((\n" +
+            "        SELECT lsa1.saldo_akhir_shift\n" +
+            "        FROM log_saldo_awal lsa1\n" +
+            "        WHERE lsa1.id_aplikasi_saldo = aps.id_aplikasi_saldo\n" +
+            "        ORDER BY lsa1.waktu_shift_selesai DESC\n" +
+            "        LIMIT 1\n" +
+            "    ), 0) AS saldo_awal,\n" +
+            "\n" +
+            "    -- total minus pelanggan dalam shift\n" +
+            "    COALESCE((\n" +
+            "        SELECT SUM(tsp.total_saldo_minus)\n" +
+            "        FROM topup_saldo_pelanggan tsp\n" +
+            "        WHERE tsp.id_aplikasi_saldo = aps.id_aplikasi_saldo\n" +
+            "          AND tsp.tanggal BETWEEN ? AND ?\n" +
+            "    ), 0) AS minus_saldo,\n" +
+            "\n" +
+            "    -- total topup admin dalam shift\n" +
+            "    COALESCE((\n" +
+            "        SELECT SUM(tsa.total_topup)\n" +
+            "        FROM topup_saldo_aplikasi tsa\n" +
+            "        WHERE tsa.id_aplikasi_saldo = aps.id_aplikasi_saldo\n" +
+            "          AND tsa.tanggal BETWEEN ? AND ?\n" +
+            "    ), 0) AS topup,\n" +
+            "\n" +
+            "    -- total cashback ke pelanggan dalam shift\n" +
+            "    COALESCE((\n" +
+            "        SELECT SUM(tsp.total_cashback)\n" +
+            "        FROM topup_saldo_pelanggan tsp\n" +
+            "        WHERE tsp.id_aplikasi_saldo = aps.id_aplikasi_saldo\n" +
+            "          AND tsp.tanggal BETWEEN ? AND ?\n" +
+            "    ), 0) AS cashback,\n" +
+            "\n" +
+            "    -- saldo akhir sekarang (real-time)\n" +
+            "    aps.total_saldo AS sisa_saldo\n" +
+            "\n" +
+            "FROM aplikasi_saldo aps;";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setTimestamp(1, timestampMulai);
             statement.setTimestamp(2, timestampSelesai);
             statement.setTimestamp(3, timestampMulai);
             statement.setTimestamp(4, timestampSelesai);
+            statement.setTimestamp(5, timestampMulai);
+            statement.setTimestamp(6, timestampSelesai);
             
             ResultSet result = statement.executeQuery();
             
