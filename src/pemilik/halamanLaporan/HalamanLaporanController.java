@@ -34,9 +34,9 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanLaporanController implements Initializable {
 
-    @FXML private Pane paneLaporanPembelian, paneLaporanPenjualan, paneLaporanStok;
+    @FXML private Pane paneLaporanPembelian, paneLaporanPenjualan;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir, dtPTanggalAwalPenjualan, dtPTanggalAkhirPenjualan;
-    @FXML private Button btnPDF, btnEXCEL, btnREFRESH, btnPembelian, btnPenjualan, btnStokbarang;
+    @FXML private Button btnPDF, btnEXCEL, btnREFRESH, btnPembelian, btnPenjualan;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

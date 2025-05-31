@@ -52,7 +52,7 @@
                   <Font size="25.0" />
                </font>
             </Label>
-            <DatePicker fx:id="dtPTanggalAwal" layoutX="20.0" layoutY="226.0" prefHeight="36.0" prefWidth="799.0" />
+            <DatePicker fx:id="dtPTanggalAwalPenjualan" layoutX="20.0" layoutY="226.0" prefHeight="36.0" prefWidth="799.0" />
             <DatePicker fx:id="dtPTanggalAkhir" layoutX="20.0" layoutY="320.0" prefHeight="36.0" prefWidth="799.0" />
             <Button fx:id="btnPDF" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#handleBtnPDF" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #C62828; -fx-background-radius: 8;" text="Cetak PDF" textAlignment="RIGHT" textFill="#fffefe">
                <font>
@@ -142,8 +142,8 @@
                   <Font size="25.0" />
                </font>
             </Label>
-            <DatePicker fx:id="dtPTanggalAwal1" layoutX="20.0" layoutY="226.0" prefHeight="36.0" prefWidth="799.0" />
-            <DatePicker fx:id="dtPTanggalAkhir1" layoutX="20.0" layoutY="320.0" prefHeight="36.0" prefWidth="799.0" />
+            <DatePicker fx:id="dtPTanggalAwal" layoutX="20.0" layoutY="226.0" prefHeight="36.0" prefWidth="799.0" />
+            <DatePicker fx:id="dtPTanggalAkhirPenjualan" layoutX="20.0" layoutY="320.0" prefHeight="36.0" prefWidth="799.0" />
             <Button fx:id="btnPDF1" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#handleBtnPDF" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #C62828; -fx-background-radius: 8;" text="Cetak PDF" textAlignment="RIGHT" textFill="#fffefe">
                <font>
                   <Font name="System Bold" size="17.0" />
