@@ -23,11 +23,11 @@ public class HalamanUtamaPController implements Initializable {
     @FXML private StackPane halamanUtama, panePesan;
     @FXML private Label lblPesan;
     
-    @FXML private Pane indikatorBeranda, indikatorKas, indikatorSaldo, indikatorProduk, indikatorSupplier,indikatorDiskon;
-    @FXML private Pane indikatorLaporan, indikatorBeli;
+    @FXML private Pane indikatorBeranda, indikatorProduk, indikatorSupplier,indikatorDiskon;
+    @FXML private Pane indikatorLaporan, indikatorBeli, indikatorKartuStok;
     
-    @FXML private Button btnBeranda, btnKas, btnSaldo, btnProduk, btnSupplier, btnDiskon;
-    @FXML private Button btnLaporan;
+    @FXML private Button btnBeranda, btnProduk, btnSupplier, btnDiskon;
+    @FXML private Button btnLaporan, btnKartuStok;
     
     public static Map<String, AnchorPane> penyimpananPanePemilik = new HashMap<>();
     
@@ -83,20 +83,6 @@ public class HalamanUtamaPController implements Initializable {
     }
     
     @FXML
-    void goToKas(){
-        resetIndikator();
-        animateIndikator(indikatorKas);
-        loadPane(Session.getPathHalamanKasP());
-    }
-    
-    @FXML
-    void goToSaldo(){
-        resetIndikator();
-        animateIndikator(indikatorSaldo);
-        loadPane(Session.getPathHalamanSaldoP());
-    }
-    
-    @FXML
     void goToBeli(){
         resetIndikator();
         animateIndikator(indikatorBeli);
@@ -108,6 +94,13 @@ public class HalamanUtamaPController implements Initializable {
         resetIndikator();
         animateIndikator(indikatorProduk);
         loadPane(Session.getPathHalamanProdukP());
+    }
+    
+    @FXML
+    void goToKartuStok(){
+        resetIndikator();
+        animateIndikator(indikatorKartuStok);
+        loadPane(Session.getPathHalamanKartuStokP());
     }
     
     @FXML
@@ -133,13 +126,12 @@ public class HalamanUtamaPController implements Initializable {
     
     private void resetIndikator() {
         indikatorBeranda.setScaleY(0);
-        indikatorKas.setScaleY(0);
-        indikatorSaldo.setScaleY(0);
         indikatorBeli.setScaleY(0);
         indikatorProduk.setScaleY(0);
         indikatorSupplier.setScaleY(0);
         indikatorDiskon.setScaleY(0);
         indikatorLaporan.setScaleY(0);
+        indikatorKartuStok.setScaleY(0);
     }
     
     private void animateIndikator(Pane indikator) {

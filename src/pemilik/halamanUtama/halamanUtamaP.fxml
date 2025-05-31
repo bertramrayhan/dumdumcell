@@ -115,7 +115,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
                      <children>
-                        <Button fx:id="btnKartuStok" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Kartu Stok" textFill="#caf0f8">
+                        <Button fx:id="btnKartuStok" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToKartuStok" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Kartu Stok" textFill="#caf0f8">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -130,7 +130,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Pane fx:id="indikatorProduk1" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorKartuStok" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                      </children>
                   </AnchorPane>
                </children>
