@@ -9,12 +9,14 @@ import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import main.Pelengkap;
 import main.Session;
 
 public class HalamanUtamaPController implements Initializable {
@@ -37,15 +39,31 @@ public class HalamanUtamaPController implements Initializable {
     
     private void loadPane(String pathPane) {
         if (penyimpananPanePemilik.containsKey(pathPane)) {
-            halamanUtama.getChildren().setAll(penyimpananPanePemilik.get(pathPane));
+            Node cachedPane = penyimpananPanePemilik.get(pathPane);
+
+            // Ambil controller dari UserData dan refresh
+            Object controller = cachedPane.getUserData();
+            if (controller instanceof Pelengkap) {
+                ((Pelengkap) controller).perbarui();
+                System.out.println("refresh (from cache)");
+            }
+
+            halamanUtama.getChildren().setAll(cachedPane);
+            //showWithSlideAndFade(cachedPane);
             return;
         }
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathPane));
             AnchorPane pane = loader.load();
-            penyimpananPanePemilik.put(pathPane, pane); 
+
+            // Ambil dan simpan controller ke UserData!
+            Object controller = loader.getController();
+            pane.setUserData(controller);
+
+            penyimpananPanePemilik.put(pathPane, pane);
             halamanUtama.getChildren().setAll(pane);
+            //showWithSlideAndFade(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -17,7 +17,61 @@
    <children>
       <AnchorPane prefHeight="760.0" prefWidth="280.0" style="-fx-background-color: #02045e; -fx-background-radius: 0 25 25 0;">
          <children>
-            <VBox layoutY="318.0" prefHeight="135.0" prefWidth="281.0" spacing="4.0">
+            <VBox layoutY="339.0" prefHeight="46.0" prefWidth="281.0" spacing="4.0">
+               <children>
+                  <AnchorPane prefHeight="45.0" prefWidth="280.0">
+                     <children>
+                        <Button fx:id="btnSupplier" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToSupplier" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Supplier" textFill="#caf0f8">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font name="Verdana" size="20.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../assets/icons/boxes32px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Pane fx:id="indikatorSupplier" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <Circle fill="#caf0f8" layoutX="45.0" layoutY="58.0" radius="31.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="31.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="btnProfil" layoutX="114.0" layoutY="42.0" mnemonicParsing="false" onAction="#goToProfil" prefHeight="20.0" prefWidth="125.0" style="-fx-background-radius: 25; -fx-background-color: #caf0f8;" text="Pemilik" textFill="#02045e">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="Verdana Bold" size="16.0" />
+               </font>
+            </Button>
+            <AnchorPane layoutY="399.0" prefHeight="45.0" prefWidth="280.0">
+               <children>
+                  <Button fx:id="btnDiskon" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToDiskon" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Diskon" textFill="#caf0f8">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Verdana" size="20.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/icons/discount32px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Pane fx:id="indikatorDiskon" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+               </children>
+            </AnchorPane>
+            <VBox layoutY="179.0" prefHeight="146.0" prefWidth="281.0" spacing="4.0">
                <children>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
                      <children>
@@ -61,7 +115,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="45.0" prefWidth="280.0">
                      <children>
-                        <Button fx:id="btnSupplier" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToSupplier" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Supplier" textFill="#caf0f8">
+                        <Button fx:id="btnKartuStok" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Kartu Stok" textFill="#caf0f8">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -76,92 +130,13 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Pane fx:id="indikatorSupplier" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </VBox>
-            <Circle fill="#caf0f8" layoutX="45.0" layoutY="58.0" radius="31.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <ImageView fitHeight="31.0" fitWidth="31.0" layoutX="31.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="btnProfil" layoutX="114.0" layoutY="42.0" mnemonicParsing="false" onAction="#goToProfil" prefHeight="20.0" prefWidth="125.0" style="-fx-background-radius: 25; -fx-background-color: #caf0f8;" text="Pemilik" textFill="#02045e">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="Verdana Bold" size="16.0" />
-               </font>
-            </Button>
-            <AnchorPane layoutY="470.0" prefHeight="45.0" prefWidth="280.0">
-               <children>
-                  <Button fx:id="btnDiskon" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToDiskon" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Diskon" textFill="#caf0f8">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <font>
-                        <Font name="Verdana" size="20.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../assets/icons/discount32px.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Pane fx:id="indikatorDiskon" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
-               </children>
-            </AnchorPane>
-            <VBox layoutY="210.0" prefHeight="90.0" prefWidth="281.0" spacing="4.0">
-               <children>
-                  <AnchorPane prefHeight="45.0" prefWidth="280.0">
-                     <children>
-                        <Button fx:id="btnKas" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToKas" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Kas" textFill="#caf0f8">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <font>
-                              <Font name="Verdana" size="20.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../assets/icons/wallet32px.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Pane fx:id="indikatorKas" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="45.0" prefWidth="280.0">
-                     <children>
-                        <Button fx:id="btnSaldo" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToSaldo" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Saldo" textFill="#caf0f8">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <font>
-                              <Font name="Verdana" size="20.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../assets/icons/mobile-wallet32px.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Pane fx:id="indikatorSaldo" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
+                        <Pane fx:id="indikatorProduk1" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                      </children>
                   </AnchorPane>
                </children>
             </VBox>
             <Line endX="171.0" layoutX="107.0" layoutY="123.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
             <Line endX="171.0" layoutX="107.0" layoutY="172.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
-            <Label layoutX="19.0" layoutY="179.0" opacity="0.54" text="INISIALISASI" textFill="WHITE">
-               <font>
-                  <Font name="Verdana Bold" size="18.0" />
-               </font>
-            </Label>
             <AnchorPane layoutY="125.0" prefHeight="45.0" prefWidth="280.0">
                <children>
                   <Button fx:id="btnBeranda" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToBeranda" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Beranda" textFill="#caf0f8">
@@ -182,9 +157,9 @@
                   <Pane fx:id="indikatorBeranda" prefHeight="45.0" prefWidth="5.0" style="-fx-background-color: #caf0f8;" />
                </children>
             </AnchorPane>
-            <Line endX="171.0" layoutX="107.0" layoutY="463.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
-            <Line endX="171.0" layoutX="107.0" layoutY="522.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
-            <AnchorPane layoutY="529.0" prefHeight="45.0" prefWidth="280.0">
+            <Line endX="171.0" layoutX="107.0" layoutY="392.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
+            <Line endX="171.0" layoutX="107.0" layoutY="452.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
+            <AnchorPane layoutY="459.0" prefHeight="45.0" prefWidth="280.0">
                <children>
                   <Button fx:id="btnLaporan" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToLaporan" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Laporan" textFill="#caf0f8">
                      <cursor>
@@ -204,8 +179,8 @@
                   <Pane fx:id="indikatorLaporan" prefHeight="45.0" prefWidth="5.0" scaleY="0.0" style="-fx-background-color: #caf0f8;" />
                </children>
             </AnchorPane>
-            <Line endX="171.0" layoutX="107.0" layoutY="581.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
-            <Line endX="171.0" layoutX="107.0" layoutY="311.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
+            <Line endX="171.0" layoutX="107.0" layoutY="512.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
+            <Line endX="171.0" layoutX="107.0" layoutY="332.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
          </children>
       </AnchorPane>
       <StackPane fx:id="halamanUtama" layoutX="280.0" prefHeight="760.0" prefWidth="1000.0" />
