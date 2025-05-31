@@ -301,12 +301,12 @@ public class Session {
         }
     }
     
-    public static void setShowPane(AnchorPane pane){
+     public static void setShowPane(Pane pane){
         pane.setVisible(true);
         pane.setMouseTransparent(false);
     }
     
-    public static void setHidePane(AnchorPane pane){
+   public static void setHidePane(Pane pane){
         pane.setVisible(false);
         pane.setMouseTransparent(true);
     }
