@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #caf0f8;" stylesheets="@../main/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.halamanLoginController">
    <children>
-      <AnchorPane layoutX="580.0" prefHeight="720.0" prefWidth="700.0" style="-fx-background-color: #02045e; -fx-background-radius: 25 0 0 25;">
+      <AnchorPane fx:id="paneLogin" layoutX="580.0" prefHeight="720.0" prefWidth="700.0" style="-fx-background-color: #02045e; -fx-background-radius: 25 0 0 25;">
          <children>
             <Label layoutX="175.0" layoutY="252.0" text="Username" textFill="WHITE">
                <font>

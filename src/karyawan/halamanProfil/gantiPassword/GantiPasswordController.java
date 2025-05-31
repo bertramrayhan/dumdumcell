@@ -44,14 +44,14 @@ public class GantiPasswordController implements Initializable {
     @FXML
     private void gantiPassword(){
         if(txtPasswordLamaVisible.isVisible() == true){
-            txtPasswordLama.setText(txtPasswordLamaVisible.getText().trim());
-            txtPasswordBaru.setText(txtPasswordBaruVisible.getText().trim());
-            txtKonfirmasiPassword.setText(txtKonfirmasiPasswordVisible.getText().trim());
+            txtPasswordLama.setText(txtPasswordLamaVisible.getText());
+            txtPasswordBaru.setText(txtPasswordBaruVisible.getText());
+            txtKonfirmasiPassword.setText(txtKonfirmasiPasswordVisible.getText());
         }
         
-        String passwordLama = txtPasswordLama.getText().trim();
-        String passwordBaru = txtPasswordBaru.getText().trim();
-        String konfirmasiPassword = txtKonfirmasiPassword.getText().trim();
+        String passwordLama = txtPasswordLama.getText();
+        String passwordBaru = txtPasswordBaru.getText();
+        String konfirmasiPassword = txtKonfirmasiPassword.getText();
         
         if(passwordLama.equals("") || passwordBaru.equals("") || konfirmasiPassword.equals("")){
             animasiPesanPane("Harap isi semua kolom");

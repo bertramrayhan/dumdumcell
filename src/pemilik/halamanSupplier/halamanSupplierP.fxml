@@ -93,24 +93,24 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNamaSupplierTambah" layoutX="236.0" layoutY="25.0" prefHeight="32.0" prefWidth="218.0">
+            <TextField fx:id="txtNamaSupplierTambah" layoutX="236.0" layoutY="25.0" prefHeight="32.0" prefWidth="218.0" promptText="Masukkan Nama Supplier">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtKontakTambah" layoutX="236.0" layoutY="117.0" prefHeight="32.0" prefWidth="218.0">
+            <TextField fx:id="txtKontakTambah" layoutX="236.0" layoutY="117.0" prefHeight="32.0" prefWidth="218.0" promptText="Masukkan Toko">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
             <Button fx:id="btnBatalTambahSupplier" layoutX="730.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#clearTambahSupplier" prefHeight="37.0" prefWidth="90.0" styleClass="btnBatal" text="Batal" textFill="WHITE" />
             <Button fx:id="btnIyaTambahSupplier" layoutX="852.0" layoutY="162.0" mnemonicParsing="false" onMouseClicked="#tambahSupplier" prefHeight="40.0" prefWidth="90.0" styleClass="btnKonfirmasi" text="Tambah" textFill="WHITE" />
-            <TextField fx:id="txtNamaTokoTambah" layoutX="236.0" layoutY="72.0" prefHeight="32.0" prefWidth="218.0">
+            <TextField fx:id="txtNamaTokoTambah" layoutX="236.0" layoutY="72.0" prefHeight="32.0" prefWidth="218.0" promptText="Masukkan Nama Toko">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtAlamatTambah" layoutX="724.0" layoutY="25.0" prefHeight="32.0" prefWidth="218.0">
+            <TextField fx:id="txtAlamatTambah" layoutX="724.0" layoutY="25.0" prefHeight="32.0" prefWidth="218.0" promptText="Masukkan Alamat">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

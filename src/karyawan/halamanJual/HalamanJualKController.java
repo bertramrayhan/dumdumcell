@@ -23,7 +23,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,12 +41,13 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
+import main.Pelengkap;
 import main.Session;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
-public class HalamanJualKController implements Initializable {
+public class HalamanJualKController implements Initializable, Pelengkap {
     
     @FXML private Pane paneGelap;
     @FXML private TabPane tabPaneTransaksiJual;
@@ -66,7 +66,7 @@ public class HalamanJualKController implements Initializable {
     private String idTransaksiBaru = "";
     
     //RIWAYAT TRANSAKSI
-    @FXML private Label lblTotalPenjualanBarang, lblTotalPenjualanSaldo, lblTotalPenjualan;
+    @FXML private Label lblTotalPenjualan;
     @FXML private ChoiceBox<String> cbxShift;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
     @FXML private Button btnDetail, btnUnduh;
@@ -103,6 +103,11 @@ public class HalamanJualKController implements Initializable {
         setKomponenRiwayatTransaksi();
         setDatePicker();
         setTabelTransaksi();
+        getSemuaTransaksi();
+    }    
+
+    @Override
+    public void perbarui() {
         getSemuaTransaksi();
     }    
     
@@ -332,21 +337,7 @@ public class HalamanJualKController implements Initializable {
             }
             
             //combo box produk
-            query = "SELECT merek FROM barang \n" +
-            "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) " +
-            "AND barang.exp > DATE(NOW())";
-            statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, cbxKategori.getItems().get(0));
-            
-            result = statement.executeQuery();
-            
-            while(result.next()){
-                cbxProduk.getItems().add(result.getString("merek"));
-            }
-            
-            if (!cbxProduk.getItems().isEmpty()) {
-                cbxProduk.setValue(cbxProduk.getItems().get(0));
-            }
+            setCbxProduk();
             
             //combo box diskon
             query = "SELECT nama_diskon FROM diskon WHERE status='aktif'";
@@ -377,7 +368,7 @@ public class HalamanJualKController implements Initializable {
             //combo box produk
             String query = "SELECT merek FROM barang \n" +
             "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) " +
-            "AND barang.exp > DATE(NOW())";
+            "AND barang.exp > DATE(NOW()) AND is_deleted = FALSE";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, cbxKategori.getValue());
             
@@ -752,8 +743,6 @@ public class HalamanJualKController implements Initializable {
             statement.setString(4, waktuShift[1]);
             ResultSet result = statement.executeQuery();
             
-            int totalPenjualanBarang = 0;
-            int totalPenjualanSaldo = 0;
             int totalPenjualan = 0;
             
             while(result.next()) {
@@ -770,53 +759,8 @@ public class HalamanJualKController implements Initializable {
                 Session.convertIntToRupiah(totalPembelian), kembalian);
                 listTransaksi.add(trs);
                 
-                if(jenisPembayaran.equals("Tunai")){
-                    totalPenjualanBarang += totalPembelian;
-                }
-            }
-                        
-            //MENGHITUNG TOTAL SALDO
-            query = "SELECT SUM(harga_jual_saldo) AS harga_jual_saldo\n" +
-            "FROM topup_saldo_pelanggan\n" +
-            "WHERE DATE(tanggal) BETWEEN ? AND ?\n" +
-            "AND TIME(tanggal) BETWEEN ? AND ?\n" + 
-            "AND (nama_rekening IS NULL OR nama_rekening = '')";
-            statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, tanggalAwal);
-            statement.setString(2, tanggalAkhir);
-            statement.setString(3, waktuShift[0]);
-            statement.setString(4, waktuShift[1]);
-            result = statement.executeQuery();
-            
-            if(result.next()){
-                totalPenjualanSaldo = result.getInt("harga_jual_saldo");
-            }
-            
-            totalPenjualan = totalPenjualanBarang + totalPenjualanSaldo;
-            lblTotalPenjualanBarang.setText(Session.convertIntToRupiah(totalPenjualanBarang));
-            lblTotalPenjualanSaldo.setText(Session.convertIntToRupiah(totalPenjualanSaldo));
-            
-            //MENGHITUNG TOTAL TRANSAKSI LAIN
-            query = "SELECT SUM(\n" +
-            "    CASE\n" +
-            "        WHEN jenis_transaksi = 'Pemasukan' THEN nominal\n" +
-            "        WHEN jenis_transaksi = 'Pengeluaran' THEN -nominal\n" +
-            "        ELSE 0\n" +
-            "    END\n" +
-            ") AS total_transaksi_lain\n" +
-            "FROM transaksi_lain\n" +
-            "WHERE DATE(tanggal_transaksi) BETWEEN ? AND ?\n" +
-            "AND TIME(tanggal_transaksi) BETWEEN ? AND ?";
-            statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, tanggalAwal);
-            statement.setString(2, tanggalAkhir);
-            statement.setString(3, waktuShift[0]);
-            statement.setString(4, waktuShift[1]);
-            result = statement.executeQuery();
-            
-            if(result.next()){
-                totalPenjualan += result.getInt("total_transaksi_lain");
-            }
+                totalPenjualan += totalPembelian;
+            }                        
             
             lblTotalPenjualan.setText(Session.convertIntToRupiah(totalPenjualan));
             

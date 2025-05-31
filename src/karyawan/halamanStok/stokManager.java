@@ -37,7 +37,7 @@ public class stokManager {
         // Query dasar
         String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok_utama, b.exp, b.merek, b.barcode, k.nama_kategori "
                 + "FROM barang b "
-                + "JOIN kategori k ON b.id_kategori = k.id_kategori";
+                + "JOIN kategori k ON b.id_kategori = k.id_kategori WHERE is_deleted = FALSE ";
 
         // Cek apakah keyword angka atau teks
         boolean isAngka = keyword != null && keyword.matches("\\d+"); // Deteksi angka
@@ -45,9 +45,9 @@ public class stokManager {
 
         if (isSearch) {
             if (isAngka) {
-                query += " WHERE (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ? OR b.id_barang LIKE ?)";
+                query += " AND (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ? OR b.id_barang LIKE ?)";
             } else {
-                query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ? OR b.id_barang LIKE ? OR b.barcode LIKE ?)";
+                query += " AND (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ? OR b.id_barang LIKE ? OR b.barcode LIKE ?)";
             }
         }
 

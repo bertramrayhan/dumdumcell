@@ -217,7 +217,10 @@
                                     <Font size="15.0" />
                                  </font>
                               </TextField>
-                              <ComboBox fx:id="cbxProduk" layoutX="12.0" layoutY="150.0" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #02045e;" />
+                              <ComboBox fx:id="cbxProduk" layoutX="12.0" layoutY="150.0" prefHeight="35.0" prefWidth="190.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-border-color: #023e8a; -fx-border-radius: 5; -fx-border-width: 2; -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></ComboBox>
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="602.0" layoutY="10.0" prefHeight="100.0" prefWidth="345.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
@@ -279,7 +282,7 @@
                                     <Font name="System Bold" size="36.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="17.0" layoutY="12.0" opacity="0.46" text="TOTAL PEMBELIAN BARANG" textFill="WHITE">
+                              <Label layoutX="17.0" layoutY="12.0" opacity="0.46" text="TOTAL PEMBELIAN" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>

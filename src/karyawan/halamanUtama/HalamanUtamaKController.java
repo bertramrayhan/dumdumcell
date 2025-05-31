@@ -48,7 +48,7 @@ public class HalamanUtamaKController implements Initializable {
             // Ambil controller dari UserData dan refresh
             Object controller = cachedPane.getUserData();
             if (controller instanceof Pelengkap) {
-                ((Pelengkap) controller).refresh();
+                ((Pelengkap) controller).perbarui();
                 System.out.println("refresh (from cache)");
             }
 
@@ -65,11 +65,6 @@ public class HalamanUtamaKController implements Initializable {
             Object controller = loader.getController();
             pane.setUserData(controller);
 
-            // Panggil refresh pertama kali juga
-            if (controller instanceof Pelengkap) {
-                ((Pelengkap) controller).refresh();
-                System.out.println("refresh (first load)");
-            }
             penyimpananPaneKaryawan.put(pathPane, pane);
             halamanUtama.getChildren().setAll(pane);
             //showWithSlideAndFade(pane);

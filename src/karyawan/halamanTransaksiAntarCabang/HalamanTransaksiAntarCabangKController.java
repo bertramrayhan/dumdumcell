@@ -141,14 +141,14 @@ public class HalamanTransaksiAntarCabangKController implements Initializable {
         if(txtNominal.getText().isEmpty() || txtNominal.getText().equals("0")){
             Session.animasiPanePesan(true, "Masukkan nominal transaksi", btnProses);
             return;
-        }else if(txtAKeterangan.getText().isEmpty()){
+        }else if(txtAKeterangan.getText().trim().isEmpty()){
             Session.animasiPanePesan(true, "Masukkan keterangan transaksi", btnProses);
             return;
         }
 
         String jenisTransaksi = cbxJenisTransaksi.getValue();
         int nominal = Integer.parseInt(txtNominal.getText());
-        String keterangan = txtAKeterangan.getText();
+        String keterangan = txtAKeterangan.getText().trim();
         String idTransaksiAntarCabangBaru = Session.membuatIdBaru("transaksi_antar_cabang", "id_transaksi_antar_cabang", "tac", 3);
         
         try {

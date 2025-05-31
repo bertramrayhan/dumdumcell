@@ -1,5 +1,5 @@
 package main;
 
 public interface Pelengkap {
-    public void refresh();
+    public void perbarui();
 }

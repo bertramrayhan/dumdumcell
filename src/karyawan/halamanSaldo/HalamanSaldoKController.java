@@ -29,7 +29,7 @@ public class HalamanSaldoKController implements Initializable, Pelengkap {
     }    
 
     @Override
-    public void refresh() {
+    public void perbarui() {
         getDataSaldoAplikasi();
     }
         
@@ -148,7 +148,7 @@ public class HalamanSaldoKController implements Initializable, Pelengkap {
         }
     }
     
-    public LocalTime[] getWaktuShiftByNow() {
+    private LocalTime[] getWaktuShiftByNow() {
         LocalTime[] waktuShift = new LocalTime[2];
         LocalTime now = LocalTime.now();
 

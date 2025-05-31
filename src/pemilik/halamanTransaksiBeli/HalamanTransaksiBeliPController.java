@@ -19,7 +19,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,9 +34,10 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
+import main.Pelengkap;
 import main.Session;
 
-public class HalamanTransaksiBeliPController implements Initializable {
+public class HalamanTransaksiBeliPController implements Initializable, Pelengkap {
     
     @FXML private Pane paneGelap;
     @FXML private TabPane tabPaneTransaksiBeli;
@@ -57,7 +57,6 @@ public class HalamanTransaksiBeliPController implements Initializable {
     private ObservableList<Barang> listBarang = FXCollections.observableArrayList();
     
     //RIWAYAT TRANSAKSI
-    @FXML private Tab tabRiwayatTransaksi;
     @FXML private Label lblTotalPembelianBarang;
     @FXML private ChoiceBox<String> cbxShift;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
@@ -97,7 +96,17 @@ public class HalamanTransaksiBeliPController implements Initializable {
         //DETAIL TRANSAKSI
         setTabelDetailTransaksi();
     }    
-    
+
+    @Override
+    public void perbarui() {
+        setCbxTransaksi();
+        listBarang.clear();
+        tabelBarang.setItems(listBarang);
+        tabelBarang.refresh();
+        setKembalian();
+        setTotal();
+        getSemuaTransaksi();
+    }
     
     public class Barang{
         private String idBarang, barcode, barang, subtotal;
@@ -283,6 +292,10 @@ public class HalamanTransaksiBeliPController implements Initializable {
     }
     
     private void setCbxTransaksi(){
+        cbxKategori.getItems().clear();
+        cbxProduk.getItems().clear();
+        cbxSupplier.getItems().clear();
+        
         try {
             cbxKategori.getItems().add("Semua");
             
@@ -329,9 +342,9 @@ public class HalamanTransaksiBeliPController implements Initializable {
         cbxProduk.setValue(null);
         try {
             //combo box produk
-            String query = "SELECT merek FROM barang ";
+            String query = "SELECT merek FROM barang WHERE is_deleted = FALSE ";
             if (!cbxKategori.getValue().equals("Semua")) {
-                query += "WHERE id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) ";
+                query += "AND id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) ";
             }
             
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);

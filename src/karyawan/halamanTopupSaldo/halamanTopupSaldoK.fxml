@@ -57,7 +57,7 @@
                                     <Font name="System Bold" size="19.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtNomorTelepon" layoutX="707.0" layoutY="22.0" prefHeight="32.0" prefWidth="205.0">
+                              <TextField fx:id="txtNomorTelepon" layoutX="707.0" layoutY="22.0" prefHeight="32.0" prefWidth="205.0" promptText="Masukkan Nomor Telepon">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -67,12 +67,12 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ChoiceBox>
-                              <TextField fx:id="txtHargaJualSaldo" layoutX="227.0" layoutY="73.0" prefHeight="32.0" prefWidth="205.0" promptText="0">
+                              <TextField fx:id="txtHargaJualSaldo" layoutX="227.0" layoutY="73.0" prefHeight="32.0" prefWidth="205.0" promptText="0,00">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="txtSaldoMinus" layoutX="707.0" layoutY="73.0" prefHeight="32.0" prefWidth="205.0" promptText="0">
+                              <TextField fx:id="txtSaldoMinus" layoutX="707.0" layoutY="73.0" prefHeight="32.0" prefWidth="205.0" promptText="0,00">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -97,7 +97,7 @@
                                     <Font name="System Bold" size="19.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtNamaRekening" disable="true" layoutX="707.0" layoutY="122.0" prefHeight="32.0" prefWidth="205.0">
+                              <TextField fx:id="txtNamaRekening" disable="true" layoutX="707.0" layoutY="122.0" prefHeight="32.0" prefWidth="205.0" promptText="Masukkan Nama Rekening">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -123,7 +123,7 @@
                                     <Font name="System Bold" size="19.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtCashback" layoutX="227.0" layoutY="173.0" prefHeight="32.0" prefWidth="205.0" promptText="0">
+                              <TextField fx:id="txtCashback" layoutX="227.0" layoutY="173.0" prefHeight="32.0" prefWidth="205.0" promptText="0,00">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>
@@ -229,7 +229,7 @@
                                     <Font name="System Bold" size="19.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtTopupSaldoTopupSaldoAplikasi" layoutX="707.0" layoutY="22.0" prefHeight="32.0" prefWidth="205.0" promptText="0">
+                              <TextField fx:id="txtTopupSaldoTopupSaldoAplikasi" layoutX="707.0" layoutY="22.0" prefHeight="32.0" prefWidth="205.0" promptText="0,00">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
                                  </font>

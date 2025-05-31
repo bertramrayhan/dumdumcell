@@ -5,6 +5,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,9 +33,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.converter.DefaultStringConverter;
 import main.Koneksi;
+import main.Pelengkap;
 import main.Session;
 
-public class HalamanProdukPController implements Initializable {
+public class HalamanProdukPController implements Initializable, Pelengkap {
     
     @FXML private Pane paneGelap;
     @FXML private Button btnTambahBarang, btnEditBarang, btnHapusBarang, btnKelolaKategori;
@@ -40,6 +45,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML private ChoiceBox<String> sortBy;
     @FXML private TableView<Barang> tabelBarang;
     @FXML private TableColumn<Barang, String> colNamaBarang, colKategori, colMerek, colHargaJual, colStok, colExp, colBarcode;
+    @FXML private TableRow<Barang> colTerakhir;
         
     private ObservableList<Barang> listBarang = FXCollections.observableArrayList();
     
@@ -90,6 +96,11 @@ public class HalamanProdukPController implements Initializable {
         //KELOLA KATEGORI
         setKomponenKelolaKategori();        
     }    
+
+    @Override
+    public void perbarui() {
+        getDataTabelBarang();
+    }
     
     @FXML
     private void getDataTabelBarang() {
@@ -98,16 +109,17 @@ public class HalamanProdukPController implements Initializable {
         
         String query = "SELECT b.id_barang, b.nama_barang, b.harga_jual, b.stok_utama, b.exp, b.merek, b.barcode, k.nama_kategori " +
                        "FROM barang b " +
-                       "JOIN kategori k ON b.id_kategori = k.id_kategori";
+                       "JOIN kategori k ON b.id_kategori = k.id_kategori\n" +
+                       "WHERE b.is_deleted = FALSE ";
         
         boolean isAngka = keyword != null && keyword.matches("\\d+"); // Deteksi angka
         boolean isSearch = keyword != null && !keyword.trim().isEmpty();
 
         if (isSearch) {
             if (isAngka) {
-                query += " WHERE (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ?)";
+                query += " AND (b.stok_utama = ? OR YEAR(b.exp) LIKE ? OR b.barcode LIKE ?)";
             } else {
-                query += " WHERE (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ?)";
+                query += " AND (b.nama_barang LIKE ? OR k.nama_kategori LIKE ? OR b.merek LIKE ?)";
             }
         }
 
@@ -161,6 +173,43 @@ public class HalamanProdukPController implements Initializable {
         colExp.setCellValueFactory(new PropertyValueFactory<>("exp"));
         colStok.setCellValueFactory(new PropertyValueFactory<>("stok"));
         colBarcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        
+        
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("id", "ID"));
+        LocalDate today = LocalDate.now();
+        tabelBarang.setRowFactory(tv -> new TableRow<Barang>() {
+            @Override
+            protected void updateItem(Barang item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setStyle("");
+                } else {
+                    String expString = item.getExp();
+                    LocalDate expDate = LocalDate.parse(expString, dateFormatter);
+                    
+                    int stok = Integer.parseInt(item.getStok());
+                    if (stok == 0 || expDate.isBefore(today)) {
+                        setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
+                    }
+                    
+                    setOnMousePressed(event -> {
+                        if(colTerakhir != null){
+                            String expColTerakhir = colTerakhir.getItem().getExp();
+                            LocalDate expDateColTerakhir = LocalDate.parse(expColTerakhir, dateFormatter);
+                            if(colTerakhir.getItem().getStok().equals("0") || expDateColTerakhir.isBefore(today)){
+                                colTerakhir.setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
+                            }
+                        }
+                        
+                        if (stok == 0 || expDate.isBefore(today)) {
+                            setStyle("-fx-background-color: #e57373; -fx-text-fill: black;");
+                        }
+                        colTerakhir = this;
+                    });
+                }
+            }
+        });
         
         tabelBarang.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !paneEditBarang.isVisible() && !paneTambahBarang.isVisible() && !paneHapusBarang.isVisible()) {
@@ -299,13 +348,16 @@ public class HalamanProdukPController implements Initializable {
         }else if(namaMerek.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Nama Merek", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
-        }else if(Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
+        }else if(Session.cekDataSama("SELECT * FROM barang WHERE merek=? AND is_deleted = FALSE", namaMerek)){
             Session.animasiPanePesan(true, "Merek Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(barcodeBarang.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Barcode Barang", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
-        }else if(Session.cekDataSama("SELECT * FROM barang WHERE barcode=?", barcodeBarang)){
+        }else if(!(barcodeBarang.length() == 13)){
+            Session.animasiPanePesan(true, "Masukkan Barcode dengan Panjang 13 Digit", btnIyaTambahBarang, btnBatalTambahBarang);
+            return;
+        }else if(Session.cekDataSama("SELECT * FROM barang WHERE barcode=? AND is_deleted = FALSE", barcodeBarang)){
             Session.animasiPanePesan(true, "Barcode Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }else if(hargaJual.isEmpty()){
@@ -313,21 +365,39 @@ public class HalamanProdukPController implements Initializable {
             return;
         }
         
+        boolean adaBarangSamaDeleted = Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=TRUE AND merek=? AND barcode=?", namaMerek, barcodeBarang);
+        
         String idBarangBaru = Session.membuatIdBaru("barang", "id_barang", "brg", 4);
         String idKategori = getIdKategori(cbxKategoriTambah.getValue());
         try {
-            String query = "INSERT INTO barang (id_barang, nama_barang, id_kategori, merek, harga_jual, exp, barcode) \n" +
-            "VALUES (?,?,?,?,?,?,?)";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, idBarangBaru);
-            statement.setString(2, namaBarang);
-            statement.setString(3, idKategori);
-            statement.setString(4, namaMerek);
-            statement.setString(5, hargaJual);
-            statement.setString(6, expired);
-            statement.setString(7, barcodeBarang);
+            String query;
+            PreparedStatement statement = null;
+            if(adaBarangSamaDeleted){
+                query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
+                "Barcode=?, harga_jual=?, exp=?, stok_utama=0, stok_retur=0, is_deleted=FALSE\n" +
+                "WHERE is_deleted=TRUE AND merek=? AND barcode=?";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, namaBarang);
+                statement.setString(2, namaMerek);
+                statement.setString(3, idKategori);
+                statement.setString(4, barcodeBarang);
+                statement.setString(5, hargaJual);
+                statement.setString(6, expired);
+                statement.setString(7, namaMerek);
+                statement.setString(8, barcodeBarang);
+            }else{
+                query = "INSERT INTO barang (id_barang, nama_barang, id_kategori, merek, harga_jual, exp, barcode) \n" +
+                "VALUES (?,?,?,?,?,?,?)";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, idBarangBaru);
+                statement.setString(2, namaBarang);
+                statement.setString(3, idKategori);
+                statement.setString(4, namaMerek);
+                statement.setString(5, hargaJual);
+                statement.setString(6, expired);
+                statement.setString(7, barcodeBarang);
+            }            
             statement.executeUpdate();
-            
             getDataTabelBarang();
             Session.animasiPanePesan(false, "Barang berhasil ditambahkan");
             tutupTambahBarang();
@@ -459,30 +529,52 @@ public class HalamanProdukPController implements Initializable {
         }else if(barcodeBarang.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Barcode Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
+        }else if(!(barcodeBarang.length() == 13)){
+            Session.animasiPanePesan(true, "Masukkan Barcode dengan Panjang 13 Digit", btnIyaEditBarang, btnBatalEditBarang);
+            return;
         }else if(hargaJual.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
-        }else if(!barangTerpilih.getMerek().toLowerCase().equals(namaMerek.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE merek=?", namaMerek)){
+        }else if(!barangTerpilih.getMerek().toLowerCase().equals(namaMerek.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=FALSE AND merek=?", namaMerek)){
             Session.animasiPanePesan(true, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
-        }else if(!barangTerpilih.getBarcode().toLowerCase().equals(barcodeBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE barcode=?", barcodeBarang)){
+        }else if(!barangTerpilih.getBarcode().toLowerCase().equals(barcodeBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=FALSE AND barcode=?", barcodeBarang)){
             Session.animasiPanePesan(true, "Barcode Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }
         
+        boolean adaBarangSamaDeleted = Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=TRUE AND merek=? AND barcode=?", namaMerek, barcodeBarang);
+        
         String idKategori = getIdKategori(cbxKategoriEdit.getValue());
         try {
-            String query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
-            "Barcode=?, harga_jual=?, exp=?\n" +
-            "WHERE id_barang=?";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, namaBarang);
-            statement.setString(2, namaMerek);
-            statement.setString(3, idKategori);
-            statement.setString(4, barcodeBarang);
-            statement.setString(5, hargaJual);
-            statement.setString(6, expired);
-            statement.setString(7, idBarangTerpilih);
+            String query;
+            PreparedStatement statement = null;
+            if(adaBarangSamaDeleted){
+                query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
+                "Barcode=?, harga_jual=?, exp=?, is_deleted=FALSE\n" +
+                "WHERE is_deleted=TRUE AND merek=? AND barcode=?";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, namaBarang);
+                statement.setString(2, namaMerek);
+                statement.setString(3, idKategori);
+                statement.setString(4, barcodeBarang);
+                statement.setString(5, hargaJual);
+                statement.setString(6, expired);
+                statement.setString(7, namaMerek);
+                statement.setString(8, barcodeBarang);
+            }else{
+                query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
+                "Barcode=?, harga_jual=?, exp=?\n" +
+                "WHERE id_barang=?";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, namaBarang);
+                statement.setString(2, namaMerek);
+                statement.setString(3, idKategori);
+                statement.setString(4, barcodeBarang);
+                statement.setString(5, hargaJual);
+                statement.setString(6, expired);
+                statement.setString(7, idBarangTerpilih);
+            }            
             statement.executeUpdate();
             
             getDataTabelBarang();
@@ -515,7 +607,7 @@ public class HalamanProdukPController implements Initializable {
     @FXML
     private void hapusBarang(){
         try {
-            String query = "DELETE FROM barang WHERE id_barang=?";
+            String query = "UPDATE barang SET is_deleted = TRUE WHERE id_barang=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idBarangTerpilih);
             statement.executeUpdate();
@@ -554,69 +646,133 @@ public class HalamanProdukPController implements Initializable {
         tabelKategori.setEditable(true);
         
         colNamaKategori.setCellFactory(column -> {
-            TextFieldTableCell<Kategori, String> cell = new TextFieldTableCell<Kategori, String>(new DefaultStringConverter()) {
+            return new TextFieldTableCell<Kategori, String>(new DefaultStringConverter()) {
                 private TextField textField;
+                private String oldValue;
 
                 @Override
                 public void startEdit() {
+                    oldValue = getItem(); // Store the original value before editing starts
                     super.startEdit();
                     textField = (TextField) getGraphic();
+
                     if (textField != null) {
                         textField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
                             if (!isNowFocused) {
-                                commitEdit(textField.getText().trim());
+                                String input = textField.getText().trim();
+                                commitEdit(input);
                             }
                         });
                     }
                 }
-            };
-            return cell;
-        });
 
-        colNamaKategori.setOnEditCommit(event -> {
-            Session.setEnableButtons(btnTambahKategori);
-            String newValue = event.getNewValue().trim();
-            Kategori kategori = event.getRowValue();
-            boolean isDuplicate = listKategori.stream()
-                .anyMatch(k -> k != kategori && k.getNamaKategori().equalsIgnoreCase(newValue));
-            
-            if(kategori.getIdKategori().equals("temp")){
-                if (isDuplicate) {
-                    Session.animasiPanePesan(true, "Nama kategori sudah digunakan");
-                    listKategori.remove(kategori);
-                    return;
-                }else if(newValue == null || newValue.trim().isEmpty()) {
-                    Session.animasiPanePesan(true, "Nama kategori tidak boleh kosong");
-                    listKategori.remove(kategori);
-                    return;
-                }
-            }else{
-                if (isDuplicate) {
-                    Session.animasiPanePesan(true, "Nama kategori sudah digunakan");
-                    return;
-                }
-                if (newValue.equals(kategori.getNamaKategori())) {
-                    return;
-                }
-                if(newValue == null || newValue.trim().isEmpty()) {
-                    Session.animasiPanePesan(true, "Nama kategori tidak boleh kosong");
-                    return;
-                }
-            }
+                @Override
+                public void commitEdit(String newValue) {
+                    ObservableList<Kategori> listKategori = getTableView().getItems();
+                    int currentIndex = getIndex();
 
-            kategori.setNamaKategori(newValue);
-            if(kategori.getIdKategori().equals("temp")){
-                String idKategoriBaru = Session.membuatIdBaru("kategori", "id_kategori", "ktg", 2);
-                try {
-                    String query = "INSERT INTO kategori (id_kategori, nama_kategori) VALUES (?,?)";
-                    PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-                    statement.setString(1, idKategoriBaru);
-                    statement.setString(2, newValue);
-                    statement.executeUpdate();
+                    if (currentIndex < 0 || currentIndex >= listKategori.size()) {
+                        cancelEdit();
+                        return;
+                    }
+
+                    Kategori kategori = listKategori.get(currentIndex);
                     
-                    Session.animasiPanePesan(false, "Kategori berhasil ditambahkan");
-                    
-                    kategori.setIdKategori(idKategoriBaru);
+                    String trimmedNewValue = (newValue != null) ? newValue.trim() : "";
+
+                    boolean isDuplicate = listKategori.stream()
+                        .anyMatch(k -> k != kategori && k.getNamaKategori().equalsIgnoreCase(trimmedNewValue));
+
+                    if (kategori.getIdKategori().equals("temp")) {
+                        if (isDuplicate) {
+                            Session.animasiPanePesan(true, "Nama kategori sudah digunakan");
+                            listKategori.remove(kategori);
+                            getTableView().refresh();
+                            cancelEdit(); 
+                            return;
+                        } else if (trimmedNewValue.isEmpty()) {
+                            Session.animasiPanePesan(true, "Nama kategori tidak boleh kosong");
+                            listKategori.remove(kategori);
+                            getTableView().refresh();
+                            cancelEdit();
+                            return;
+                        }
+                    } else {
+                        if (isDuplicate) {
+                            Session.animasiPanePesan(true, "Nama kategori sudah digunakan");
+                            cancelEdit();
+                            return;
+                        }
+                        if (trimmedNewValue.equals(kategori.getNamaKategori())) {
+                            super.commitEdit(newValue); 
+                            return; 
+                        }
+                        if (trimmedNewValue.isEmpty()) {
+                            Session.animasiPanePesan(true, "Nama kategori tidak boleh kosong");
+                            cancelEdit();
+                            return;
+                        }
+                    }
+
+                    super.commitEdit(newValue); 
+                    kategori.setNamaKategori(trimmedNewValue); 
+
+                    if (kategori.getIdKategori().equals("temp")) { // Persist new item
+                        String idKategoriBaru = Session.membuatIdBaru("kategori", "id_kategori", "ktg", 2);
+                        try {
+                            String query = "INSERT INTO kategori (id_kategori, nama_kategori) VALUES (?,?)";
+                            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+
+                            statement.setString(1, idKategoriBaru);
+                            statement.setString(2, trimmedNewValue);
+                            statement.executeUpdate();
+
+                            kategori.setIdKategori(idKategoriBaru);
+
+                            setupActionButtons(kategori, idKategoriBaru);
+
+                            Session.animasiPanePesan(false, "Kategori berhasil ditambahkan");
+                            
+                            statement.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Session.animasiPanePesan(true, "Gagal menambahkan kategori: " + e.getMessage());
+                        }
+                    } else { // Update existing item
+                        try {
+                            String query = "UPDATE kategori SET nama_kategori = ? WHERE id_kategori = ?";
+                            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+
+                            statement.setString(1, trimmedNewValue);
+                            statement.setString(2, kategori.getIdKategori());
+                            statement.executeUpdate();
+
+                            Session.animasiPanePesan(false, "Kategori berhasil diperbarui");
+
+                            statement.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Session.animasiPanePesan(true, "Gagal memperbarui kategori: " + e.getMessage());
+                        }
+                    }
+                    getTableView().refresh(); 
+                }
+
+                @Override
+                public void cancelEdit() {
+                    super.cancelEdit();
+                     Kategori kategori = (Kategori) getTableRow().getItem(); // Get item safely
+                     if (kategori != null && "temp".equals(kategori.getIdKategori())) {
+                         getTableView().getItems().remove(kategori);
+                         getTableView().refresh();
+                     }
+                     Session.setEnableButtons(btnTambahKategori); 
+                }
+
+                private void setupActionButtons(Kategori kategori, String kategoriId) {
+                    TableView<Kategori> tableView = getTableView();
+                    TableColumn<Kategori, String> namaKategoriColumn = findColumnByName("Nama Kategori"); // Example: Find column if needed
+
                     Button btnEdit = new Button();
                     btnEdit.setStyle(
                         "-fx-background-color: #4CAF50;" +
@@ -643,6 +799,7 @@ public class HalamanProdukPController implements Initializable {
                         "-fx-padding: 0;"
                     );
 
+                    // Ensure icons are accessible
                     ImageView iconEdit = new ImageView(new Image(getClass().getResource("/assets/icons/edit16px.png").toExternalForm()));
                     iconEdit.setFitHeight(16);
                     iconEdit.setFitWidth(16);
@@ -656,53 +813,56 @@ public class HalamanProdukPController implements Initializable {
                     HBox aksiBox = new HBox(10, btnEdit, btnHapus);
                     aksiBox.setAlignment(Pos.CENTER);
 
+                    // Edit button action
                     btnEdit.setOnAction(e -> {
-                        int rowIndex = tabelKategori.getItems().indexOf(kategori);
-                        tabelKategori.edit(rowIndex, colNamaKategori);
-
-                        TablePosition pos = new TablePosition(tabelKategori, rowIndex, colNamaKategori);
-                        tabelKategori.getFocusModel().focus(pos);
-                        tabelKategori.getSelectionModel().select(pos.getRow());
+                        int rowIndex = tableView.getItems().indexOf(kategori);
+                        if (rowIndex != -1 && namaKategoriColumn != null) {
+                            tableView.edit(rowIndex, namaKategoriColumn);
+                            TablePosition pos = new TablePosition(tableView, rowIndex, namaKategoriColumn);
+                            tableView.getFocusModel().focus(pos);
+                            tableView.getSelectionModel().select(pos.getRow());
+                        }
                     });
 
                     btnHapus.setOnAction(e -> {
                         try {
-                            String queryHapus = "DELETE FROM kategori WHERE id_kategori=?";
-                            PreparedStatement statementHapus = Koneksi.getCon().prepareStatement(queryHapus);
-                            statementHapus.setString(1, kategori.getIdKategori());
-                            statementHapus.executeUpdate();
+                            String query = "DELETE FROM kategori WHERE id_kategori=?";
+                            PreparedStatement statementHapus = Koneksi.getCon().prepareStatement(query);
 
-                            listKategori.remove(kategori);
-                            Session.animasiPanePesan(false, "Kategori Berhasil dihapus");
+                            statementHapus.setString(1, kategoriId);
+                            int affectedRows = statementHapus.executeUpdate();
 
+                            if (affectedRows > 0) {
+                                tableView.getItems().remove(kategori);
+                                Session.animasiPanePesan(false, "Kategori Berhasil dihapus");
+                            } else {
+                                Session.animasiPanePesan(true, "Gagal menghapus kategori (tidak ditemukan).");
+                            }
+                            
                             statementHapus.close();
+                        } catch (java.sql.SQLIntegrityConstraintViolationException constraintEx) {
+                            Session.animasiPanePesan(true, "Kategori terkait suatu barang, tidak bisa dihapus.");
                         } catch (Exception ex) {
-                            Session.animasiPanePesan(true, "Kategori terkait suatu barang");
+                            ex.printStackTrace();
+                            Session.animasiPanePesan(true, "Gagal menghapus kategori: " + ex.getMessage());
                         }
                     });
-                    
+
                     kategori.setAksi(aksiBox);
-                    
-                    statement.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }else{
-                try {
-                    String query = "UPDATE kategori SET nama_kategori = ? WHERE id_kategori = ?";
-                    PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-                    statement.setString(1, newValue);
-                    statement.setString(2, kategori.getIdKategori());
-                    statement.executeUpdate();
 
-                    Session.animasiPanePesan(false, "Kategori berhasil diperbarui");
+                private TableColumn<Kategori, String> findColumnByName(String name) {
+                     for (TableColumn<Kategori, ?> col : getTableView().getColumns()) {
+                         if (col.getText().equals(name) && col instanceof TableColumn) {
 
-                    statement.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                             try {
+                                return (TableColumn<Kategori, String>) col;
+                             } catch (ClassCastException e) { /* Handle appropriately */ }
+                         }
+                     }
+                     return null; // Or throw an exception
                 }
-            }
-            tabelKategori.refresh();
+            };
         });
     }
     

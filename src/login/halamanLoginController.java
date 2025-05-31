@@ -24,6 +24,7 @@ public class halamanLoginController implements Initializable {
     private long lastTime = 0;
     private final long RFID_THRESHOLD = 100;
     
+    @FXML private AnchorPane paneLogin;
     @FXML private Pane paneGelap;
     @FXML private AnchorPane panePilihanHalaman;
     @FXML private TextField txtUsername, txtPasswordVisible;
@@ -47,13 +48,13 @@ public class halamanLoginController implements Initializable {
     
     @FXML
     private void btnLogin() {
-        String username = txtUsername.getText().trim();
+        String username = txtUsername.getText();
         
         if(txtPasswordVisible.isVisible() == true){
-            txtPassword.setText(txtPasswordVisible.getText().trim());
+            txtPassword.setText(txtPasswordVisible.getText());
         }
         
-        String password = txtPassword.getText().trim();
+        String password = txtPassword.getText();
         
         try {
             String query = "SELECT id_admin, role FROM admin WHERE username=? AND password=?";
@@ -118,7 +119,7 @@ public class halamanLoginController implements Initializable {
             }else{
                 Session.animasiPanePesan(true, "Kode Kartu Salah", btnLogin);
                 txtUsername.requestFocus();
-                txtUsername.positionCaret(txtUsername.getText().trim().length());
+                txtUsername.positionCaret(txtUsername.getText().length());
             }
             
             result.close();
@@ -127,7 +128,7 @@ public class halamanLoginController implements Initializable {
             e.printStackTrace();
             Session.animasiPanePesan(true, "Kode Kartu Salah", btnLogin);
             txtUsername.requestFocus();
-            txtUsername.positionCaret(txtUsername.getText().trim().length());
+            txtUsername.positionCaret(txtUsername.getText().length());
         }
     }
     
@@ -165,6 +166,7 @@ public class halamanLoginController implements Initializable {
     @FXML
     private void bukaPanePilihanHalaman(){
         Session.setShowPane(panePilihanHalaman, paneGelap);
+        Session.setMouseTransparentTrue(paneLogin);
     }
     
     @FXML

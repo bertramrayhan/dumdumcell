@@ -22,9 +22,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 import main.Koneksi;
+import main.Pelengkap;
 import main.Session;
 
-public class HalamanBerandaPController implements Initializable {
+public class HalamanBerandaPController implements Initializable, Pelengkap {
     @FXML private LineChart<String, Number> chartPenjualan; 
     @FXML private BarChart<String, Number> chartBarangTerlaris; 
     //@FXML private ScrollPane scrollPaneChartPenjualan;
@@ -46,6 +47,11 @@ public class HalamanBerandaPController implements Initializable {
         setGrafikPenjualan();
         setGrafikBarangTerlaris();
     }    
+
+    @Override
+    public void perbarui() {
+        setBarang();
+    }
     
     private void mulaiWaktu() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -69,12 +75,12 @@ public class HalamanBerandaPController implements Initializable {
             "         ON tj.id_transaksi_jual = dtj.id_transaksi_jual  \n" +
             "         WHERE DATE(tj.tanggal_transaksi_jual) = CURRENT_DATE) AS total_barang, \n" +
             "         \n" +
-            "        (SELECT SUM(stok_utama) FROM barang) AS jumlah_barang, \n" +
+            "        (SELECT SUM(stok_utama) FROM barang WHERE is_deleted=FALSE) AS jumlah_barang, \n" +
             "\n" +
             "        (SELECT COUNT(*)  \n" +
             "         FROM barang  \n" +
             "         WHERE exp IS NOT NULL  \n" +
-            "         AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)) AS jumlah_barang_hampir_expired \n" +
+            "         AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY) AND is_deleted=FALSE) AS jumlah_barang_hampir_expired \n" +
             ") AS subquery;";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             ResultSet result = statement.executeQuery();

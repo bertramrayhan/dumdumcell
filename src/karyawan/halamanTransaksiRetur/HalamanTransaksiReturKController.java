@@ -32,9 +32,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
+import main.Pelengkap;
 import main.Session;
 
-public class HalamanTransaksiReturKController implements Initializable {
+public class HalamanTransaksiReturKController implements Initializable, Pelengkap {
 
     @FXML private Pane paneGelap;
     @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir;
@@ -73,7 +74,6 @@ public class HalamanTransaksiReturKController implements Initializable {
     private ObservableList<DetailRetur> listDetailRetur = FXCollections.observableArrayList();
     
     Barang barangTerpilih;
-    String idBarangTerpilih;
     String idReturTerpilih;
     
     @Override
@@ -89,7 +89,12 @@ public class HalamanTransaksiReturKController implements Initializable {
         //DETAIL RETUR
         setTabelDetailRetur();
     }
-    
+
+    @Override
+    public void perbarui() {
+        getIdTransaksi();
+    }
+        
     public class Barang{
         String idBarang, namaBarang, subtotal;
         int jumlahBarang, hargaJual;
@@ -209,7 +214,6 @@ public class HalamanTransaksiReturKController implements Initializable {
             int barisTerpilih = tabelDetailBarang.getSelectionModel().getSelectedIndex();
             if (barisTerpilih != -1) {
                 barangTerpilih = tabelDetailBarang.getItems().get(barisTerpilih);
-                idBarangTerpilih = barangTerpilih.getIdBarang();
             }
         });
         
@@ -377,13 +381,16 @@ public class HalamanTransaksiReturKController implements Initializable {
         if(listDetailBarang.isEmpty()){
             Session.animasiPanePesan(true, "Tabel retur kosong", btnProses);
             return;
+        }else if(txtAAlasanRetur.getText().trim().isEmpty()){
+            Session.animasiPanePesan(true, "Masukkan Alasan Retur", btnProses);
+            return;
         }
 
         String idTransaksi = cbxIdTransaksi.getValue();
         String jenisTransaksi = cbxJenisTransaksi.getValue();
         String newIdRetur = Session.membuatIdBaru("transaksi_retur", "id_retur", "rtr", 3);
         String pengembalian = cbxTipePengembalian.getValue();
-        String alasanRetur = txtAAlasanRetur.getText();
+        String alasanRetur = txtAAlasanRetur.getText().trim();
         String totalRetur = lblTotalRetur.getText();
         
         try {

@@ -135,14 +135,14 @@ public class HalamanTransaksiLainLainKController implements Initializable {
         if(txtNominal.getText().isEmpty() || txtNominal.getText().equals("0")){
             Session.animasiPanePesan(true, "Masukkan nominal transaksi", btnProses);
             return;
-        }else if(txtAKeterangan.getText().isEmpty()){
+        }else if(txtAKeterangan.getText().trim().isEmpty()){
             Session.animasiPanePesan(true, "Masukkan keterangan transaksi", btnProses);
             return;
         }
 
         String jenisTransaksi = cbxJenisTransaksi.getValue();
         int nominal = Integer.parseInt(txtNominal.getText());
-        String keterangan = txtAKeterangan.getText();
+        String keterangan = txtAKeterangan.getText().trim();
         String idTransaksiLainBaru = Session.membuatIdBaru("transaksi_lain", "id_transaksi_lain", "lain", 2);
         
         try {
