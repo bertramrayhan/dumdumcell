@@ -1,30 +1,600 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96ac0f07-ee92-4d3d-8cc3-18f5a8c8e80e">
-	<queryString language="SQL">
-		<![CDATA[SELECT * FROM admin]]>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26095f73-95f0-4290-b74b-e9679cdb1211">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="26"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="laporanPembelian" uuid="a02ac494-16c9-4447-be26-6bf681e84eee">
+		<parameter name="tanggalAwal" class="java.lang.String">
+			<defaultValueExpression><![CDATA["01-05-2025"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="tanggalAkhir" class="java.lang.String">
+			<defaultValueExpression><![CDATA["31-05-2025"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT * FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND
+$P{tanggalAkhir} ORDER BY id_transaksi_jual ASC]]>
+		</queryString>
+		<field name="id_transaksi_jual" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="tanggal_transaksi_jual" class="java.lang.String"/>
+		<field name="nama_admin" class="java.lang.String"/>
+		<field name="nama_barang" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="jumlah_barang" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="subtotal" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="total" uuid="39ddc3d1-3ca2-43a8-a436-f063491bebdd">
+		<queryString>
+			<![CDATA[SELECT 
+  COUNT(DISTINCT tj.id_transaksi_jual) AS total_transaksi,
+  SUM(dtj.jumlah_barang) AS total_barang,
+  SUM(tj.total_transaksi_jual) AS total_pembelian
+FROM 
+  transaksi_jual tj
+JOIN 
+  detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual]]>
+		</queryString>
+		<field name="total_transaksi" class="java.lang.Long"/>
+		<field name="total_barang" class="java.math.BigDecimal"/>
+		<field name="total_pembelian" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="tanggalAwal" class="java.lang.String">
+		<defaultValueExpression><![CDATA["01-05-2025"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tanggalAkhir" class="java.lang.String">
+		<defaultValueExpression><![CDATA["31-05-2025"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="admin" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Adm01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="printTime" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Senin, 01 Mei 2023 12:00:00 WIB"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND
+$P{tanggalAkhir} ORDER BY id_transaksi_jual ASC]]>
 	</queryString>
+	<field name="id_transaksi_jual" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tanggal_transaksi_jual" class="java.lang.String"/>
+	<field name="nama_admin" class="java.lang.String"/>
+	<field name="nama_barang" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jumlah_barang" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subtotal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="group_table">
+		<groupFooter>
+			<band height="50">
+				<componentElement>
+					<reportElement key="table 10" style="table 10" x="12" y="0" width="409" height="50" uuid="52032881-a02c-4e62-930b-35468da96c00"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="laporanPembelian" uuid="571c2af5-aa89-43ff-8198-4d0ab3f9c81c">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="35" uuid="e3e25b6e-60e0-4223-8d61-0b907174c434">
+							<jr:columnHeader height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="35" height="30" backcolor="#BDE0FF" uuid="218e63fb-3a71-4b9f-b0ac-8901ef4ba0cc"/>
+									<box>
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[No. ]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell height="31" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="35" height="31" uuid="ecaca6d6-c438-4c66-965c-f894a079efa0"/>
+									<box>
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="a2c2d565-7aa9-4080-9d71-cd804f835303">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="84" height="30" uuid="2a076920-56f6-47f2-ba47-6d3599319dbf"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[Id Transaksi]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="84" height="31" uuid="59b34fbd-3d50-4733-b866-b25a8aca4e45"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{id_transaksi_jual}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="5beab5d9-23fa-4a3e-bd11-0077052b5d23">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="84" height="30" uuid="ae138acd-d3a6-4681-96a7-d7d1d2784656"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[Tanggal Transaksi]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="84" height="31" uuid="e6fcfffb-99d5-4dab-8cf4-f05e4e95076a"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{tanggal_transaksi_jual}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="3807f4b8-757a-4354-90e5-e1d52847a439">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="84" height="30" uuid="cfcf4ab3-8ac2-414f-a322-041ea38b7e12"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[Admin]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="84" height="31" uuid="19ba5733-5404-4cb4-a128-cd6532b43f36"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{nama_admin}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="7e7c95b1-ec7a-422a-a75d-fc45b5840315">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="84" height="30" uuid="38f8238b-bcdf-4738-b92f-46c0b7196785"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[Nama Barang]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="84" height="31" uuid="aef85614-eb59-4e38-813d-b32d5fb1c1ee"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{nama_barang}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="e3372259-1d57-4c10-87d9-f0b5ef66a734">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="84" height="30" uuid="d0dabb8d-4cd7-4b79-b64d-23ea92f1feeb"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[Jumlah Barang]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="84" height="31" uuid="8a289839-c36e-482c-a17c-338c130809d6"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{jumlah_barang}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="97d4f2e5-fa87-4b3c-84b7-c5a73347d838">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="83" height="30" uuid="7e977272-f932-4aa8-9e7c-a539bcf0ac39"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[subtotal]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
+								<textField pattern="Rp #,##0">
+									<reportElement x="0" y="0" width="84" height="31" uuid="c0ebacb5-d659-4a48-b799-a11d45fcf1e2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="79" splitType="Stretch"/>
-	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="201">
+			<staticText>
+				<reportElement mode="Transparent" x="129" y="96" width="342" height="45" forecolor="#023E8A" uuid="5367b069-46c4-4716-b6bd-3c036476b180"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jl. Letjen S.Parman, Karangrejo
+ Kec. Sumbersari, Kabupaten Jember, Jawa Timur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="188" y="10" width="211" height="41" forecolor="#0077B6" uuid="7d5642d6-2579-46d1-8280-4c54c20b5d32"/>
+				<textElement>
+					<font fontName="SansSerif" size="24" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Laporan Penjualan]]></text>
+			</staticText>
+			<image>
+				<reportElement x="24" y="56" width="103" height="82" uuid="bddeb96e-ea5a-444b-9c4c-bf6eb838e80b"/>
+				<imageExpression><![CDATA["D:\\GitHub\\ddckasir\\ddckasir2\\dumdumcell\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="193" y="145" width="234" height="20" uuid="2a98bf79-7e9c-4d95-adeb-6af3e29912c2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Periode : " + $P{tanggalAwal} + " s.d " + $P{tanggalAkhir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="204" y="54" width="108" height="39" forecolor="#023E8A" uuid="7faaa8c8-15dd-4604-af6e-c92949c7501e"/>
+				<textElement>
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DumDum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="315" y="55" width="85" height="38" forecolor="#0077B6" uuid="17d7c2eb-cbed-4708-9e17-68f9e80e8a51"/>
+				<textElement>
+					<font fontName="SansSerif" size="24" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cellular]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="12" y="177" width="100" height="20" uuid="83446722-7c13-4742-ae66-235256dd47e9"/>
+				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="175" width="175" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
+				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnHeader>
-	<detail>
-		<band height="125" splitType="Stretch"/>
-	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="36">
+			<textField>
+				<reportElement x="23" y="11" width="100" height="20" uuid="8ebf259a-e910-42b6-b5b1-a6374c02d9bf"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="59" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 11" style="table 11" x="282" y="8" width="273" height="50" uuid="4b2969c2-a287-4408-9a2f-7e8c4ac8cff0"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="total" uuid="f426c478-4d56-4826-ab2e-507924c20080">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="8ba66579-3919-46ec-a85a-e80c6def3999">
+						<jr:columnHeader style="table 11_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="be2a78d8-4231-4c08-9c7a-c4f904f9088d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[total_transaksi]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 11_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="a632d599-26cc-424a-a160-7d56652a6fe5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{total_transaksi}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="cbbb09dd-fa3a-45ea-b411-f18a0e096f40">
+						<jr:columnHeader style="table 11_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="be46c62f-bc54-4ca6-b0a0-f68a87b48bde"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[total_barang]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 11_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="1a3c550c-7e62-44d3-9d07-34169fd6ed13"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{total_barang}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="b8b18742-04d4-46e0-804b-c84cbe83c646">
+						<jr:columnHeader style="table 11_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="35ced1af-d15c-43c1-b466-cc1d18d1a36f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[total_pembelian]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 11_TD" height="20">
+							<textField pattern="Rp #,##0">
+								<reportElement x="0" y="0" width="90" height="20" uuid="24f26ee3-e212-4d61-bad1-75118993e133"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{total_pembelian}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
 	</summary>
 </jasperReport>
