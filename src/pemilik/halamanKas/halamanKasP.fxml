@@ -80,7 +80,7 @@
          </columnResizePolicy>
       </TableView>
       <Button fx:id="buttonX" layoutX="905.0" layoutY="369.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="23.0" text="Button" />
-      <AnchorPane layoutX="19.0" layoutY="137.0" prefHeight="107.0" prefWidth="310.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
+      <AnchorPane layoutX="19.0" layoutY="137.0" prefHeight="107.0" prefWidth="310.0" style="-fx-background-color: #328E6E; -fx-background-radius: 15;">
          <children>
             <Label fx:id="lblTotalPenjualan" layoutX="17.0" layoutY="42.0" text="Rp0,00" textFill="WHITE">
                <font>
@@ -94,7 +94,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="345.0" layoutY="137.0" prefHeight="107.0" prefWidth="310.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
+      <AnchorPane layoutX="345.0" layoutY="137.0" prefHeight="107.0" prefWidth="310.0" style="-fx-background-color: #C5172E; -fx-background-radius: 15;">
          <children>
             <Label fx:id="lblTotalPenjualan1" layoutX="17.0" layoutY="42.0" text="Rp0,00" textFill="WHITE">
                <font>
@@ -108,7 +108,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="671.0" layoutY="137.0" prefHeight="107.0" prefWidth="310.0" style="-fx-background-color: #02045e; -fx-background-radius: 15;">
+      <AnchorPane layoutX="671.0" layoutY="137.0" prefHeight="107.0" prefWidth="310.0" style="-fx-background-color: #211C84; -fx-background-radius: 15;">
          <children>
             <Label fx:id="lblTotalPenjualan11" layoutX="17.0" layoutY="42.0" text="Rp0,00" textFill="WHITE">
                <font>
