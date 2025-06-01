@@ -518,7 +518,7 @@ $P{tanggalAkhir} ORDER BY id_transaksi_jual ASC]]>
 				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="373" y="175" width="175" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
+				<reportElement x="357" y="175" width="175" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 		</band>
