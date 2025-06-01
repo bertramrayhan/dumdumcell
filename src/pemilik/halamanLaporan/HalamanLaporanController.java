@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -60,81 +62,27 @@ public class HalamanLaporanController implements Initializable {
     }    
     
     @FXML
-    private void handleBtnPDF(MouseEvent event) {
-        try {
-            Locale.setDefault(new Locale("id", "ID"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-            LocalDate tglAwal = null;
-            LocalDate tglAkhir = null;
-            String pathReport = "";
-            String outputFilename = "";
-
-            if (paneLaporanPembelian.isVisible()) {
-                tglAwal = dtPTanggalAwal.getValue();
-                tglAkhir = dtPTanggalAkhir.getValue();
-                pathReport = "src/main/jasperReport/laporanPembelian.jasper";
-                outputFilename = "laporan_pembelian.pdf";
-            } else if (paneLaporanPenjualan.isVisible()) {
-                tglAwal = dtPTanggalAwalPenjualan.getValue();
-                tglAkhir = dtPTanggalAkhirPenjualan.getValue();
-                pathReport = "src/main/jasperReport/laporanPenjualan.jasper";
-                outputFilename = "laporan_penjualan.pdf";
-            }
-
-            if (tglAwal == null || tglAkhir == null) {
-                Session.animasiPanePesan(true, "Silakan pilih tanggal awal dan akhir terlebih dahulu.");
-                return;
-            }
-
-            String strTglAwal = tglAwal.format(formatter);
-            String strTglAkhir = tglAkhir.format(formatter);
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("tanggalAwal", strTglAwal);
-            params.put("tanggalAkhir", strTglAkhir);
-            params.put("admin", Session.getIdAdmin());
-            
-             // Format waktu cetak di Java jadi String
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
-            String formattedPrintTime = sdf.format(new Date());
-            params.put("printTime", formattedPrintTime);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(pathReport, params, Koneksi.getCon());
-            JasperViewer.viewReport(jasperPrint, false);
-
-            String userHome = System.getProperty("user.home");
-            String outputPath = userHome + "/Documents/" + outputFilename;
-            JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
-
-            System.out.println("PDF berhasil disimpan di: " + outputPath);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Gagal generate PDF");
-        }
-    }
-   @FXML
-private void handleBtnEXCEL(MouseEvent event) {
-      try {
+private void handleBtnPDF(MouseEvent event) {
+    try {
         Locale.setDefault(new Locale("id", "ID"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
         LocalDate tglAwal = null;
         LocalDate tglAkhir = null;
         String pathReport = "";
-        String outputFilename = "";
+        String jenisLaporan = "";
 
         if (paneLaporanPembelian.isVisible()) {
             tglAwal = dtPTanggalAwal.getValue();
             tglAkhir = dtPTanggalAkhir.getValue();
-            pathReport = "src/main/jasperReport/laporanPembelian.jasper";
-            outputFilename = "laporan_pembelian.xlsx";
+            pathReport = "/main/jasperReport/laporanPembelian.jasper";
+            jenisLaporan = "laporan_pembelian";
         } else if (paneLaporanPenjualan.isVisible()) {
             tglAwal = dtPTanggalAwalPenjualan.getValue();
             tglAkhir = dtPTanggalAkhirPenjualan.getValue();
-            pathReport = "src/main/jasperReport/laporanPenjualan.jasper";
-            outputFilename = "laporan_penjualan.xlsx";
+            pathReport = "/main/jasperReport/laporanPenjualan.jasper";
+            jenisLaporan = "laporan_penjualan";
         }
 
         if (tglAwal == null || tglAkhir == null) {
@@ -144,21 +92,136 @@ private void handleBtnEXCEL(MouseEvent event) {
 
         String strTglAwal = tglAwal.format(formatter);
         String strTglAkhir = tglAkhir.format(formatter);
+        String adminId = Session.getIdAdmin();
+        String timeStamp = fileFormat.format(new Date());
         
+          // Cek data kosong dulu
+        Connection con = Koneksi.getCon();
+        String sql = "";
+        if (jenisLaporan.equals("laporan_pembelian")) {
+            sql = "SELECT COUNT(*) FROM laporan_pembelian WHERE tanggal_transaksi_beli BETWEEN ? AND ?";
+        } else if (jenisLaporan.equals("laporan_penjualan")) {
+            sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
+        }
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, strTglAwal);
+            ps.setString(2, strTglAkhir);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count == 0) {
+                    Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.");
+                    return;
+                }
+            }
+        } finally {
+            if (rs != null) try { rs.close(); } catch (Exception ex) {}
+            if (ps != null) try { ps.close(); } catch (Exception ex) {}
+        }
+
         Map<String, Object> params = new HashMap<>();
         params.put("tanggalAwal", strTglAwal);
         params.put("tanggalAkhir", strTglAkhir);
-        params.put("admin", Session.getIdAdmin());
-        
-         // Format waktu cetak di Java jadi String
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
-        String formattedPrintTime = sdf.format(new Date());
-        params.put("printTime", formattedPrintTime);
+        params.put("admin", adminId);
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(pathReport, params, Koneksi.getCon());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
+        params.put("printTime", sdf.format(new Date()));
+
+        InputStream reportStream = getClass().getResourceAsStream(pathReport);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, Koneksi.getCon());
 
         String userHome = System.getProperty("user.home");
-        String outputPath = userHome + "/Documents/" + outputFilename;
+        String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".pdf";
+
+        JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
+        JasperViewer.viewReport(jasperPrint, false);
+
+        System.out.println("PDF berhasil disimpan di: " + outputPath);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("Gagal generate PDF");
+    }
+}
+   @FXML
+private void handleBtnEXCEL(MouseEvent event) {
+    try {
+        Locale.setDefault(new Locale("id", "ID"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+
+        LocalDate tglAwal = null;
+        LocalDate tglAkhir = null;
+        String pathReport = "";
+        String jenisLaporan = "";
+
+        if (paneLaporanPembelian.isVisible()) {
+            tglAwal = dtPTanggalAwal.getValue();
+            tglAkhir = dtPTanggalAkhir.getValue();
+            pathReport = "/main/jasperReport/laporanPembelian.jasper";
+            jenisLaporan = "laporan_pembelian";
+        } else if (paneLaporanPenjualan.isVisible()) {
+            tglAwal = dtPTanggalAwalPenjualan.getValue();
+            tglAkhir = dtPTanggalAkhirPenjualan.getValue();
+            pathReport = "/main/jasperReport/laporanPenjualan.jasper";
+            jenisLaporan = "laporan_penjualan";
+        }
+
+        if (tglAwal == null || tglAkhir == null) {
+            Session.animasiPanePesan(true, "Silakan pilih tanggal awal dan akhir terlebih dahulu.");
+            return;
+        }
+
+        String strTglAwal = tglAwal.format(formatter);
+        String strTglAkhir = tglAkhir.format(formatter);
+        String adminId = Session.getIdAdmin();
+        String timeStamp = fileFormat.format(new Date());
+        
+         // Cek data kosong dulu
+        Connection con = Koneksi.getCon();
+        String sql = "";
+        if (jenisLaporan.equals("laporan_pembelian")) {
+            sql = "SELECT COUNT(*) FROM laporan_pembelian WHERE tanggal_transaksi_beli BETWEEN ? AND ?";
+        } else if (jenisLaporan.equals("laporan_penjualan")) {
+            sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
+        }
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, strTglAwal);
+            ps.setString(2, strTglAkhir);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count == 0) {
+                    Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.");
+                    return;
+                }
+            }
+        } finally {
+            if (rs != null) try { rs.close(); } catch (Exception ex) {}
+            if (ps != null) try { ps.close(); } catch (Exception ex) {}
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("tanggalAwal", strTglAwal);
+        params.put("tanggalAkhir", strTglAkhir);
+        params.put("admin", adminId);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
+        params.put("printTime", sdf.format(new Date()));
+
+        InputStream reportStream = getClass().getResourceAsStream(pathReport);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, Koneksi.getCon());
+
+        String userHome = System.getProperty("user.home");
+        String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".xlsx";
 
         JRXlsxExporter exporter = new JRXlsxExporter();
         exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
