@@ -11,13 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import karyawan.halamanProfil.gantiPassword.GantiPasswordController;
 import karyawan.halamanUtama.HalamanUtamaKController;
-import share.logout.LogoutController;
 import main.DumdumKasir;
 import main.Koneksi;
 import main.Session;
@@ -25,62 +26,29 @@ import pemilik.halamanUtama.HalamanUtamaPController;
 
 public class HalamanProfilKController implements Initializable {
 
-    @FXML Button btnLogout, btnGantiPassword;
-    @FXML Label lblNama, lblAlamat, lblNomorHP, lblUsername;
+    @FXML private Button btnLogout, btnGantiPassword;
+    @FXML private Label lblNama, lblAlamat, lblNomorHP, lblUsername;
+    @FXML private Pane paneGelap;
+    
+    //GANTI PASSWORD
+    @FXML private AnchorPane paneGantiPassword;
+    @FXML private Button btnKonfirmasi, btnBatal;
+    @FXML private PasswordField txtPasswordLama, txtPasswordBaru, txtKonfirmasiPassword;
+    @FXML private TextField txtPasswordLamaVisible, txtPasswordBaruVisible, txtKonfirmasiPasswordVisible;
+    @FXML private CheckBox checkBoxTampilkanPassword;
+    
+    //LOGOUT
+    @FXML private Button btnIya, btnTidak;
+    @FXML private AnchorPane paneLogout;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         isiDataKaryawan();
+        Session.triggerOnEnter(this::gantiPassword, txtPasswordLama, txtPasswordBaru, txtKonfirmasiPassword);
     }    
     
     @FXML
-    private void logout(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/share/logout/logout.fxml"));
-            Parent root = loader.load();
-
-            Stage logoutStage = new Stage();
-            logoutStage.initModality(Modality.APPLICATION_MODAL);
-            logoutStage.initStyle(StageStyle.UNDECORATED);
-            logoutStage.centerOnScreen();
-            logoutStage.setScene(new Scene(root));
-
-            LogoutController controller = loader.getController();
-            controller.setDialogStage(logoutStage);
-            
-            logoutStage.showAndWait(); // Tunggu user klik "Iya" atau "Tidak"
-
-            if (controller.isLogoutConfirmed()) {
-                switchToLogin(); // Logout ke halaman login
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    @FXML
-    private void gantiPassword(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/karyawan/halamanProfil/gantiPassword/gantiPassword.fxml"));
-            Parent root = loader.load();
-
-            Stage gantiPasswordStage = new Stage();
-            gantiPasswordStage.initModality(Modality.APPLICATION_MODAL);
-            gantiPasswordStage.initStyle(StageStyle.UNDECORATED);
-            gantiPasswordStage.centerOnScreen();
-            gantiPasswordStage.setScene(new Scene(root));
-
-            GantiPasswordController controller = loader.getController();
-            controller.setDialogStage(gantiPasswordStage);
-            
-            gantiPasswordStage.showAndWait(); // Tunggu user klik "Iya" atau "Tidak"
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private void switchToLogin() {
+    private void logout() {
         Session.setIdAdmin("");
         HalamanUtamaKController.penyimpananPaneKaryawan.clear();
         HalamanUtamaPController.penyimpananPanePemilik.clear();
@@ -124,5 +92,103 @@ public class HalamanProfilKController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    //GANTI PASSWORD
+    @FXML
+    private void bukaGantiPassword(){
+        Session.setShowPane(paneGantiPassword, paneGelap);
+    }
+    
+    @FXML
+    private void tutupGantiPassword(){
+        Session.setHidePane(paneGantiPassword, paneGelap);
+        txtPasswordLama.clear();
+        txtPasswordBaru.clear();
+        txtKonfirmasiPassword.clear();
+        txtPasswordLamaVisible.clear();
+        txtPasswordBaruVisible.clear();
+        txtKonfirmasiPasswordVisible.clear();
+        checkBoxTampilkanPassword.setSelected(false);
+        
+        txtPasswordLama.setVisible(true);
+        txtPasswordLama.setManaged(true);
+        txtPasswordBaru.setVisible(true);
+        txtPasswordBaru.setManaged(true);
+        txtKonfirmasiPassword.setVisible(true);
+        txtKonfirmasiPassword.setManaged(true);
+        
+        txtPasswordLamaVisible.setVisible(false);
+        txtPasswordLamaVisible.setManaged(false);
+        txtPasswordBaruVisible.setVisible(false);
+        txtPasswordBaruVisible.setManaged(false);
+        txtKonfirmasiPasswordVisible.setVisible(false);
+        txtKonfirmasiPasswordVisible.setManaged(false);
+    }
+    
+    @FXML
+    private void tampilkanPassword(){
+        Session.togglePassword(txtPasswordLama, txtPasswordLamaVisible);
+        Session.togglePassword(txtPasswordBaru, txtPasswordBaruVisible);
+        Session.togglePassword(txtKonfirmasiPassword, txtKonfirmasiPasswordVisible);
+    }
+    
+    @FXML
+    private void gantiPassword(){
+        if(txtPasswordLamaVisible.isVisible() == true){
+            txtPasswordLama.setText(txtPasswordLamaVisible.getText());
+            txtPasswordBaru.setText(txtPasswordBaruVisible.getText());
+            txtKonfirmasiPassword.setText(txtKonfirmasiPasswordVisible.getText());
+        }
+        
+        String passwordLama = txtPasswordLama.getText();
+        String passwordBaru = txtPasswordBaru.getText();
+        String konfirmasiPassword = txtKonfirmasiPassword.getText();
+        
+        if(passwordLama.equals("") || passwordBaru.equals("") || konfirmasiPassword.equals("")){
+            Session.animasiPanePesan(true, "Harap isi semua kolom", btnKonfirmasi);
+            return;
+        }else if(!passwordBaru.equals(konfirmasiPassword)){
+            Session.animasiPanePesan(true, "Password baru dan konfirmasi password tidak cocok", btnKonfirmasi);
+            return;
+        }
+        
+        try {
+            String query = "SELECT password FROM admin WHERE id_admin=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, Session.getIdAdmin());
+            
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                if(passwordLama.equals(result.getString("password"))){
+                    query = "UPDATE admin SET password=? WHERE id_admin=?";
+                    statement = Koneksi.getCon().prepareStatement(query);
+                    statement.setString(1, passwordBaru);
+                    statement.setString(2, Session.getIdAdmin());
+                    
+                    statement.executeUpdate();
+
+                    Session.animasiPanePesan(false, "Password berhasil diperbarui");
+                    tutupGantiPassword();
+                }else{
+                    Session.animasiPanePesan(true, "Password Lama yang Anda Masukkan Salah", btnKonfirmasi);
+                }
+            }
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //LOGOUT
+    @FXML
+    private void bukaLogout(){
+        Session.setShowPane(paneLogout, paneGelap);
+    }
+    
+    @FXML
+    private void tutupLogout(){
+        Session.setHidePane(paneLogout, paneGelap);
     }
 }
