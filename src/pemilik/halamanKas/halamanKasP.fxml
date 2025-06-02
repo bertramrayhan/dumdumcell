@@ -19,7 +19,7 @@
             <Image url="@../../assets/logo/Logomark.png" />
          </image>
       </ImageView>
-      <Label layoutX="200.0" layoutY="20.0" text="Pengeluaran Kas" textFill="#353499">
+      <Label layoutX="200.0" layoutY="20.0" text="Pemasukan Kas" textFill="#353499">
          <font>
             <Font name="System Bold" size="50.0" />
          </font>
