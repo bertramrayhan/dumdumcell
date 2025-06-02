@@ -394,8 +394,35 @@ public class HalamanTransaksiReturKController implements Initializable, Pelengka
         String totalRetur = lblTotalRetur.getText();
         
         try {
-            String query = "INSERT INTO transaksi_retur VALUES (?,?,?,?,?,NOW(),?,?,?,?)";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            ResultSet result = null;
+            String query;
+            PreparedStatement statement = null;
+            if(pengembalian.equals("Barang")){
+                boolean kurang = false;
+                
+                query = "SELECT * FROM BARANG WHERE id_barang = ? AND stok_utama - ? < 0";
+                statement = Koneksi.getCon().prepareStatement(query);
+                for(Barang barang : listDetailBarang){
+                    statement.setString(1, barang.getIdBarang());
+                    statement.setInt(2, barang.getJumlahBarang());
+                    result = statement.executeQuery();
+                    if(result.next()){
+                        kurang = true;
+                        result.close();
+                        break;
+                    }
+                    result.close();
+                }
+
+                if(kurang){
+                    Session.animasiPanePesan(true, "Stok Barang Tidak Mencukupi", btnProses);
+                    System.out.println("gagal");
+                    return;
+                }
+            }
+            
+            query = "INSERT INTO transaksi_retur VALUES (?,?,?,?,?,NOW(),?,?,?,?)";
+            statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, newIdRetur);
             statement.setString(2, Session.getIdAdmin());
             statement.setString(3, jenisTransaksi);
@@ -412,15 +439,15 @@ public class HalamanTransaksiReturKController implements Initializable, Pelengka
             statement.setString(9, "Diproses");
             
             statement.executeUpdate();
-            
+                        
+            query = "INSERT INTO detail_retur VALUES (?,?,?,?)";
+            statement = Koneksi.getCon().prepareStatement(query);
             for(Barang barang : listDetailBarang){
-                query = "INSERT INTO detail_retur VALUES (?,?,?,?)";
-                statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, newIdRetur);
                 statement.setString(2, barang.getIdBarang());
                 statement.setInt(3, barang.getJumlahBarang());
                 statement.setInt(4, Session.convertRupiahToInt(barang.getSubtotal()));
-                
+
                 statement.executeUpdate();
             }
             

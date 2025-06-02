@@ -97,9 +97,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNamaBarangTambah" layoutX="24.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtNamaBarangTambah" layoutX="24.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <Label layoutX="24.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Nama Merek" textFill="WHITE">
@@ -107,9 +107,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNamaMerekTambah" layoutX="24.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtNamaMerekTambah" layoutX="24.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <ChoiceBox fx:id="cbxKategoriTambah" layoutX="24.0" layoutY="233.0" prefHeight="37.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
@@ -127,9 +127,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtBarcodeTambah" layoutX="380.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Barcode Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtBarcodeTambah" layoutX="380.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Barcode Barang" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <Label layoutX="380.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Harga Jual" textFill="WHITE">
@@ -137,9 +137,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtHargaJualTambah" layoutX="380.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Harga Jual" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtHargaJualTambah" layoutX="380.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Harga Jual" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <Label layoutX="380.0" layoutY="198.0" prefHeight="30.0" prefWidth="159.0" text="Tanggal Expired" textFill="WHITE">
@@ -171,9 +171,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNamaBarangEdit" focusTraversable="false" layoutX="24.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtNamaBarangEdit" focusTraversable="false" layoutX="24.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <Label layoutX="24.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Nama Merek" textFill="WHITE">
@@ -181,9 +181,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNamaMerekEdit" focusTraversable="false" layoutX="24.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtNamaMerekEdit" disable="true" focusTraversable="false" layoutX="24.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <ChoiceBox fx:id="cbxKategoriEdit" focusTraversable="false" layoutX="24.0" layoutY="233.0" prefHeight="37.0" prefWidth="270.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #02045e;">
@@ -201,9 +201,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtBarcodeEdit" focusTraversable="false" layoutX="380.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtBarcodeEdit" focusTraversable="false" layoutX="380.0" layoutY="57.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Barang" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <Label layoutX="380.0" layoutY="110.0" prefHeight="30.0" prefWidth="135.0" text="Harga Jual" textFill="WHITE">
@@ -211,9 +211,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="txtHargaJualEdit" focusTraversable="false" layoutX="380.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-text-fill: #02045e; -fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
+            <TextField fx:id="txtHargaJualEdit" focusTraversable="false" layoutX="380.0" layoutY="145.0" prefHeight="37.0" prefWidth="270.0" promptText="Masukkan Nama Merek" style="-fx-prompt-text-fill: grey; -fx-background-color: white; -fx-background-radius: 5;">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextField>
             <Label layoutX="380.0" layoutY="198.0" prefHeight="30.0" prefWidth="159.0" text="Tanggal Expired" textFill="WHITE">

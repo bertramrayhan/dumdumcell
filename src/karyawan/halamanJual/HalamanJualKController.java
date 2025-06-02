@@ -1,6 +1,5 @@
 package karyawan.halamanJual;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,10 +13,7 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
@@ -35,9 +31,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
@@ -73,15 +66,27 @@ public class HalamanJualKController implements Initializable, Pelengkap {
     @FXML private ImageView imgDetail, imgUnduh;
     @FXML private TableView<Transaksi> tabelTransaksi;
     @FXML private TableColumn<Transaksi, String> colKaryawan, colTanggal, colWaktu, colJenisPembayaran, colDiskon, colTotalPembelian, colKembalian;
-    static ObservableList<Transaksi> listTransaksi = FXCollections.observableArrayList();
+    private ObservableList<Transaksi> listTransaksi = FXCollections.observableArrayList();
+    
+    //DETAIL TRANSAKSI
+    @FXML private AnchorPane paneDetailTransaksi;
+    @FXML private TableView<DetailTransaksi> tabelDetailTransaksi;
+    @FXML private TableColumn<DetailTransaksi, String> colNamaBarangDetail, colJumlahBarangDetail, colSubtotalDetail;
+    @FXML private TextArea txtAreaCatatanDetail;
+    
+    private ObservableList<DetailTransaksi> listDetailTransaksi = FXCollections.observableArrayList();
+
     
     private final DateTimeFormatter formatWaktu = DateTimeFormatter.ofPattern("HH:mm");
     
-    static String idTransaksiTerpilih = "";
+    private String idTransaksiTerpilih = "";
     
     private void setTextFieldNumeric(){
         Session.setTextFieldNumeric(txtBayar, txtBarcodeQty, txtManualQty);
         Session.setTextFieldNumeric(13, txtBarcode);
+        
+        //DETAIL TRANSAKSI
+        setTabelDetailTransaksi();
     }
     
     @Override
@@ -177,7 +182,7 @@ public class HalamanJualKController implements Initializable, Pelengkap {
                 String query = "SELECT b.id_barang, b.barcode, b.merek, b.harga_jual\n" +
                                "FROM barang b " +
                                "WHERE " + (isBarcode ? "b.barcode = ? " : "b.merek = ? ") +
-                               "AND b.exp > DATE(NOW())";
+                               "AND b.exp > DATE(NOW()) AND b.is_deleted=FALSE";
                 PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, identifier);
 
@@ -447,9 +452,9 @@ public class HalamanJualKController implements Initializable, Pelengkap {
         try {
             String query = "";
             if(barcode.isEmpty()){
-                query = "SELECT stok_utama FROM barang WHERE merek=?";
+                query = "SELECT stok_utama FROM barang WHERE merek=? AND is_deleted=FALSE";
             }else{
-                query = "SELECT stok_utama FROM barang WHERE barcode=?";
+                query = "SELECT stok_utama FROM barang WHERE barcode=? AND is_deleted=FALSE";
             }
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, barcode.isEmpty() ? merek : barcode);
@@ -773,31 +778,7 @@ public class HalamanJualKController implements Initializable, Pelengkap {
         tabelTransaksi.setItems(listTransaksi);
         tabelTransaksi.refresh();
     }
-    
-    @FXML
-    private void bukaDetailTransaksi(){
-        int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
-        Transaksi transaksiTerpilih = listTransaksi.get(barisTerpilih);
-        idTransaksiTerpilih = transaksiTerpilih.getIdTransaksi();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/karyawan/halamanJual/detail.fxml"));
-            Parent root = loader.load();
-
-            Stage detailTransaksiStage = new Stage();
-            detailTransaksiStage.initModality(Modality.APPLICATION_MODAL);
-            detailTransaksiStage.initStyle(StageStyle.UNDECORATED);
-            detailTransaksiStage.centerOnScreen();
-            detailTransaksiStage.setScene(new Scene(root));
-
-            DetailController controller = loader.getController();
-            controller.setDetailTransaksiStage(detailTransaksiStage);
-            
-            detailTransaksiStage.showAndWait(); // Tunggu user klik "Iya" atau "Tidak"
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
+        
     @FXML
     private void cetakStrukTransaksi() {
         int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
@@ -845,5 +826,76 @@ public class HalamanJualKController implements Initializable, Pelengkap {
         }
         
         return waktuShift;
+    }
+    
+    //DETAIL TRANSAKSI
+    public class DetailTransaksi{
+        String namaBarang, jumlahBarang, subtotal;
+
+        public DetailTransaksi(String namaBarang, String jumlahBarang, String subtotal) {
+            this.namaBarang = namaBarang;
+            this.jumlahBarang = jumlahBarang;
+            this.subtotal = subtotal;
+        }
+        public String getNamaBarang() {return namaBarang;}
+        public String getJumlahBarang() {return jumlahBarang;}
+        public String getSubtotal() {return subtotal;}
+    }
+    
+    private void setTabelDetailTransaksi(){
+        colNamaBarangDetail.setCellValueFactory(new PropertyValueFactory<>("namaBarang"));
+        colJumlahBarangDetail.setCellValueFactory(new PropertyValueFactory<>("JumlahBarang"));
+        colSubtotalDetail.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+    }
+    
+    @FXML
+    private void bukaDetailTransaksi(){
+        int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
+        Transaksi transaksiTerpilih = listTransaksi.get(barisTerpilih);
+        idTransaksiTerpilih = transaksiTerpilih.getIdTransaksi();
+        Session.setShowPane(paneDetailTransaksi, paneGelap);
+        getDataTabelDetailTransaksi();
+    }
+    
+    @FXML
+    private void tutupDetailTransaksi(){
+        Session.setHidePane(paneDetailTransaksi, paneGelap);
+    }
+    
+    private void getDataTabelDetailTransaksi(){
+        listDetailTransaksi.clear();
+        
+        try {
+            String query = "SELECT brg.merek AS nama_barang, dtj.jumlah_barang AS jumlah_barang, "
+            + "dtj.subtotal AS subtotal, tj.catatan AS catatan\n" +
+            "FROM detail_transaksi_jual dtj\n" +
+            "JOIN barang brg ON brg.id_barang = dtj.id_barang\n" +
+            "JOIN transaksi_jual tj ON tj.id_transaksi_jual = dtj.id_transaksi_jual\n" +
+            "WHERE dtj.id_transaksi_jual = ?"
+            + "ORDER BY dtj.jumlah_barang ASC";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, idTransaksiTerpilih);
+            ResultSet result = statement.executeQuery();
+                        
+            if (result.next()) {
+                String catatan = result.getString("catatan");
+                txtAreaCatatanDetail.setText(catatan);
+
+                do {
+                    String namaBarang = result.getString("nama_barang");
+                    String jumlahBarang = result.getString("jumlah_barang");
+                    String subtotal = Session.convertIntToRupiah(result.getInt("subtotal"));
+
+                    DetailTransaksi detailTransaksi = new DetailTransaksi(namaBarang, jumlahBarang, subtotal);
+                    listDetailTransaksi.add(detailTransaksi);
+                } while (result.next());
+            }
+            
+            result.close();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tabelDetailTransaksi.setItems(listDetailTransaksi);
     }
 }

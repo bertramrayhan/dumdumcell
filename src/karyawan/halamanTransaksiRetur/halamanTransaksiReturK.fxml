@@ -89,7 +89,7 @@
                                     <Font name="System Bold" size="22.0" />
                                  </font>
                               </Label>
-                              <TextArea fx:id="txtAAlasanRetur" layoutX="20.0" layoutY="226.0" prefHeight="55.0" prefWidth="893.0">
+                              <TextArea fx:id="txtAAlasanRetur" layoutX="20.0" layoutY="226.0" prefHeight="55.0" prefWidth="893.0" promptText="Masukkan Alasan Retur">
                                  <font>
                                     <Font name="System Bold" size="17.0" />
                                  </font></TextArea>

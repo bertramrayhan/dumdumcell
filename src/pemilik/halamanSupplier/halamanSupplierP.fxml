@@ -44,7 +44,7 @@
       </Label>
       <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="19.0" layoutY="382.0" onKeyReleased="#getDataTabelSupplier" prefHeight="41.0" prefWidth="479.0" promptText="Masukkan Nama Supplier" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45;" styleClass="search">
          <font>
-            <Font size="14.0" />
+            <Font size="15.0" />
          </font>
       </TextField>
       <Button fx:id="buttonX" layoutX="900.0" layoutY="165.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="23.0" text="Button" />

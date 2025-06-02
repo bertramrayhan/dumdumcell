@@ -45,7 +45,7 @@
             </Label>
             <TextField fx:id="txtNominal" layoutX="710.0" layoutY="22.0" prefHeight="35.0" prefWidth="240.0" promptText="0,00">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
             <ChoiceBox fx:id="cbxJenisTransaksi" layoutX="230.0" layoutY="22.0" prefHeight="32.0" prefWidth="240.0" style="-fx-background-color: white; -fx-font-size: 15px; -fx-font-weight: bold;">
@@ -68,9 +68,9 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtAKeterangan" layoutX="15.0" layoutY="115.0" prefHeight="65.0" prefWidth="608.0">
+            <TextArea fx:id="txtAKeterangan" layoutX="15.0" layoutY="115.0" prefHeight="65.0" prefWidth="608.0" promptText="Masukkan Keterangan">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextArea>
             <Label layoutX="674.0" layoutY="22.0" text="Rp" textFill="WHITE">

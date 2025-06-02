@@ -161,7 +161,8 @@ public class HalamanBerandaPController implements Initializable, Pelengkap {
             "FROM detail_transaksi_jual dtj\n" +
             "JOIN barang brg ON brg.id_barang = dtj.id_barang\n" +
             "GROUP BY brg.nama_barang\n" +
-            "ORDER BY jumlah_barang DESC";
+            "ORDER BY jumlah_barang DESC\n" +
+            "LIMIT 10";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             ResultSet result = statement.executeQuery();
 

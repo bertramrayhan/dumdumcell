@@ -29,7 +29,10 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="25.0" layoutY="177.0" prefHeight="37.0" prefWidth="378.0" promptText="Masukkan Nama Barang atau Stok Barang" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45; -fx-background-radius: 7;" styleClass="search" />
+      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="25.0" layoutY="177.0" prefHeight="37.0" prefWidth="378.0" promptText="Masukkan Nama Barang atau Stok Barang" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45; -fx-background-radius: 7;" styleClass="search">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
       <ImageView fitHeight="97.0" fitWidth="148.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../assets/logo/Logomark.png" />

@@ -36,9 +36,9 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNominal" layoutX="215.0" layoutY="22.0" prefHeight="35.0" prefWidth="240.0">
+            <TextField fx:id="txtNominal" layoutX="215.0" layoutY="22.0" prefHeight="35.0" prefWidth="240.0" promptText="0,00">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
             <Button fx:id="btnProses" layoutX="832.0" layoutY="131.0" mnemonicParsing="false" onMouseClicked="#prosesKas" prefHeight="48.0" prefWidth="117.0" style="-fx-font-size: 18px;" styleClass="btnKonfirmasi" stylesheets="@../../main/styles.css" text="Proses" textFill="WHITE">
@@ -56,9 +56,9 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtADeskripsi" layoutX="15.0" layoutY="115.0" prefHeight="65.0" prefWidth="608.0">
+            <TextArea fx:id="txtADeskripsi" layoutX="15.0" layoutY="115.0" prefHeight="65.0" prefWidth="608.0" promptText="Masukkan Deskripsi">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
             </TextArea>
             <Label layoutX="170.0" layoutY="22.0" text="Rp" textFill="WHITE">

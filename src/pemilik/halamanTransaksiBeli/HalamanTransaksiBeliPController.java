@@ -343,12 +343,12 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
         try {
             //combo box produk
             String query = "SELECT merek FROM barang WHERE is_deleted = FALSE ";
-            if (!cbxKategori.getValue().equals("Semua")) {
+            if (cbxKategori.getValue() != null && (!cbxKategori.getValue().equals("Semua"))) {
                 query += "AND id_kategori = (SELECT id_kategori FROM kategori WHERE nama_kategori=?) ";
             }
             
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            if (!cbxKategori.getValue().equals("Semua")) {
+            if (cbxKategori.getValue() != null && !cbxKategori.getValue().equals("Semua")) {
                 statement.setString(1, cbxKategori.getValue());
             }
             
@@ -433,8 +433,8 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
             if (!produkAda) {
                 String query = "SELECT b.id_barang, b.barcode, b.merek\n" +
                                "FROM barang b " +
-                               "WHERE " + (isBarcode ? "b.barcode = ? " : "b.merek = ? ");
-//                               "AND b.exp > DATE(NOW())"
+                               "WHERE " + (isBarcode ? "b.barcode = ? " : "b.merek = ? ") +
+                               " AND is_deleted=FALSE";
                 PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, identifier);
 

@@ -198,7 +198,7 @@ public class HalamanBerandaKController implements Initializable, Pelengkap{
             String query = "SELECT merek, stok_utama, exp \n" +
             "FROM barang\n" +
             "WHERE exp IS NOT NULL\n" +
-            "AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)";
+            "AND exp <= DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY) AND is_deleted=FALSE";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             
             ResultSet result = statement.executeQuery();

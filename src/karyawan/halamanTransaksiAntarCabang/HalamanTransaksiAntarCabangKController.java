@@ -61,7 +61,7 @@ public class HalamanTransaksiAntarCabangKController implements Initializable {
             getDataTabelTransaksi();
         });
         Session.setTextFieldNumeric(txtNominal);
-        Session.triggerOnEnter(this::prosesTransaksi, txtNominal, txtAKeterangan);
+        Session.triggerOnEnter(this::prosesTransaksi, txtNominal);
     }
     
     private void setTabelTransaksi(){

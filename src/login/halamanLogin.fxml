@@ -25,7 +25,7 @@
             </Label>
             <TextField fx:id="txtUsername" layoutX="175.0" layoutY="290.0" prefHeight="38.0" prefWidth="380.0" promptText="Username" style="-fx-background-color: white; -fx-prompt-text-fill: black;">
                <font>
-                  <Font size="16.0" />
+                  <Font size="17.0" />
                </font></TextField>
             <Label layoutX="175.0" layoutY="360.0" text="Password" textFill="WHITE">
                <font>
@@ -43,7 +43,7 @@
                </font></TextField>
             <PasswordField fx:id="txtPassword" layoutX="175.0" layoutY="398.0" prefHeight="38.0" prefWidth="380.0" promptText="Password" style="-fx-background-color: white; -fx-prompt-text-fill: black;">
                <font>
-                  <Font size="16.0" />
+                  <Font size="17.0" />
                </font></PasswordField>
             <ImageView fx:id="btnShowPassword" fitHeight="36.0" fitWidth="36.0" layoutX="568.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
                <image>

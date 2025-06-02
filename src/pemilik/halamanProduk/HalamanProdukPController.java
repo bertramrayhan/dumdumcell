@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -535,46 +534,24 @@ public class HalamanProdukPController implements Initializable, Pelengkap {
         }else if(hargaJual.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
-        }else if(!barangTerpilih.getMerek().toLowerCase().equals(namaMerek.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=FALSE AND merek=?", namaMerek)){
-            Session.animasiPanePesan(true, "Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
-            return;
         }else if(!barangTerpilih.getBarcode().toLowerCase().equals(barcodeBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=FALSE AND barcode=?", barcodeBarang)){
             Session.animasiPanePesan(true, "Barcode Barang Sudah Ada", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }
         
-        boolean adaBarangSamaDeleted = Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=TRUE AND merek=? AND barcode=?", namaMerek, barcodeBarang);
-        
         String idKategori = getIdKategori(cbxKategoriEdit.getValue());
         try {
-            String query;
-            PreparedStatement statement = null;
-            if(adaBarangSamaDeleted){
-                query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
-                "Barcode=?, harga_jual=?, exp=?, is_deleted=FALSE\n" +
-                "WHERE is_deleted=TRUE AND merek=? AND barcode=?";
-                statement = Koneksi.getCon().prepareStatement(query);
-                statement.setString(1, namaBarang);
-                statement.setString(2, namaMerek);
-                statement.setString(3, idKategori);
-                statement.setString(4, barcodeBarang);
-                statement.setString(5, hargaJual);
-                statement.setString(6, expired);
-                statement.setString(7, namaMerek);
-                statement.setString(8, barcodeBarang);
-            }else{
-                query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
-                "Barcode=?, harga_jual=?, exp=?\n" +
-                "WHERE id_barang=?";
-                statement = Koneksi.getCon().prepareStatement(query);
-                statement.setString(1, namaBarang);
-                statement.setString(2, namaMerek);
-                statement.setString(3, idKategori);
-                statement.setString(4, barcodeBarang);
-                statement.setString(5, hargaJual);
-                statement.setString(6, expired);
-                statement.setString(7, idBarangTerpilih);
-            }            
+            String query = "UPDATE barang SET nama_barang=?, merek=?, id_kategori=?, \n" +
+            "Barcode=?, harga_jual=?, exp=?\n" +
+            "WHERE id_barang=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, namaBarang);
+            statement.setString(2, namaMerek);
+            statement.setString(3, idKategori);
+            statement.setString(4, barcodeBarang);
+            statement.setString(5, hargaJual);
+            statement.setString(6, expired);
+            statement.setString(7, idBarangTerpilih);
             statement.executeUpdate();
             
             getDataTabelBarang();
