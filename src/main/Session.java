@@ -44,8 +44,6 @@ public class Session {
     private static String idAdmin = "";
     //SHARE
     private static final String pathHalamanLogin = "/login/halamanLogin.fxml";
-    private static final String pathHalamanKas = "/login/halamanLogin.fxml";
-    private static final String pathHalamanSaldo = "/login/halamanLogin.fxml";
     
     //KARYAWAN
     private static final String pathHalamanUtamaK = "/karyawan/halamanUtama/halamanUtamaK.fxml";
@@ -67,28 +65,32 @@ public class Session {
     private static final String pathHalamanKartuStokP = "/pemilik/halamanKartuStok/halamanKartuStokP.fxml";
     private static final String pathHalamanSupplierP = "/pemilik/halamanSupplier/halamanSupplierP.fxml";
     private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskonP.fxml";
+    private static final String pathHalamanKasP =  "/pemilik/halamanKas/halamanKasP.fxml";
     private static final String pathHalamanLaporanP = "/pemilik/halamanLaporan/halamanLaporanPenjualan.fxml";
     
     public static void setIdAdmin(String idAdmin) {Session.idAdmin = idAdmin;}
     public static String getIdAdmin() {return idAdmin;}
     public static String getPathHalamanLogin() {return pathHalamanLogin;}
+    //KARYAWAN
     public static String getPathHalamanUtamaK() {return pathHalamanUtamaK;}
     public static String getPathBerandaK() {return pathBerandaK;}
     public static String getPathHalamanProfilK() {return pathHalamanProfilK;}
     public static String getPathHalamanJualK() {return pathHalamanJualK;}
     public static String getPathHalamanSaldoK() {return pathHalamanSaldoK;}
     public static String getPathHalamanStokK() {return pathHalamanStokK;}
+    public static String getPathHalamanTransaksiAntarCabangK() { return pathHalamanTransaksiAntarCabangK;};
+    public static String getPathHalamanTransaksiReturK() { return pathHalamanTransaksiReturK;};
+    public static String getPathHalamanTopupSaldoK() { return pathHalamanTopupSaldoK;};
+    public static String getPathHalamanTransaksiLainLainK(){ return pathHalamanTransaksiLainLainK;}; 
+    public static String getPathHalamanKasK() {return pathHalamanKasK;}
+    
+    //PEMILIK
     public static String getPathHalamanUtamaP() {return pathHalamanUtamaP;}    
     public static String getPathBerandaP() {return pathBerandaP;}
     public static String getPathHalamanProdukP() {return pathHalamanProdukP;}
     public static String getPathHalamanBeliP() {return pathHalamanBeliP;}
     public static String getPathHalamanSupplierP() {return pathHalamanSupplierP;}
-    public static String getPathHalamanTransaksiAntarCabangK() { return pathHalamanTransaksiAntarCabangK;};
-    public static String getPathHalamanTransaksiReturK() { return pathHalamanTransaksiReturK;};
-    public static String getPathHalamanKas() { return pathHalamanKasK;};
-    public static String getPathHalamanTopupSaldoK() { return pathHalamanTopupSaldoK;};
-    public static String getPathHalamanTransaksiLainLainK(){ return pathHalamanTransaksiLainLainK;}; 
-    public static String getPathHalamanKasK() {return pathHalamanKasK;}
+    public static String getPathHalamanKasP() { return pathHalamanKasP;};
     public static String getPathHalamanKartuStokP() {return pathHalamanKartuStokP;}
     public static String getPathHalamanDiskonP() {return pathHalamanDiskonP;}
     public static String getPathHalamanLaporanP() {return pathHalamanLaporanP;}

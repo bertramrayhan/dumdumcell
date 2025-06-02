@@ -24,10 +24,7 @@ public class HalamanUtamaPController implements Initializable {
     @FXML private Label lblPesan;
     
     @FXML private Pane indikatorBeranda, indikatorProduk, indikatorSupplier,indikatorDiskon;
-    @FXML private Pane indikatorLaporan, indikatorBeli, indikatorKartuStok;
-    
-    @FXML private Button btnBeranda, btnProduk, btnSupplier, btnDiskon;
-    @FXML private Button btnLaporan, btnKartuStok;
+    @FXML private Pane indikatorLaporan, indikatorBeli, indikatorKartuStok, indikatorKas;
     
     public static Map<String, AnchorPane> penyimpananPanePemilik = new HashMap<>();
     
@@ -118,6 +115,13 @@ public class HalamanUtamaPController implements Initializable {
     }
 
     @FXML
+    void goToKas(){
+        resetIndikator();
+        animateIndikator(indikatorKas);
+        loadPane(Session.getPathHalamanKasP());
+    }
+    
+    @FXML
     void goToLaporan(){
         resetIndikator();
         animateIndikator(indikatorLaporan);
@@ -132,6 +136,7 @@ public class HalamanUtamaPController implements Initializable {
         indikatorDiskon.setScaleY(0);
         indikatorLaporan.setScaleY(0);
         indikatorKartuStok.setScaleY(0);
+        indikatorKas.setScaleY(0);
     }
     
     private void animateIndikator(Pane indikator) {

@@ -67,8 +67,8 @@ public class HalamanKasKController implements Initializable {
         "TIME(kas.tanggal_kas) AS waktu, kas.nominal, kas.deskripsi \n" +
         "FROM kas \n" +
         "JOIN admin adm ON adm.id_admin = kas.id_admin \n" +
-        "WHERE DATE(kas.tanggal_kas) >= CURDATE() - INTERVAL 10 DAY";
-                
+        "WHERE DATE(kas.tanggal_kas) >= CURDATE() - INTERVAL 10 DAY \n" +
+        "ORDER BY kas.tanggal_kas DESC";
 
         try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
             ResultSet result = statement.executeQuery();

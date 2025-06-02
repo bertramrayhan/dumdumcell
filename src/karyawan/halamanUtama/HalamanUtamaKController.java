@@ -118,7 +118,7 @@ public class HalamanUtamaKController implements Initializable {
     void goToKas(){
         resetIndikator();
         animateIndikator(indikatorKas);
-        loadPane(Session.getPathHalamanKas());
+        loadPane(Session.getPathHalamanKasK());
     }
 
     @FXML
