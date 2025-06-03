@@ -31,6 +31,85 @@
             <Font size="28.0" />
          </font>
       </Label>
+      <Pane fx:id="paneLaporanKartuStok" layoutX="30.0" layoutY="244.0" prefHeight="484.0" prefWidth="940.0" style="-fx-background-color: #02045e; -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="20.0" layoutY="7.0" text="Laporan Kartu Stok" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="87.0" text="Outlet" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="185.0" text="Tanggal Awal" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="284.0" text="Tanggal Akhir" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="dtPTanggalAwalKartu" layoutX="20.0" layoutY="226.0" prefHeight="39.0" prefWidth="890.0" style="-fx-font-weight: bold; -fx-font-size: 15px;" />
+            <DatePicker fx:id="dtPTanggalAkhirKartu" layoutX="20.0" layoutY="320.0" prefHeight="39.0" prefWidth="890.0" style="-fx-font-weight: bold; -fx-font-size: 15px;" />
+            <Button fx:id="btnEXCEL" alignment="CENTER_RIGHT" layoutX="183.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#handleBtnEXCEL" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #388E3C; -fx-background-radius: 8;" text="Cetak EXCEL" textAlignment="RIGHT" textFill="#fffefe">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <effect>
+                  <Glow />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btnPDF" alignment="CENTER_RIGHT" layoutX="20.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#handleBtnPDF" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #C62828; -fx-background-radius: 8;" text="Cetak PDF" textAlignment="RIGHT" textFill="#fffefe">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <effect>
+                  <Glow />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="btnREFRESH" alignment="CENTER_RIGHT" layoutX="347.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#perbarui" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #2196F3; -fx-background-radius: 8;" text="REFRESH" textAlignment="RIGHT" textFill="#fffefe">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+               <effect>
+                  <Glow />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextField disable="true" layoutX="20.0" layoutY="123.0" prefHeight="36.0" prefWidth="890.0" text="CABANG">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </TextField>
+            <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/icons8-pdf-file-format-50.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="185.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/icons8-excel-48.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="353.0" layoutY="406.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/icons8-refresh-48.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
       <Pane fx:id="paneLaporanPenjualan" layoutX="30.0" layoutY="244.0" prefHeight="484.0" prefWidth="940.0" style="-fx-background-color: #02045e; -fx-background-radius: 20;">
          <children>
             <Label layoutX="20.0" layoutY="7.0" text="Laporan Penjualan" textFill="WHITE">
@@ -219,5 +298,10 @@
             </TextField>
          </children>
       </Pane>
+      <Button fx:id="btnKartuStok" layoutX="354.0" layoutY="168.0" mnemonicParsing="false" onMouseClicked="#bukaLaporanKartuStok" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Kartu Stok" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

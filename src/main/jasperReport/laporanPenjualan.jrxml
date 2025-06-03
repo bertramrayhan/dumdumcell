@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26095f73-95f0-4290-b74b-e9679cdb1211">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="26"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -243,24 +243,33 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="laporanPembelian" uuid="a02ac494-16c9-4447-be26-6bf681e84eee">
+	<subDataset name="laporanPenjualan" uuid="a02ac494-16c9-4447-be26-6bf681e84eee">
 		<parameter name="tanggalAwal" class="java.lang.String">
-			<defaultValueExpression><![CDATA["01-05-2025"]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
 		</parameter>
 		<parameter name="tanggalAkhir" class="java.lang.String">
-			<defaultValueExpression><![CDATA["31-05-2025"]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT * FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND
-$P{tanggalAkhir} ]]>
+			<![CDATA[SELECT 
+    tj.id_transaksi_jual AS id_transaksi_jual,
+    DATE_FORMAT(tj.tanggal_transaksi_jual, '%d-%m-%Y') AS tanggal_transaksi_jual,
+    a.nama AS nama_admin,
+    b.nama_barang AS nama_barang,
+    dtj.jumlah_barang AS jumlah_barang,
+    dtj.subtotal AS subtotal
+FROM 
+    ddckasir.transaksi_jual tj
+    JOIN ddckasir.admin a ON tj.id_admin = a.id_admin
+    JOIN ddckasir.detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
+    JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang
+WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</queryString>
 		<field name="id_transaksi_jual" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="tanggal_transaksi_jual" class="java.lang.String"/>
-		<field name="nama_admin" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="nama_admin" class="java.lang.String"/>
 		<field name="nama_barang" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
@@ -272,6 +281,12 @@ $P{tanggalAkhir} ]]>
 		</field>
 	</subDataset>
 	<subDataset name="total" uuid="39ddc3d1-3ca2-43a8-a436-f063491bebdd">
+		<parameter name="TanggalAwal" class="java.lang.String">
+			<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="TanggalAkhir" class="java.lang.String">
+			<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
   COUNT(DISTINCT tj.id_transaksi_jual) AS total_transaksi,
@@ -280,17 +295,18 @@ $P{tanggalAkhir} ]]>
 FROM 
   transaksi_jual tj
 JOIN 
-  detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual]]>
+  detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
+WHERE tanggal_transaksi_jual BETWEEN $P{TanggalAwal} AND $P{TanggalAkhir}]]>
 		</queryString>
 		<field name="total_transaksi" class="java.lang.Long"/>
 		<field name="total_barang" class="java.math.BigDecimal"/>
 		<field name="total_pembelian" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="tanggalAwal" class="java.lang.String">
-		<defaultValueExpression><![CDATA["01-05-2025"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="tanggalAkhir" class="java.lang.String">
-		<defaultValueExpression><![CDATA["31-05-2025"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="admin" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Adm01"]]></defaultValueExpression>
@@ -299,16 +315,25 @@ JOIN
 		<defaultValueExpression><![CDATA["Senin, 01 Mei 2023 12:00:00 WIB"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT * FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND
-$P{tanggalAkhir}]]>
+		<![CDATA[SELECT 
+    tj.id_transaksi_jual AS id_transaksi_jual,
+    DATE_FORMAT(tj.tanggal_transaksi_jual, '%d-%m-%Y') AS tanggal_transaksi_jual,
+    a.nama AS nama_admin,
+    b.nama_barang AS nama_barang,
+    dtj.jumlah_barang AS jumlah_barang,
+    dtj.subtotal AS subtotal
+FROM 
+    ddckasir.transaksi_jual tj
+    JOIN ddckasir.admin a ON tj.id_admin = a.id_admin
+    JOIN ddckasir.detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
+    JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang
+WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 	</queryString>
 	<field name="id_transaksi_jual" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="tanggal_transaksi_jual" class="java.lang.String"/>
-	<field name="nama_admin" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="nama_admin" class="java.lang.String"/>
 	<field name="nama_barang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -324,7 +349,7 @@ $P{tanggalAkhir}]]>
 				<componentElement>
 					<reportElement key="table 10" style="table 10" x="12" y="0" width="409" height="50" uuid="52032881-a02c-4e62-930b-35468da96c00"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="laporanPembelian" uuid="571c2af5-aa89-43ff-8198-4d0ab3f9c81c">
+						<datasetRun subDataset="laporanPenjualan" uuid="571c2af5-aa89-43ff-8198-4d0ab3f9c81c">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 						<jr:column width="35" uuid="e3e25b6e-60e0-4223-8d61-0b907174c434">
@@ -522,7 +547,7 @@ $P{tanggalAkhir}]]>
 				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="357" y="175" width="175" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
+				<reportElement x="355" y="175" width="200" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 		</band>

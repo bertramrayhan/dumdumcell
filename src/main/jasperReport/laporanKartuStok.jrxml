@@ -63,6 +63,26 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="laporan_kartuStok" uuid="9d5edb78-57b6-4f67-a48d-3455858c48b5">
 		<parameter name="tanggalAwal" class="java.lang.String">
 			<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
@@ -72,8 +92,8 @@
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
-  ks.id_barang,
   b.nama_barang,
+  b.merek,
   DATE_FORMAT(ks.tanggal, '%d-%m-%Y') AS tanggal, 
   ks.jumlah_masuk, 
   ks.jumlah_keluar, 
@@ -83,10 +103,10 @@ FROM kartu_stok ks
 JOIN barang b ON b.id_barang = ks.id_barang
 WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</queryString>
-		<field name="id_barang" class="java.lang.String">
+		<field name="nama_barang" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="nama_barang" class="java.lang.String">
+		<field name="merek" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="tanggal" class="java.lang.String"/>
@@ -151,15 +171,15 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		<groupFooter>
 			<band height="66">
 				<componentElement>
-					<reportElement key="table 2" style="table 2" x="0" y="0" width="360" height="50" uuid="7fad045e-dd0c-40ae-aa64-958661cc6b97"/>
+					<reportElement key="table 3" style="table 3" x="0" y="0" width="360" height="50" uuid="bad20a77-3d91-4a42-b9af-b12e9e01e64d"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="laporan_kartuStok" uuid="98a30b2b-eaa3-4aea-b66f-53f24b374909">
+						<datasetRun subDataset="laporan_kartuStok" uuid="350c87ec-35c0-469d-a9e5-3e2523364d11">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
-						<jr:column width="35" uuid="dfcddc0c-e18c-427d-98a4-f5a82968551c">
+						<jr:column width="35" uuid="51cd678a-6a1e-4a1e-8c65-3de59478ba7d">
 							<jr:columnHeader height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="35" height="30" uuid="8e76e8e5-6901-4305-a2ab-85c62920eda7"/>
+									<reportElement mode="Opaque" x="0" y="0" width="35" height="30" backcolor="#BDE0FF" uuid="ad88c540-acd4-4de0-8606-b82e67a36544"/>
 									<box>
 										<pen lineWidth="0.5"/>
 										<topPen lineWidth="0.5"/>
@@ -175,7 +195,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 							</jr:columnHeader>
 							<jr:detailCell height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="35" height="30" uuid="83f53f5e-9bf2-490a-a87e-ac54e0dff225"/>
+									<reportElement x="0" y="0" width="35" height="30" uuid="c0bcfa38-6b17-48d4-8873-da4844ab4e3f"/>
 									<box>
 										<pen lineWidth="0.5"/>
 										<topPen lineWidth="0.5"/>
@@ -188,127 +208,127 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="c181be6a-1b3b-40d2-949a-80716c137c8d">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+						<jr:column width="75" uuid="c425b785-9c73-4ebb-915e-8d67a0dbdc0c">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="66128716-bed6-4e87-8a26-a4a004b7e304"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="cdcb8d85-6efc-4432-b9fa-855ebeb56b7f"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[Id Barang]]></text>
+									<text><![CDATA[nama_barang]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="de875864-ae43-48da-8005-812c6e5df7d8"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle"/>
-									<textFieldExpression><![CDATA[$F{id_barang}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="75" uuid="6e61d955-4ea9-4d64-8438-7a627082dc13">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="ff192993-e59c-4459-b9cc-31af49368495"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font isBold="true"/>
-									</textElement>
-									<text><![CDATA[Nama Barang]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
-								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="30f01a03-3ea5-4f83-85e1-12f16155e3dd"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="6e38551e-852b-41d9-8479-dff08d1b2ddc"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{nama_barang}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="4746bd11-394e-448c-b944-9a0307f0e17c">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+						<jr:column width="75" uuid="75e08956-6d66-4faf-9439-5c206d859edf">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="9ada609b-11c6-4f92-8f64-f2aa7d0bdfc3"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="87083db3-5edd-493f-874c-724cbd5e4b9c"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[Tanggal]]></text>
+									<text><![CDATA[merek]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="8bc846cb-cf53-48fe-ae88-ba1a27d5f31d"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="d1b1057d-ac33-46fb-887c-e2635583d386"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{merek}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="75" uuid="2ad6f9c5-42ad-4292-ba1d-b166b97dd4e0">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="75" height="30" uuid="8730ae9e-628a-44ae-8ae7-383066512535"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font isBold="true"/>
+									</textElement>
+									<text><![CDATA[tanggal]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="75" height="30" uuid="814f5f8c-74f9-4f15-ab41-3c23f068518c"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="d112599a-0be3-4b7a-a41c-c765bb9b6b54">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+						<jr:column width="75" uuid="d18ccfaa-6127-4b07-a426-b8d7b7ade9df">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="277ab80c-bd32-46c2-9728-5fc7c391c3fe"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="c8a28d46-00c9-4975-b893-0062282e0aa3"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[Jumlah Masuk]]></text>
+									<text><![CDATA[jumlah_masuk]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="0c460a3f-8fe8-408a-b2a0-241b989f0fd2"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="8b491602-f8c0-48de-9bcb-604e08f2c4b5"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{jumlah_masuk}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="d281aff7-6903-4014-b33d-f635a6a9828d">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+						<jr:column width="75" uuid="9f2795db-b089-450d-bcbf-1d1e72ae40b8">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="8f7c3bbd-e751-424b-95eb-3d76e9fa60b5"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="2487cbab-04a0-401e-90cf-da211c414c89"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[Jumlah Keluar]]></text>
+									<text><![CDATA[jumlah_keluar]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="6378373f-15a9-4dfd-9243-5cd758bd71e4"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="83cf4d42-2399-498d-ba36-3929657b65bc"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{jumlah_keluar}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="9103739b-c0d9-4e6d-8df3-c42a73c01e4e">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+						<jr:column width="75" uuid="4a6877b7-84a5-4466-9fec-cb322ea959d9">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="9bf08467-a857-4495-98b2-7e5f7d50eff6"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="6a1e0e77-0d36-489d-b27a-4cddb30c59a3"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[Sisa]]></text>
+									<text><![CDATA[sisa]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="e2b2f719-4e3e-465e-b9cc-a17a7759ce63"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="f8ab2409-db5b-45bf-ba61-cbce68fc1c5a"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{sisa}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="29c45723-49e2-4873-b334-742da908401b">
-							<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+						<jr:column width="75" uuid="23878b0c-fbfa-4de3-a0db-9744b8aaa94d">
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="6b920a80-b230-49f1-8a7e-15130d233f20"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="f741998f-5a39-47ed-8afe-ec7ad59fe14b"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[Keterangan]]></text>
+									<text><![CDATA[keterangan]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:detailCell style="table 2_TD" height="30" rowSpan="1">
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="db02d65b-bf20-499f-ae07-5cd06e12c9e4"/>
+									<reportElement x="0" y="0" width="75" height="30" uuid="e789d582-0928-4c7f-99d8-159badb5e872"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
 								</textField>
@@ -337,7 +357,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Jl. Letjen S.Parman, Karangrejo
- Kec. Sumbersari, Kabupaten Jember, Jawa Timur]]></text>
+ Kec. Sumbersari, Kabupaten Jember, Jawa Timur ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="298" y="57" width="112" height="35" forecolor="#0077B6" uuid="9dedc6ab-8075-4e28-8c61-4fbda2a58c17"/>
@@ -369,7 +389,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="370" y="189" width="175" height="20" uuid="1d923082-bb88-4508-9c5c-5c68ee248e67"/>
+				<reportElement x="360" y="189" width="175" height="20" uuid="1d923082-bb88-4508-9c5c-5c68ee248e67"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 		</band>
