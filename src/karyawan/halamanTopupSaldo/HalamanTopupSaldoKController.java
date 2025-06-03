@@ -217,13 +217,13 @@ public class HalamanTopupSaldoKController implements Initializable {
         if(cbxAplikasiSaldo.getValue().isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Aplikasi Saldo", btnKonfirmasi);
             return;
-        }else if(txtHargaJualSaldo.getText().isEmpty() || txtHargaJualSaldo.getText().equals("0")){
+        }else if(txtHargaJualSaldo.getText().isEmpty() || txtHargaJualSaldo.getText().matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Harga Jual Saldo", btnKonfirmasi);
             return;            
         }else if(txtNomorTelepon.getText().isEmpty() || txtNomorTelepon.getText().length() != 8){
             Session.animasiPanePesan(true, "Masukkan Nomor Telepon dengan Panjang 8 Digit", btnKonfirmasi);
             return;            
-        }else if(txtSaldoMinus.getText().isEmpty() || txtSaldoMinus.getText().equals("0")){
+        }else if(txtSaldoMinus.getText().isEmpty() || txtSaldoMinus.getText().matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Saldo Minus", btnKonfirmasi);
             return;            
         }else if(cbxCaraPembayaran.getValue().equals("Kredit") && txtNamaRekening.getText().isEmpty()){
@@ -232,6 +232,8 @@ public class HalamanTopupSaldoKController implements Initializable {
         }else if(!cekJumlahSaldo(cbxAplikasiSaldo.getValue(), Integer.parseInt(txtSaldoMinus.getText()))){
             Session.animasiPanePesan(true, "Jumlah Saldo Kurang", btnKonfirmasi);
             return;
+        }else if(Integer.parseInt(txtHargaJualSaldo.getText()) > Integer.parseInt(txtSaldoMinus.getText())){
+            Session.animasiPanePesan(true, "Harga Jual Belum Melebihi Saldo Minus", btnKonfirmasi);
         }
 
         String idTopupSaldoPelangganBaru = Session.membuatIdBaru("topup_saldo_pelanggan", "id_topup_saldo_pelanggan", "tsp", 4);
@@ -429,7 +431,7 @@ public class HalamanTopupSaldoKController implements Initializable {
         if(cbxAplikasiSaldoTopupSaldoAplikasi.getValue().isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Aplikasi Saldo", btnKonfirmasiTopupSaldoAplikasi);
             return;
-        }else if(txtTopupSaldoTopupSaldoAplikasi.getText().isEmpty() || txtTopupSaldoTopupSaldoAplikasi.getText().equals("0")){
+        }else if(txtTopupSaldoTopupSaldoAplikasi.getText().isEmpty() || txtTopupSaldoTopupSaldoAplikasi.getText().matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Topup Saldo", btnKonfirmasiTopupSaldoAplikasi);
             return;            
         }

@@ -132,7 +132,7 @@ public class HalamanTransaksiLainLainKController implements Initializable {
     
     @FXML
     private void prosesTransaksi(){
-        if(txtNominal.getText().isEmpty() || txtNominal.getText().equals("0")){
+        if(txtNominal.getText().isEmpty() || txtNominal.getText().matches("0+")){
             Session.animasiPanePesan(true, "Masukkan nominal transaksi", btnProses);
             return;
         }else if(txtAKeterangan.getText().trim().isEmpty()){

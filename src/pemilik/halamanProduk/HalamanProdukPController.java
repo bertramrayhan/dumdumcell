@@ -196,7 +196,7 @@ public class HalamanProdukPController implements Initializable, Pelengkap {
                         if(colTerakhir != null){
                             String expColTerakhir = colTerakhir.getItem().getExp();
                             LocalDate expDateColTerakhir = LocalDate.parse(expColTerakhir, dateFormatter);
-                            if(colTerakhir.getItem().getStok().equals("0") || expDateColTerakhir.isBefore(today)){
+                            if(colTerakhir.getItem().getStok().matches("0+") || expDateColTerakhir.isBefore(today)){
                                 colTerakhir.setStyle("-fx-background-color: #ffcccc; -fx-text-fill: black;");
                             }
                         }

@@ -15,6 +15,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -60,6 +61,7 @@ public class HalamanProfilKController implements Initializable {
             loginStage.setScene(scene);
             loginStage.setResizable(false);
             loginStage.centerOnScreen();
+            loginStage.getIcons().add(new Image("/assets/logo/Logomark128px.png"));
             loginStage.show();
 
             DumdumKasir.halamanUtama.close(); // Tutup halaman utama

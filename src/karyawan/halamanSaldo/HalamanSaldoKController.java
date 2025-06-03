@@ -34,7 +34,7 @@ public class HalamanSaldoKController implements Initializable, Pelengkap {
     }
         
     private void getDataSaldoAplikasi(){
-        LocalTime[] jamShift = getWaktuShiftByNow();
+        LocalTime[] jamShift = Session.getWaktuShiftByNow();
 
         LocalDate tanggalHariIni = LocalDate.now();
 
@@ -146,30 +146,5 @@ public class HalamanSaldoKController implements Initializable, Pelengkap {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    private LocalTime[] getWaktuShiftByNow() {
-        LocalTime[] waktuShift = new LocalTime[2];
-        LocalTime now = LocalTime.now();
-
-        LocalTime pagiMulai = LocalTime.parse("07:30:00");
-        LocalTime pagiSelesai = LocalTime.parse("15:30:00");
-        LocalTime malamMulai = LocalTime.parse("15:30:01");
-        LocalTime malamSelesai = LocalTime.parse("23:30:00");
-
-        if (!now.isBefore(pagiMulai) && !now.isAfter(pagiSelesai)) {
-            // shift pagi
-            waktuShift[0] = pagiMulai;
-            waktuShift[1] = pagiSelesai;
-        } else if (!now.isBefore(malamMulai) && !now.isAfter(malamSelesai)) {
-            // shift malam
-            waktuShift[0] = malamMulai;
-            waktuShift[1] = malamSelesai;
-        } else {
-            // di luar jam shift, bisa return null atau default
-            waktuShift[0] = null;
-            waktuShift[1] = null;
-        }
-        return waktuShift;
     }
 }

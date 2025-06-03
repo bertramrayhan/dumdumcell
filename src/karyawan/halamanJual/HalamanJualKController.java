@@ -120,7 +120,7 @@ public class HalamanJualKController implements Initializable, Pelengkap {
     private void tambahBarisTabelBarang(MouseEvent event) {
         Button btn = (Button) event.getSource();
         if (btn.getId().equals("btnTambahProdukManual")) {
-            if (txtManualQty.getText().isEmpty() || txtManualQty.getText().equals("0")) {
+            if (txtManualQty.getText().isEmpty() || txtManualQty.getText().matches("0+")) {
                 Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else if(cbxProduk.getValue() == null){
@@ -135,7 +135,7 @@ public class HalamanJualKController implements Initializable, Pelengkap {
             if(txtBarcode.getText().trim().isEmpty()){
                 Session.animasiPanePesan(true, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
-            }else if (txtBarcodeQty.getText().isEmpty() || txtBarcodeQty.getText().equals("0")) {
+            }else if (txtBarcodeQty.getText().isEmpty() || txtBarcodeQty.getText().matches("0+")) {
                 Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             } else {

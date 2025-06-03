@@ -126,7 +126,7 @@ public class HalamanKasPController implements Initializable {
     
     @FXML
     private void prosesKas(){
-        if(txtNominal.getText().isEmpty() || txtNominal.getText().equals("0")){
+        if(txtNominal.getText().isEmpty() || txtNominal.getText().matches("0+")){
             Session.animasiPanePesan(true, "Masukkan nominal kas", btnProses);
             return;
         }else if(txtADeskripsi.getText().trim().isEmpty()){

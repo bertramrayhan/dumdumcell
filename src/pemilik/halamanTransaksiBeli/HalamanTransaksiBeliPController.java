@@ -163,7 +163,7 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
                         textField.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
                             if (!isNowFocused) {
                                 String input = textField.getText().trim();
-                                if (input.isEmpty() || input.equals("0")) {
+                                if (input.isEmpty() || input.matches("0+")) {
                                     Barang barang = getTableView().getItems().get(getIndex());
                                     commitEdit(barang.getHarga());
                                 } else {
@@ -373,10 +373,10 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
             if(cbxProduk.getValue() == null){
                 Session.animasiPanePesan(true, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
-            }else if(txtHargaBeliManual.getText().isEmpty() || txtHargaBeliManual.getText().equals("0")){
+            }else if(txtHargaBeliManual.getText().isEmpty() || txtHargaBeliManual.getText().matches("0+")){
                 Session.animasiPanePesan(true, "Masukkan harga beli produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
-            }else if (txtQtyManual.getText().isEmpty() || txtQtyManual.getText().equals("0")) {
+            }else if (txtQtyManual.getText().isEmpty() || txtQtyManual.getText().matches("0+")) {
                 Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             }else{
@@ -389,10 +389,10 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
             if(txtBarcode.getText().trim().isEmpty()){
                 Session.animasiPanePesan(true, "Masukkan barcode produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
-            }else if (txtHargaBeliBarcode.getText().isEmpty() || txtHargaBeliBarcode.getText().equals("0")) {
+            }else if (txtHargaBeliBarcode.getText().isEmpty() || txtHargaBeliBarcode.getText().matches("0+")) {
                 Session.animasiPanePesan(true, "Masukkan harga beli produk", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
-            }else if (txtQtyBarcode.getText().isEmpty() || txtQtyBarcode.getText().equals("0")) {
+            }else if (txtQtyBarcode.getText().isEmpty() || txtQtyBarcode.getText().matches("0+")) {
                 Session.animasiPanePesan(true, "Masukkan jumlah produk yang dipesan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
                 return;
             } else {
