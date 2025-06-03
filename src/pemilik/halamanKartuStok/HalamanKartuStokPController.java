@@ -1,8 +1,3 @@
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package pemilik.halamanKartuStok;
 
 import java.net.URL;
@@ -10,63 +5,47 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import main.Koneksi;
+import main.Pelengkap;
+import main.Session;
 
-/**
- * FXML Controller class
- *
- * @author indra
- */
-public class HalamanKartuStokPController implements Initializable {
+public class HalamanKartuStokPController implements Initializable, Pelengkap {
 
     @FXML private Pane paneGelap;
     @FXML private TableView<KartuStok> tableKartuStok;
-    @FXML private TableColumn<KartuStok, String> colIdbarang, colNamabarang, colKet, colTgl;
+    @FXML private TableColumn<KartuStok, String> colNamabarang, colKet, colTgl;
     @FXML private TableColumn<KartuStok, Integer> colMasuk, colKeluar, colSisa;
-    @FXML private ChoiceBox<String> cbxBarang;
+    @FXML private ComboBox<String> cbxBarang;
     @FXML private DatePicker dPtglAwal;
     @FXML private DatePicker dPtglAkhir;
     @FXML private TextField txtSearch;
-    @FXML private Button btnX;
+    @FXML private ImageView btnX;
     
     private ObservableList<KartuStok> dataKartuStok = FXCollections.observableArrayList();
-    private Map<String, String> mapNamaKeId = new HashMap<>();
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setTableKartuStok();
+        setDatePicker();
         getinfoTableKartuStok();
         loadChoiceBoxBarang();  // ini harus dipanggil biar ChoiceBox terisi
         
-        dPtglAwal.getEditor().setDisable(true);
-        dPtglAwal.getEditor().setOpacity(1);
-        dPtglAwal.setValue(LocalDate.now());
-
-        dPtglAkhir.getEditor().setDisable(true);
-        dPtglAkhir.getEditor().setOpacity(1);
-        dPtglAkhir.setValue(LocalDate.now());
-        
-        btnX.setOnAction((ActionEvent event) -> {
+        btnX.setOnMouseClicked((MouseEvent event) -> {
             txtSearch.clear(); // Hapus teks pencarian
         });
         
@@ -76,8 +55,13 @@ public class HalamanKartuStokPController implements Initializable {
         dPtglAkhir.valueProperty().addListener((obs, oldV, newV) -> getinfoTableKartuStok());
         txtSearch.textProperty().addListener((obs, oldV, newV) -> getinfoTableKartuStok());
     }    
+
+    @Override
+    public void perbarui() {
+        getinfoTableKartuStok();
+    }
+        
     private void setTableKartuStok(){
-        colIdbarang.setCellValueFactory(new PropertyValueFactory<>("idBarang"));
         colNamabarang.setCellValueFactory(new PropertyValueFactory<>("namaBarang"));
         colTgl.setCellValueFactory(new PropertyValueFactory<>("tgl"));
         colMasuk.setCellValueFactory(new PropertyValueFactory<>("masuk"));
@@ -86,21 +70,17 @@ public class HalamanKartuStokPController implements Initializable {
         colKet.setCellValueFactory(new PropertyValueFactory<>("ket"));
     }
     
-      private void loadChoiceBoxBarang() {
+    private void loadChoiceBoxBarang() {
         try {
             cbxBarang.getItems().clear();
             cbxBarang.getItems().add("Semua"); // opsi default
-            mapNamaKeId.clear();
 
-            String query = "SELECT id_barang, nama_barang FROM barang ORDER BY nama_barang";
+            String query = "SELECT DISTINCT nama_barang FROM barang ORDER BY nama_barang";
             PreparedStatement ps = Koneksi.getCon().prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String idBarang = rs.getString("id_barang");
                 String namaBarang = rs.getString("nama_barang");
                 
-                // Simpan mapping
-                mapNamaKeId.put(namaBarang, idBarang);
                 // Isi ChoiceBox dengan nama barang
                 cbxBarang.getItems().add(namaBarang);
             }
@@ -113,33 +93,22 @@ public class HalamanKartuStokPController implements Initializable {
         }
     }
     
-    private String convertTanggalIndo(String tglFull) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime dateTime = LocalDateTime.parse(tglFull, formatter);
-            LocalDate date = dateTime.toLocalDate();
-
-            DateTimeFormatter indoFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            return date.format(indoFormat);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return tglFull;
-        }
-}
     private void getinfoTableKartuStok(){
-         dataKartuStok.clear();
+        dataKartuStok.clear();
         try {
-            String baseQuery = "SELECT ks.id_barang, b.nama_barang, ks.tanggal, ks.jumlah_masuk, ks.jumlah_keluar, ks.sisa, ks.keterangan " +
-                               "FROM kartu_stok ks JOIN barang b ON ks.id_barang = b.id_barang WHERE 1=1 ";
+            String baseQuery = "SELECT b.merek, DATE(ks.tanggal) AS tanggal, TIME(ks.tanggal) AS waktu"
+            + ", ks.jumlah_masuk, ks.jumlah_keluar, ks.sisa, ks.keterangan FROM kartu_stok ks " +
+            "JOIN barang b ON b.id_barang = ks.id_barang " +
+            "WHERE 1=1 ";
 
             if (cbxBarang.getValue() != null && !cbxBarang.getValue().equals("Semua")) {
-                baseQuery += "AND ks.id_barang = ? ";
+                baseQuery += "AND b.nama_barang = ? ";
             }
             if (dPtglAwal.getValue() != null && dPtglAkhir.getValue() != null) {
-                baseQuery += "AND ks.tanggal BETWEEN ? AND ? ";
+                baseQuery += "AND DATE(ks.tanggal) BETWEEN ? AND ? ";
             }
             if (!txtSearch.getText().isEmpty()) {
-                baseQuery += "AND (b.nama_barang LIKE ? OR ks.keterangan LIKE ?) ";
+                baseQuery += "AND (b.merek LIKE ? OR ks.keterangan LIKE ?) ";
             }
 
             PreparedStatement statement = Koneksi.getCon().prepareStatement(baseQuery);
@@ -147,12 +116,11 @@ public class HalamanKartuStokPController implements Initializable {
             int paramIndex = 1;
             if (cbxBarang.getValue() != null && !cbxBarang.getValue().equals("Semua")) {
                 // Ambil id barang dari nama barang
-                String idBarang = mapNamaKeId.get(cbxBarang.getValue());
-                statement.setString(paramIndex++, idBarang);
+                statement.setString(paramIndex++, cbxBarang.getValue());
             }
             if (dPtglAwal.getValue() != null && dPtglAkhir.getValue() != null) {
-                statement.setString(paramIndex++, dPtglAwal.getValue().toString() + " 00:00:00");
-                statement.setString(paramIndex++, dPtglAkhir.getValue().toString() + " 23:59:59");
+                statement.setString(paramIndex++, dPtglAwal.getValue().toString());
+                statement.setString(paramIndex++, dPtglAkhir.getValue().toString());
             }
             if (!txtSearch.getText().isEmpty()) {
                 String keyword = "%" + txtSearch.getText() + "%";
@@ -163,15 +131,14 @@ public class HalamanKartuStokPController implements Initializable {
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                String idBarang = result.getString("id_barang");
-                String namaBarang = result.getString("nama_barang");
-                String tgl = convertTanggalIndo(result.getString("tanggal"));
+                String namaBarang = result.getString("merek");
+                String tgl = Session.convertTanggalIndo(result.getString("tanggal")) + " " + result.getString("waktu");
                 int masuk = result.getInt("jumlah_masuk");
                 int keluar = result.getInt("jumlah_keluar");
                 int sisa = result.getInt("sisa");
                 String ket = result.getString("keterangan");
 
-                dataKartuStok.add(new KartuStok(idBarang, namaBarang, tgl, masuk, keluar, sisa, ket));
+                dataKartuStok.add(new KartuStok(namaBarang, tgl, masuk, keluar, sisa, ket));
             }
 
             result.close();
@@ -181,6 +148,51 @@ public class HalamanKartuStokPController implements Initializable {
             e.printStackTrace();
         }
         tableKartuStok.setItems(dataKartuStok);
+    }
+    
+    private void setDatePicker(){
+        LocalDate hariIni = LocalDate.now();
+        dPtglAwal.getEditor().setDisable(true);
+        dPtglAwal.getEditor().setOpacity(1);
+        dPtglAkhir.getEditor().setDisable(true);
+        dPtglAkhir.getEditor().setOpacity(1);
+
+        // Listener untuk dPtglAwal
+        dPtglAwal.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null) {
+                dPtglAkhir.setDayCellFactory(picker -> new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        boolean isDisabled = empty || item.isBefore(newDate) || item.isAfter(hariIni);
+                        setDisable(isDisabled);
+                        if (isDisabled) {
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                });
+            }
+        });
+
+        // Listener untuk dPtglAkhir
+        dPtglAkhir.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null) {
+                dPtglAwal.setDayCellFactory(picker -> new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        boolean isDisabled = empty || item.isAfter(newDate) || item.isAfter(hariIni);
+                        setDisable(isDisabled);
+                        if (isDisabled) {
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                });
+            }
+        });
+
+        dPtglAwal.setValue(hariIni);
+        dPtglAkhir.setValue(hariIni);
     }
 }
     

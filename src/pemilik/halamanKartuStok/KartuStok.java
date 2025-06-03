@@ -1,15 +1,7 @@
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pemilik.halamanKartuStok;
-
-import java.time.LocalDate;
 
 public class KartuStok {
 
-    private String idBarang;
     private String namaBarang;
     private String tgl;
     private int masuk;
@@ -19,8 +11,7 @@ public class KartuStok {
     
 
     // Constructor lengkap
-    public KartuStok(String idBarang, String namaBarang, String tgl, int masuk, int keluar, int sisa, String ket ) {
-        this.idBarang = idBarang;
+    public KartuStok(String namaBarang, String tgl, int masuk, int keluar, int sisa, String ket) {
         this.namaBarang = namaBarang;
         this.tgl = tgl;
         this.masuk = masuk;
@@ -29,12 +20,7 @@ public class KartuStok {
         this.ket = ket;
         
     }
-
-    // Getter
-    public String getIdBarang() {
-        return idBarang;
-    }
-
+    
     public String getNamaBarang() {
         return namaBarang;
     }
@@ -57,12 +43,5 @@ public class KartuStok {
 
     public String getKet() {
         return ket;
-    }
-    
-  
-
-    // Setter (opsional, kalau kamu butuh edit data nanti)
-    public void setSisa(int sisa) {
-        this.sisa = sisa;
     }
 }
