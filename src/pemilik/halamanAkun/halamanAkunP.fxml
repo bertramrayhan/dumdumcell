@@ -8,7 +8,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -65,7 +64,7 @@
             <Image url="@../../assets/icons/search30px.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnEditAkun" disable="true" layoutX="530.0" layoutY="391.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Edit" textFill="WHITE">
+      <Button fx:id="btnEditAkun" disable="true" layoutX="530.0" layoutY="391.0" mnemonicParsing="false" onMouseClicked="#bukaEditAkun" prefHeight="48.0" prefWidth="117.0" styleClass="button-effect" stylesheets="@../../main/styles.css" text="Edit" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -149,11 +148,6 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtAAlamatTambah" layoutX="730.0" layoutY="113.0" prefHeight="32.0" prefWidth="212.0" promptText="Masukkan Alamat">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </TextArea>
             <ImageView fx:id="btnShowPasswordTambah" fitHeight="36.0" fitWidth="36.0" layoutX="468.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/eye-off36px.png" />
@@ -167,6 +161,11 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </PasswordField>
+            <TextField fx:id="txtAlamatTambah" layoutX="730.0" layoutY="113.0" prefHeight="32.0" prefWidth="212.0" promptText="Masukkan Alamat">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </TextField>
          </children>
       </AnchorPane>
       <Pane fx:id="paneGelap" layoutX="10.0" layoutY="10.0" mouseTransparent="true" opacity="0.4" prefHeight="760.0" prefWidth="1000.0" style="-fx-background-color: black;" visible="false" />
@@ -235,8 +234,8 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
-            <Button fx:id="btnBatalEditAkun" layoutX="730.0" layoutY="186.0" mnemonicParsing="false" onMouseClicked="#clearTambahAkun" prefHeight="37.0" prefWidth="90.0" styleClass="btnBatal" text="Batal" textFill="WHITE" />
-            <Button fx:id="btnIyaEditAkun" layoutX="852.0" layoutY="185.0" mnemonicParsing="false" onMouseClicked="#tambahAkun" prefHeight="40.0" prefWidth="90.0" styleClass="btnKonfirmasi" text="Simpan" textFill="WHITE" />
+            <Button fx:id="btnBatalEditAkun" layoutX="730.0" layoutY="186.0" mnemonicParsing="false" onMouseClicked="#tutupEditAkun" prefHeight="37.0" prefWidth="90.0" styleClass="btnBatal" text="Batal" textFill="WHITE" />
+            <Button fx:id="btnIyaEditAkun" layoutX="852.0" layoutY="185.0" mnemonicParsing="false" onMouseClicked="#editAkun" prefHeight="40.0" prefWidth="90.0" styleClass="btnKonfirmasi" text="Simpan" textFill="WHITE" />
             <Label layoutX="22.0" layoutY="160.0" text="Password" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="22.0" />
@@ -267,11 +266,6 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <TextArea fx:id="txtAAlamatEdit" layoutX="730.0" layoutY="113.0" prefHeight="32.0" prefWidth="212.0" promptText="Masukkan Alamat">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </TextArea>
             <ImageView fx:id="btnShowPasswordEdit" fitHeight="36.0" fitWidth="36.0" layoutX="468.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icons/eye-off36px.png" />
@@ -285,6 +279,11 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </PasswordField>
+            <TextField fx:id="txtAlamatEdit" layoutX="730.0" layoutY="113.0" prefHeight="32.0" prefWidth="212.0" promptText="Masukkan Alamat">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </TextField>
          </children>
       </AnchorPane>
    </children>

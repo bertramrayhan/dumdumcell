@@ -36,18 +36,16 @@ public class HalamanAkunPController implements Initializable {
     private ObservableList<Akun> listAkun = FXCollections.observableArrayList();
     
     //TAMBAH AKUN
-    @FXML private TextField txtNamaTambah, txtUsernameTambah, txtPasswordVisibleTambah, txtKodeKartuTambah, txtNomorTeleponTambah;
+    @FXML private TextField txtNamaTambah, txtUsernameTambah, txtPasswordVisibleTambah, txtKodeKartuTambah, txtNomorTeleponTambah, txtAlamatTambah;
     @FXML private PasswordField txtPasswordTambah;
-    @FXML private TextArea txtAAlamatTambah;
     @FXML private ChoiceBox<String> cbxRoleTambah;
     @FXML private Button btnBatalTambahAkun, btnIyaTambahAkun;
     @FXML private ImageView btnShowPasswordTambah;
     
     //EDIT AKUN
     @FXML private AnchorPane paneEditAkun;
-    @FXML private TextField txtNamaEdit, txtUsernameEdit, txtPasswordVisibleEdit, txtKodeKartuEdit, txtNomorTeleponEdit;
+    @FXML private TextField txtNamaEdit, txtUsernameEdit, txtPasswordVisibleEdit, txtKodeKartuEdit, txtNomorTeleponEdit, txtAlamatEdit;
     @FXML private PasswordField txtPasswordEdit;
-    @FXML private TextArea txtAAlamatEdit;
     @FXML private ChoiceBox<String> cbxRoleEdit;
     @FXML private Button btnBatalEditAkun, btnIyaEditAkun;
     @FXML private ImageView btnShowPasswordEdit;
@@ -191,7 +189,7 @@ public class HalamanAkunPController implements Initializable {
         txtPasswordVisibleTambah.clear();
         txtKodeKartuTambah.clear();
         txtNomorTeleponTambah.clear();
-        txtAAlamatTambah.clear();
+        txtAlamatTambah.clear();
     }
     
     @FXML
@@ -205,7 +203,7 @@ public class HalamanAkunPController implements Initializable {
         String password = txtPasswordTambah.getText().trim();
         String kodeKartu = txtKodeKartuTambah.getText().trim();
         String nomorTelepon = txtNomorTeleponTambah.getText().trim();
-        String alamat = txtAAlamatTambah.getText().trim();
+        String alamat = txtAlamatTambah.getText().trim();
         
         if(nama.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Nama", btnIyaTambahAkun);
@@ -316,7 +314,7 @@ public class HalamanAkunPController implements Initializable {
         txtPasswordEdit.setText(akunTerpilih.getPassword());
         txtKodeKartuEdit.setText(akunTerpilih.getKodeKartu());
         txtNomorTeleponEdit.setText(akunTerpilih.getNomorTelepon());
-        txtAAlamatEdit.setText(akunTerpilih.getAlamat());
+        txtAlamatEdit.setText(akunTerpilih.getAlamat());
     }
     
     @FXML
@@ -337,20 +335,89 @@ public class HalamanAkunPController implements Initializable {
     
     @FXML
     private void editAkun(){
+        String role = cbxRoleEdit.getValue().toLowerCase();
+        String username = txtUsernameEdit.getText().trim();
+        if(txtPasswordVisibleEdit.isVisible() == true){
+            txtPasswordEdit.setText(txtPasswordVisibleEdit.getText());
+        }
+        String password = txtPasswordEdit.getText().trim();
+        String kodeKartu = txtKodeKartuEdit.getText().trim();
+        String nomorTelepon = txtNomorTeleponEdit.getText().trim();
+        String alamat = txtAlamatEdit.getText().trim();
         
+        if(username.isEmpty()){
+            Session.animasiPanePesan(true, "Masukkan Username", btnIyaEditAkun);
+            return;
+        }else if(password.isEmpty()){
+            Session.animasiPanePesan(true, "Masukkan Password", btnIyaEditAkun);
+            return;
+        }else if(kodeKartu.isEmpty()){
+            Session.animasiPanePesan(true, "Masukkan Kode Kartu", btnIyaEditAkun);
+            return;
+        }else if(nomorTelepon.isEmpty()){
+            Session.animasiPanePesan(true, "Masukkan Nomor Telepon", btnIyaEditAkun);
+            return;
+        }else if(alamat.isEmpty()){
+            Session.animasiPanePesan(true, "Masukkan Alamat", btnIyaEditAkun);
+            return;
+        }else if(nomorTelepon.length() < 12){
+            Session.animasiPanePesan(true, "Panjang Kontak minimal 12 digit", btnIyaEditAkun);
+            return;
+        }else if(nomorTelepon.length() > 13){
+            Session.animasiPanePesan(true, "Panjang Kontak maksimal 13 digit", btnIyaEditAkun);
+            return;
+        }else if(kodeKartu.length() < 9){
+            Session.animasiPanePesan(true, "Kode Kartu minimal 9 digit", btnIyaEditAkun);
+            return;
+        }else if(kodeKartu.length() > 12){
+            Session.animasiPanePesan(true, "Kode Kartu maksimal 12 digit", btnIyaEditAkun);
+            return;
+        }else if(!akunTerpilih.getUsername().toLowerCase().equals(username.toLowerCase()) && Session.cekDataSama("SELECT * FROM admin WHERE username=? AND is_deleted=FALSE", username)){
+            Session.animasiPanePesan(true, "Username sudah ada", btnIyaEditAkun);
+            return;
+        }else if(!akunTerpilih.getKodeKartu().toLowerCase().equals(kodeKartu.toLowerCase()) && Session.cekDataSama("SELECT * FROM admin WHERE kode_kartu=? AND is_deleted=FALSE", kodeKartu)){
+            Session.animasiPanePesan(true, "Kode Kartu sudah ada", btnIyaEditAkun);
+            return;
+        }else if(!akunTerpilih.getNomorTelepon().toLowerCase().equals(nomorTelepon.toLowerCase()) && Session.cekDataSama("SELECT * FROM admin WHERE nomor_telepon=? AND is_deleted=FALSE", nomorTelepon)){
+            Session.animasiPanePesan(true, "Nomor Telepon sudah ada", btnIyaEditAkun);
+            return;
+        }
+                
+        try {
+            String query = "UPDATE admin SET nomor_telepon=?, alamat=?, role=?,\n" +
+                "username=?, admin.password=?, kode_kartu=?\n" +
+                "WHERE id_admin=?";
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
+            statement.setString(1, nomorTelepon);
+            statement.setString(2, alamat);
+            statement.setString(3, role);
+            statement.setString(4, username);
+            statement.setString(5, password);
+            statement.setString(6, kodeKartu);
+            statement.setString(7, idAkunTerpilih);
+            statement.executeUpdate();
+            
+            getDataTabelAkun();
+            Session.animasiPanePesan(false, "Akun berhasil diperbarui");
+            tutupEditAkun();
+            
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     //HAPUS AKUN
     @FXML
     private void bukaHapusAkun(){
         Session.setShowPane(paneHapusAkun, paneGelap);
-        Session.setMouseTransparentTrue(txtNamaTambah, cbxRoleTambah, txtUsernameTambah, txtPasswordTambah, txtPasswordVisibleTambah, txtKodeKartuTambah, txtNomorTeleponTambah, txtAAlamatTambah, btnBatalTambahAkun, btnIyaTambahAkun, btnHapusAkun, txtSearchBar, tabelAkun);
+        Session.setMouseTransparentTrue(txtNamaTambah, cbxRoleTambah, txtUsernameTambah, txtPasswordTambah, txtPasswordVisibleTambah, txtKodeKartuTambah, txtNomorTeleponTambah, txtAlamatTambah, btnBatalTambahAkun, btnIyaTambahAkun, btnHapusAkun, txtSearchBar, tabelAkun);
     }
     
     @FXML
     private void tutupHapusAkun(){
         Session.setHidePane(paneHapusAkun, paneGelap);
-        Session.setMouseTransparentFalse(txtNamaTambah, cbxRoleTambah, txtUsernameTambah, txtPasswordTambah, txtPasswordVisibleTambah, txtKodeKartuTambah, txtNomorTeleponTambah, txtAAlamatTambah, btnBatalTambahAkun, btnIyaTambahAkun, btnHapusAkun, txtSearchBar, tabelAkun);
+        Session.setMouseTransparentFalse(txtNamaTambah, cbxRoleTambah, txtUsernameTambah, txtPasswordTambah, txtPasswordVisibleTambah, txtKodeKartuTambah, txtNomorTeleponTambah, txtAlamatTambah, btnBatalTambahAkun, btnIyaTambahAkun, btnHapusAkun, txtSearchBar, tabelAkun);
     }
     
     @FXML
