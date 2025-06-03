@@ -35,8 +35,8 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanLaporanController implements Initializable, Pelengkap {
 
-    @FXML private Pane paneLaporanPembelian, paneLaporanPenjualan;
-    @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir, dtPTanggalAwalPenjualan, dtPTanggalAkhirPenjualan;
+    @FXML private Pane paneLaporanPembelian, paneLaporanPenjualan, paneLaporanKartuStok;
+    @FXML private DatePicker dtPTanggalAwal, dtPTanggalAkhir, dtPTanggalAwalPenjualan, dtPTanggalAkhirPenjualan, dtPTanggalAwalKartu, dtPTanggalAkhirKartu;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -128,6 +128,48 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
 
         dtPTanggalAwalPenjualan.setValue(hariIni);
         dtPTanggalAkhirPenjualan.setValue(hariIni);
+        
+        dtPTanggalAwalKartu.getEditor().setDisable(true);
+        dtPTanggalAwalKartu.getEditor().setOpacity(1);
+        dtPTanggalAkhirKartu.getEditor().setDisable(true);
+        dtPTanggalAkhirKartu.getEditor().setOpacity(1);
+
+        // Listener untuk dtPTanggalAwal
+        dtPTanggalAwalKartu.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null) {
+                dtPTanggalAkhirKartu.setDayCellFactory(picker -> new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        boolean isDisabled = empty || item.isBefore(newDate) || item.isAfter(hariIni);
+                        setDisable(isDisabled);
+                        if (isDisabled) {
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                });
+            }
+        });
+
+        // Listener untuk dtPTanggalAkhir
+        dtPTanggalAkhirKartu.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null) {
+                dtPTanggalAwalKartu.setDayCellFactory(picker -> new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        boolean isDisabled = empty || item.isAfter(newDate) || item.isAfter(hariIni);
+                        setDisable(isDisabled);
+                        if (isDisabled) {
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                });
+            }
+        });
+
+        dtPTanggalAwalKartu.setValue(hariIni);
+        dtPTanggalAkhirKartu.setValue(hariIni);
     }
 
     @Override
@@ -136,6 +178,8 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
         dtPTanggalAkhir.setValue(LocalDate.now());
         dtPTanggalAwalPenjualan.setValue(LocalDate.now());
         dtPTanggalAkhirPenjualan.setValue(LocalDate.now());
+        dtPTanggalAwalKartu.setValue(LocalDate.now());
+        dtPTanggalAkhirKartu.setValue(LocalDate.now());
     }    
     
     @FXML
@@ -160,6 +204,11 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 tglAkhir = dtPTanggalAkhirPenjualan.getValue();
                 pathReport = "/main/jasperReport/laporanPenjualan.jasper";
                 jenisLaporan = "laporan_penjualan";
+            } else if (paneLaporanKartuStok.isVisible()) {
+              tglAwal = dtPTanggalAwalKartu.getValue();
+              tglAkhir = dtPTanggalAkhirKartu.getValue();
+              pathReport = "/main/jasperReport/laporanKartuStok.jasper";
+              jenisLaporan = "laporan_kartu_stok";
             }
 
             if (tglAwal == null || tglAkhir == null) {
@@ -183,7 +232,14 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                         + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
                         + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
             } else if (jenisLaporan.equals("laporan_penjualan")) {
-                sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
+               sql = "SELECT COUNT(*) FROM ddckasir.transaksi_jual tj "
+                        + "JOIN ddckasir.detail_transaksi_jual dtj ON dtj.id_transaksi_jual = tj.id_transaksi_jual "
+                        + "JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang "
+                        + "JOIN ddckasir.admin a ON tj.id_admin = a.id_admin "
+                        + "WHERE tj.tanggal_transaksi_jual BETWEEN ? AND ?";
+            }
+            else if (jenisLaporan.equals("laporan_kartu_stok")) {
+                sql = "SELECT COUNT(*) FROM kartu_stok WHERE tanggal BETWEEN ? AND ?";
             }
 
             PreparedStatement ps = null;
@@ -233,7 +289,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
     private void handleBtnEXCEL(MouseEvent event) {
         try {
             Locale.setDefault(new Locale("id", "ID"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
             LocalDate tglAwal = null;
@@ -251,6 +307,11 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 tglAkhir = dtPTanggalAkhirPenjualan.getValue();
                 pathReport = "/main/jasperReport/laporanPenjualan.jasper";
                 jenisLaporan = "laporan_penjualan";
+            }else if (paneLaporanKartuStok.isVisible()) {
+                tglAwal = dtPTanggalAwalKartu.getValue();
+                tglAkhir = dtPTanggalAkhirKartu.getValue();
+                pathReport = "/main/jasperReport/laporanKartuStokjasper";
+                jenisLaporan = "laporan_kartu_stok";
             }
 
             if (tglAwal == null || tglAkhir == null) {
@@ -275,6 +336,9 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                         + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
             } else if (jenisLaporan.equals("laporan_penjualan")) {
                 sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
+            }
+             else if (jenisLaporan.equals("laporan_kartu_stok")) {
+                sql = "SELECT COUNT(*) FROM ddckasir.kartu_stok WHERE tanggal BETWEEN ? AND ?";
             }
 
             PreparedStatement ps = null;
@@ -338,10 +402,18 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
     private void bukaLaporanPenjualan(){
         Session.setShowPane(paneLaporanPenjualan);
         Session.setHidePane(paneLaporanPembelian);
+        Session.setHidePane(paneLaporanKartuStok);
     }
     @FXML
     private void bukaLaporanPembelian(){
         Session.setHidePane(paneLaporanPenjualan);
         Session.setShowPane(paneLaporanPembelian);
+        Session.setHidePane(paneLaporanKartuStok);
+    }
+    @FXML
+    private void bukaLaporanKartuStok(){
+        Session.setHidePane(paneLaporanPenjualan);
+        Session.setHidePane(paneLaporanPembelian);
+        Session.setShowPane(paneLaporanKartuStok);
     }
 }
