@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -20,9 +21,14 @@ import main.Koneksi;
 import main.Session;
 
 public class halamanLoginController implements Initializable {
+    private StringBuilder currentInput = new StringBuilder();
+    private long lastInputTime = 0;
+    private boolean isPotentiallyRFID = false;
+    private final long RFID_THRESHOLD = 80; // Threshold waktu (ms), mungkin perlu disesuaikan
+    private final int MIN_RFID_LENGTH = 9; // Panjang minimal ID RFID
+
+    // Variabel untuk menyimpan ID RFID yang terdeteksi
     private String RFIDId = "";
-    private long lastTime = 0;
-    private final long RFID_THRESHOLD = 100;
     
     @FXML private AnchorPane paneLogin;
     @FXML private Pane paneGelap;
@@ -36,8 +42,8 @@ public class halamanLoginController implements Initializable {
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setupRFIDListener(txtUsername);
-        setupRFIDListener(txtPassword);
+        setupTextField(txtUsername);
+        setupTextField(txtPassword);
         
         txtPasswordVisible.setManaged(false);
         btnShowPassword.setOnMouseClicked(event -> {
@@ -53,7 +59,7 @@ public class halamanLoginController implements Initializable {
         if(txtPasswordVisible.isVisible() == true){
             txtPassword.setText(txtPasswordVisible.getText());
         }
-        
+
         String password = txtPassword.getText();
         
         try {
@@ -105,7 +111,6 @@ public class halamanLoginController implements Initializable {
             if(result.next()){
                 String role = result.getString("role");
                 Session.setIdAdmin(result.getString("id_admin"));
-                DumdumKasir.switchToBeranda(role);
                 
                 query = "{CALL generate_log_saldo_shift_berdasarkan_waktu()}";
                 CallableStatement statementProcedure = Koneksi.getCon().prepareCall(query);
@@ -132,41 +137,63 @@ public class halamanLoginController implements Initializable {
         }
     }
     
-    private void setupRFIDListener(TextField field) {
+    private void setupTextField(TextField field) {
         field.setOnKeyTyped(event -> {
             long currentTime = System.currentTimeMillis();
             char c = event.getCharacter().charAt(0);
 
-            // Reset RFIDId kalau inputnya lambat
-            if (lastTime != 0 && (currentTime - lastTime) > RFID_THRESHOLD) {
-                RFIDId = "";
+            // Cek jika ada jeda terlalu lama, reset buffer dan status
+            if (lastInputTime != 0 && (currentTime - lastInputTime) > RFID_THRESHOLD) {
+                System.out.println("Jeda terdeteksi, reset buffer.");
+                currentInput.setLength(0); // Reset buffer
+                isPotentiallyRFID = false; // Anggap manual jika ada jeda
+            } else {
+                // Jika tidak ada jeda panjang, anggap bagian dari sekuens cepat (RFID)
+                // Hanya set true jika buffer belum kosong (menghindari 1 char dianggap RFID)
+                if (currentInput.length() > 0) {
+                     isPotentiallyRFID = true;
+                }
             }
 
-            RFIDId += c;
-            lastTime = currentTime;
+            // Tambahkan karakter ke buffer (kecuali jika itu newline/CR)
+            if (c != '\n' && c != '\r') {
+                currentInput.append(c);
+            }
+            lastInputTime = currentTime;
 
-            if (c == '\n' || c == '\r') { 
-                RFIDId = RFIDId.replace("\n", "");
-                RFIDId = RFIDId.replace("\r", "");
-                if (RFIDId.length() >= 9) {
-                    System.out.println("Scan RFID Terdeteksi: " + RFIDId);
+            // Proses jika karakter adalah Enter
+            if (c == '\n' || c == '\r') {
+                String finalInput = currentInput.toString();
+                System.out.println("Enter terdeteksi. Input: '" + finalInput + "', Potensi RFID: " + isPotentiallyRFID);
+
+                // Cek apakah ini adalah RFID
+                if (isPotentiallyRFID && finalInput.length() >= MIN_RFID_LENGTH) {
+                    System.out.println("-> Dianggap sebagai RFID.");
+                    RFIDId = finalInput; // Simpan ID RFID
                     loginDenganRFID();
                 } else {
-                    System.out.println("RFID tidak valid, panjang kurang dari 9 karakter.");
+                    // Jika tidak dianggap RFID (terlalu pendek atau ada jeda sebelumnya)
+                    // Anggap sebagai input manual yang diakhiri Enter
+                    System.out.println("-> Dianggap sebagai Manual Enter.");
+                    // Kita panggil btnLogin, tapi field mungkin sudah kosong
+                    // btnLogin perlu mengambil nilai field saat itu
+                    btnLogin();
                 }
-                // Kosongkan RFIDId setelah pemrosesan
-                RFIDId = ""; 
-                field.clear();
+
+                // Reset state setelah Enter diproses
+                currentInput.setLength(0);
+                isPotentiallyRFID = false;
+                field.clear(); // Kosongkan field setelah diproses
+                event.consume(); // Hentikan event agar tidak diproses lebih lanjut
             }
         });
-
-        Session.triggerOnEnter(this::btnLogin, field);
     }
     
     @FXML
     private void bukaPanePilihanHalaman(){
         Session.setShowPane(panePilihanHalaman, paneGelap);
         Session.setMouseTransparentTrue(paneLogin);
+        paneGelap.requestFocus();
     }
     
     @FXML
