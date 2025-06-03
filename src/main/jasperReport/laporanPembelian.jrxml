@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26095f73-95f0-4290-b74b-e9679cdb1211">
-	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -363,7 +363,7 @@ WHERE tanggal_transaksi_beli BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 						<jr:column width="35" uuid="6b8a9c57-ccfb-4077-9a13-88c1b096eb64">
 							<jr:columnHeader height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="35" height="30" uuid="870c82a3-5611-4759-81b2-fa2595a5f119"/>
+									<reportElement mode="Opaque" x="0" y="0" width="35" height="30" backcolor="#BDE0FF" uuid="870c82a3-5611-4759-81b2-fa2595a5f119"/>
 									<box>
 										<pen lineWidth="0.5"/>
 										<topPen lineWidth="0.5"/>
@@ -569,7 +569,7 @@ WHERE tanggal_transaksi_beli BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 				<textFieldExpression><![CDATA["Periode : " + $P{tanggalAwal} + " s.d " + $P{tanggalAkhir}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="362" y="182" width="175" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
+				<reportElement x="352" y="182" width="197" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 			<textField>
