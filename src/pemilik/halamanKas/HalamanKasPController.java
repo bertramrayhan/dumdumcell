@@ -3,6 +3,10 @@ package pemilik.halamanKas;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,16 +65,28 @@ public class HalamanKasPController implements Initializable {
     }
     
     private void getDataTabelKas(){
+        LocalTime[] jamShift = Session.getWaktuShiftByNow();
+
+        LocalDate tanggalHariIni = LocalDate.now();
+
+        LocalDateTime dateTimeMulai = tanggalHariIni.atTime(jamShift[0]);
+        LocalDateTime dateTimeSelesai = tanggalHariIni.atTime(jamShift[1]);
+
+        Timestamp timestampMulai = Timestamp.valueOf(dateTimeMulai);
+        Timestamp timestampSelesai = Timestamp.valueOf(dateTimeSelesai);
+        
         listKas.clear();
         
         String query = "SELECT kas.jenis_kas, adm.username, DATE(kas.tanggal_kas) AS tanggal,  \n" +
         "TIME(kas.tanggal_kas) AS waktu, kas.nominal, kas.deskripsi \n" +
         "FROM kas \n" +
         "JOIN admin adm ON adm.id_admin = kas.id_admin \n" +
-        "WHERE DATE(kas.tanggal_kas) >= CURDATE() - INTERVAL 10 DAY \n" +
+        "WHERE kas.tanggal_kas BETWEEN ? AND ? \n" +
         "ORDER BY kas.tanggal_kas DESC";
-                
+
         try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
+            statement.setTimestamp(1, timestampMulai);
+            statement.setTimestamp(2, timestampSelesai);
             ResultSet result = statement.executeQuery();
             int totalPemasukanKas = 0;
             int totalPengeluaranKas = 0;
@@ -92,7 +108,7 @@ public class HalamanKasPController implements Initializable {
             }
             lblTotalPemasukanKas.setText(Session.convertIntToRupiah(totalPemasukanKas));
             lblTotalPengeluaranKas.setText(Session.convertIntToRupiah(totalPengeluaranKas));
-            lblTotalKasSaatIni.setText(Session.convertIntToRupiah(totalPemasukanKas + totalPengeluaranKas));
+            lblTotalKasSaatIni.setText(Session.convertIntToRupiah(totalPemasukanKas - totalPengeluaranKas));
             
             result.close();
             statement.close();
@@ -141,6 +157,6 @@ public class HalamanKasPController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }    
 }
 
