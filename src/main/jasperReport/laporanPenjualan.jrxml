@@ -252,13 +252,15 @@
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT * FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND
-$P{tanggalAkhir} ORDER BY id_transaksi_jual ASC]]>
+$P{tanggalAkhir} ]]>
 		</queryString>
 		<field name="id_transaksi_jual" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="tanggal_transaksi_jual" class="java.lang.String"/>
-		<field name="nama_admin" class="java.lang.String"/>
+		<field name="nama_admin" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
 		<field name="nama_barang" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
@@ -298,13 +300,15 @@ JOIN
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT * FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND
-$P{tanggalAkhir} ORDER BY id_transaksi_jual ASC]]>
+$P{tanggalAkhir}]]>
 	</queryString>
 	<field name="id_transaksi_jual" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="tanggal_transaksi_jual" class="java.lang.String"/>
-	<field name="nama_admin" class="java.lang.String"/>
+	<field name="nama_admin" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="nama_barang" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -507,7 +511,7 @@ $P{tanggalAkhir} ORDER BY id_transaksi_jual ASC]]>
 				<text><![CDATA[DumDum]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="315" y="55" width="85" height="38" forecolor="#0077B6" uuid="17d7c2eb-cbed-4708-9e17-68f9e80e8a51"/>
+				<reportElement mode="Transparent" x="315" y="55" width="106" height="38" forecolor="#0077B6" uuid="17d7c2eb-cbed-4708-9e17-68f9e80e8a51"/>
 				<textElement>
 					<font fontName="SansSerif" size="24" isBold="false"/>
 				</textElement>

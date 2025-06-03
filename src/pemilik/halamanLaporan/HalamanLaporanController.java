@@ -142,7 +142,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
     private void handleBtnPDF(MouseEvent event) {
         try {
             Locale.setDefault(new Locale("id", "ID"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
             LocalDate tglAwal = null;
@@ -176,7 +176,12 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             Connection con = Koneksi.getCon();
             String sql = "";
             if (jenisLaporan.equals("laporan_pembelian")) {
-                sql = "SELECT COUNT(*) FROM laporan_pembelian WHERE tanggal_transaksi_beli BETWEEN ? AND ?";
+                 sql = "SELECT COUNT(*) FROM ddckasir.transaksi_beli tb "
+                        + "JOIN ddckasir.detail_transaksi_beli dtb ON dtb.id_transaksi_beli = tb.id_transaksi_beli "
+                        + "JOIN ddckasir.barang b ON dtb.id_barang = b.id_barang "
+                        + "JOIN ddckasir.supplier s ON tb.id_supplier = s.id_supplier "
+                        + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
+                        + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
             } else if (jenisLaporan.equals("laporan_penjualan")) {
                 sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
             }
@@ -228,7 +233,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
     private void handleBtnEXCEL(MouseEvent event) {
         try {
             Locale.setDefault(new Locale("id", "ID"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd");
             SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
             LocalDate tglAwal = null;
@@ -262,7 +267,12 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             Connection con = Koneksi.getCon();
             String sql = "";
             if (jenisLaporan.equals("laporan_pembelian")) {
-                sql = "SELECT COUNT(*) FROM laporan_pembelian WHERE tanggal_transaksi_beli BETWEEN ? AND ?";
+                sql = "SELECT COUNT(*) FROM ddckasir.transaksi_beli tb "
+                        + "JOIN ddckasir.detail_transaksi_beli dtb ON dtb.id_transaksi_beli = tb.id_transaksi_beli "
+                        + "JOIN ddckasir.barang b ON dtb.id_barang = b.id_barang "
+                        + "JOIN ddckasir.supplier s ON tb.id_supplier = s.id_supplier "
+                        + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
+                        + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
             } else if (jenisLaporan.equals("laporan_penjualan")) {
                 sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
             }
