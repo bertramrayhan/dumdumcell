@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Locale;
@@ -65,6 +66,7 @@ public class Session {
     private static final String pathHalamanKartuStokP = "/pemilik/halamanKartuStok/halamanKartuStokP.fxml";
     private static final String pathHalamanSupplierP = "/pemilik/halamanSupplier/halamanSupplierP.fxml";
     private static final String pathHalamanDiskonP = "/pemilik/halamanDiskon/halamanDiskonP.fxml";
+    private static final String pathHalamanAkunP =  "/pemilik/halamanAkun/halamanAkunP.fxml";
     private static final String pathHalamanKasP =  "/pemilik/halamanKas/halamanKasP.fxml";
     private static final String pathHalamanLaporanP = "/pemilik/halamanLaporan/halamanLaporanPenjualan.fxml";
     
@@ -92,6 +94,7 @@ public class Session {
     public static String getPathHalamanSupplierP() {return pathHalamanSupplierP;}
     public static String getPathHalamanKasP() { return pathHalamanKasP;};
     public static String getPathHalamanKartuStokP() {return pathHalamanKartuStokP;}
+    public static String getPathHalamanAkunP() {return pathHalamanAkunP;}
     public static String getPathHalamanDiskonP() {return pathHalamanDiskonP;}
     public static String getPathHalamanLaporanP() {return pathHalamanLaporanP;}
     
@@ -431,5 +434,30 @@ public class Session {
         }
 
         return id;
+    }
+    
+    public static LocalTime[] getWaktuShiftByNow() {
+        LocalTime[] waktuShift = new LocalTime[2];
+        LocalTime now = LocalTime.now();
+
+        LocalTime pagiMulai = LocalTime.parse("07:30:00");
+        LocalTime pagiSelesai = LocalTime.parse("15:30:00");
+        LocalTime malamMulai = LocalTime.parse("15:30:01");
+        LocalTime malamSelesai = LocalTime.parse("23:30:00");
+
+        if (!now.isBefore(pagiMulai) && !now.isAfter(pagiSelesai)) {
+            // shift pagi
+            waktuShift[0] = pagiMulai;
+            waktuShift[1] = pagiSelesai;
+        } else if (!now.isBefore(malamMulai) && !now.isAfter(malamSelesai)) {
+            // shift malam
+            waktuShift[0] = malamMulai;
+            waktuShift[1] = malamSelesai;
+        } else {
+            // di luar jam shift, bisa return null atau default
+            waktuShift[0] = null;
+            waktuShift[1] = null;
+        }
+        return waktuShift;
     }
 }

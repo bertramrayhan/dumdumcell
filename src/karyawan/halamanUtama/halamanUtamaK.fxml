@@ -141,7 +141,7 @@
             <Line endX="171.0" layoutX="107.0" layoutY="416.0" opacity="0.5" startX="-90.0" stroke="#caf0f8" strokeWidth="2.0" />
             <AnchorPane layoutY="423.0" prefHeight="45.0" prefWidth="280.0">
                <children>
-                  <Button fx:id="btnKas" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToKas" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Kas" textFill="#caf0f8">
+                  <Button fx:id="btnKas" alignment="BASELINE_LEFT" graphicTextGap="22.0" layoutX="5.0" mnemonicParsing="false" onAction="#goToKas" prefHeight="45.0" prefWidth="276.0" style="-fx-background-color: transparent;" text="Pengeluaran Kas" textFill="#caf0f8">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
