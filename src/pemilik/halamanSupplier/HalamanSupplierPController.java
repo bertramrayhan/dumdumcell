@@ -102,12 +102,12 @@ public class HalamanSupplierPController implements Initializable {
         listSupplier.clear();
         String keyword = txtSearchBar.getText().trim();
         
-        String query = "SELECT * FROM supplier";
+        String query = "SELECT * FROM supplier WHERE is_deleted=FALSE";
         
         boolean isSearch = keyword != null && !keyword.trim().isEmpty();
 
         if (isSearch) {
-            query += " WHERE (nama_supplier LIKE ? OR nama_toko LIKE ? OR kontak LIKE ? OR alamat LIKE ?)";
+            query += " AND (nama_supplier LIKE ? OR nama_toko LIKE ? OR kontak LIKE ? OR alamat LIKE ?)";
         }
 
         try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
@@ -183,26 +183,40 @@ public class HalamanSupplierPController implements Initializable {
         }else if(kontak.length() > 13){
             Session.animasiPanePesan(true, "Panjang Kontak maksimal 13 digit", btnIyaTambahSupplier);
             return;
-        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_supplier=?", namaSupplier)){
+        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_supplier=? AND is_deleted=FALSE", namaSupplier)){
             Session.animasiPanePesan(true, "Nama Supplier sudah ada", btnIyaTambahSupplier);
             return;
-        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=?", namaToko)){
+        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=? AND is_deleted=FALSE", namaToko)){
             Session.animasiPanePesan(true, "Nama Toko sudah ada", btnIyaTambahSupplier);
             return;
-        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE kontak=?", namaToko)){
+        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE kontak=? AND is_deleted=FALSE", namaToko)){
             Session.animasiPanePesan(true, "Kontak sudah ada", btnIyaTambahSupplier);
             return;
         }
         
+        boolean adaSupplierSamaDeleted = Session.cekDataSama("SELECT * FROM supplier WHERE is_deleted=TRUE AND nama_supplier=?", namaSupplier);
+        
         String idSupplierBaru = Session.membuatIdBaru("supplier", "id_supplier", "spl", 2);
         try {
-            String query = "INSERT INTO supplier VALUES (?,?,?,?,?)";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, idSupplierBaru);
-            statement.setString(2, namaSupplier);
-            statement.setString(3, namaToko);
-            statement.setString(4, kontak);
-            statement.setString(5, alamat);
+            String query;
+            PreparedStatement statement = null;
+            if(adaSupplierSamaDeleted){
+                query = "UPDATE supplier SET nama_toko=?, kontak=?, alamat=?, "
+                        + "is_deleted=FALSE WHERE nama_supplier=? AND is_deleted=TRUE";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, namaToko);
+                statement.setString(2, kontak);
+                statement.setString(3, alamat);
+                statement.setString(4, namaSupplier);
+            }else{
+                query = "INSERT INTO supplier VALUES (?,?,?,?,?)";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, idSupplierBaru);
+                statement.setString(2, namaSupplier);
+                statement.setString(3, namaToko);
+                statement.setString(4, kontak);
+                statement.setString(5, alamat);
+            }
             statement.executeUpdate();
             
             getDataTabelSupplier();
@@ -309,7 +323,7 @@ public class HalamanSupplierPController implements Initializable {
     @FXML
     private void hapusSupplier(){
         try {
-            String query = "DELETE FROM supplier WHERE id_supplier=?";
+            String query = "UPDATE supplier SET is_deleted = TRUE WHERE id_supplier=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idSupplierTerpilih);
             statement.executeUpdate();
