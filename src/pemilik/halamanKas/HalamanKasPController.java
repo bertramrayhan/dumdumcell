@@ -86,8 +86,6 @@ public class HalamanKasPController implements Initializable {
 
         try {
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setTimestamp(1, timestampMulai);
-            statement.setTimestamp(2, timestampSelesai);
             ResultSet result = statement.executeQuery();
             int totalPemasukanKas = 0;
             int totalPengeluaranKas = 0;
@@ -101,7 +99,7 @@ public class HalamanKasPController implements Initializable {
                
                if(jenisKas.equals("Pemasukan")){
                    totalPemasukanKas += nominal;
-                    listKas.add(new Kas(karyawan, tanggal, Session.convertIntToRupiah(nominal), deskripsi));
+                listKas.add(new Kas(karyawan, tanggal, Session.convertIntToRupiah(nominal), deskripsi));
                }else{
                    totalPengeluaranKas += nominal;
                }

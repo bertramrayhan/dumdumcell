@@ -86,8 +86,6 @@ public class HalamanKasKController implements Initializable {
 
         try {
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setTimestamp(1, timestampMulai);
-            statement.setTimestamp(2, timestampSelesai);
             ResultSet result = statement.executeQuery();
             int totalPemasukanKas = 0;
             int totalPengeluaranKas = 0;
