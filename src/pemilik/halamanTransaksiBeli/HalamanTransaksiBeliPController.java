@@ -363,7 +363,7 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
             }
             
             //combo box supplier
-            query = "SELECT nama_supplier, nama_toko FROM supplier";
+            query = "SELECT nama_supplier, nama_toko FROM supplier WHERE is_deleted=FALSE";
             statement = Koneksi.getCon().prepareStatement(query);
             
             result = statement.executeQuery();
