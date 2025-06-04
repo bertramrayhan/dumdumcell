@@ -454,6 +454,7 @@ public class HalamanTransaksiReturKController implements Initializable, Pelengka
             getIdTransaksi();
             Session.animasiPanePesan(false, "Retur berhasil diproses", btnProses);
             txtAAlasanRetur.setText("");
+            setTotalRetur();
             
             statement.close();
         } catch (Exception e) {

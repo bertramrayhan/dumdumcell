@@ -102,7 +102,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="19.0" layoutY="361.0" onKeyReleased="#getDataTabelTransaksi" prefHeight="38.0" prefWidth="442.0" promptText="Masukkan Jenis Transaksi" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45; -fx-background-radius: 7;" styleClass="search">
+      <TextField fx:id="txtSearchBar" focusTraversable="false" layoutX="19.0" layoutY="361.0" onKeyReleased="#getDataTabelTransaksi" prefHeight="38.0" prefWidth="442.0" promptText="Cari" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 7; -fx-padding: 5 10 5 45; -fx-background-radius: 7;" styleClass="search">
          <font>
             <Font size="14.0" />
          </font>

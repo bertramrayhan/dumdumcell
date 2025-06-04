@@ -359,7 +359,7 @@ public class HalamanProdukPController implements Initializable, Pelengkap {
         }else if(Session.cekDataSama("SELECT * FROM barang WHERE barcode=? AND is_deleted = FALSE", barcodeBarang)){
             Session.animasiPanePesan(true, "Barcode Barang Sudah Ada", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
-        }else if(hargaJual.isEmpty()){
+        }else if(hargaJual.isEmpty() || hargaJual.matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Harga Jual Barang", btnIyaTambahBarang, btnBatalTambahBarang);
             return;
         }
@@ -531,7 +531,7 @@ public class HalamanProdukPController implements Initializable, Pelengkap {
         }else if(!(barcodeBarang.length() == 13)){
             Session.animasiPanePesan(true, "Masukkan Barcode dengan Panjang 13 Digit", btnIyaEditBarang, btnBatalEditBarang);
             return;
-        }else if(hargaJual.isEmpty()){
+        }else if(hargaJual.isEmpty() || hargaJual.matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Harga Jual Barang", btnIyaEditBarang, btnBatalEditBarang);
             return;
         }else if(!barangTerpilih.getBarcode().toLowerCase().equals(barcodeBarang.toLowerCase()) && Session.cekDataSama("SELECT * FROM barang WHERE is_deleted=FALSE AND barcode=?", barcodeBarang)){

@@ -232,7 +232,7 @@ public class HalamanTopupSaldoKController implements Initializable {
         }else if(!cekJumlahSaldo(cbxAplikasiSaldo.getValue(), Integer.parseInt(txtSaldoMinus.getText()))){
             Session.animasiPanePesan(true, "Jumlah Saldo Kurang", btnKonfirmasi);
             return;
-        }else if(Integer.parseInt(txtHargaJualSaldo.getText()) > Integer.parseInt(txtSaldoMinus.getText())){
+        }else if(Integer.parseInt(txtHargaJualSaldo.getText()) < Integer.parseInt(txtSaldoMinus.getText())){
             Session.animasiPanePesan(true, "Harga Jual Belum Melebihi Saldo Minus", btnKonfirmasi);
         }
 

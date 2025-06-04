@@ -77,14 +77,15 @@ public class HalamanKasKController implements Initializable {
         
         listKas.clear();
         
-        String query = "SELECT kas.jenis_kas, adm.username, DATE(kas.tanggal_kas) AS tanggal,  \n" +
-        "TIME(kas.tanggal_kas) AS waktu, kas.nominal, kas.deskripsi \n" +
-        "FROM kas \n" +
-        "JOIN admin adm ON adm.id_admin = kas.id_admin \n" +
-        "WHERE kas.tanggal_kas BETWEEN ? AND ? \n" +
+        String query = "SELECT kas.jenis_kas, adm.username, DATE(kas.tanggal_kas) AS tanggal, " +
+        "TIME(kas.tanggal_kas) AS waktu, kas.nominal, kas.deskripsi " +
+        "FROM kas " +
+        "JOIN admin adm ON adm.id_admin = kas.id_admin " +
+        "WHERE kas.tanggal_kas >= DATE_SUB(NOW(), INTERVAL 10 DAY) " +
         "ORDER BY kas.tanggal_kas DESC";
 
-        try (PreparedStatement statement = Koneksi.getCon().prepareStatement(query)) {
+        try {
+            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setTimestamp(1, timestampMulai);
             statement.setTimestamp(2, timestampSelesai);
             ResultSet result = statement.executeQuery();
@@ -108,7 +109,20 @@ public class HalamanKasKController implements Initializable {
             }
             lblTotalPemasukanKas.setText(Session.convertIntToRupiah(totalPemasukanKas));
             lblTotalPengeluaranKas.setText(Session.convertIntToRupiah(totalPengeluaranKas));
-            lblTotalKasSaatIni.setText(Session.convertIntToRupiah(totalPemasukanKas - totalPengeluaranKas));
+
+            query = "SELECT"
+                    + "SUM(CASE"
+                    + "WHEN jenis_kas = 'Pemasukan' THEN nominal"
+                    + "WHEN jenis_kas = 'Pengeluaran' THEN -nominal"
+                    + "ELSE 0"
+                    + "END) AS total_kas"
+                    + "FROM kas";
+            
+            statement = Koneksi.getCon().prepareStatement(query);
+            result = statement.executeQuery();
+            if(result.next()){
+                lblTotalKasSaatIni.setText(Session.convertIntToRupiah(result.getInt("total_kas")));
+            }
             
             result.close();
             statement.close();
