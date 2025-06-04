@@ -209,7 +209,7 @@ public class HalamanSupplierPController implements Initializable {
                 statement.setString(3, alamat);
                 statement.setString(4, namaSupplier);
             }else{
-                query = "INSERT INTO supplier VALUES (?,?,?,?,?)";
+                query = "INSERT INTO supplier VALUES (?,?,?,?,?,FALSE)";
                 statement = Koneksi.getCon().prepareStatement(query);
                 statement.setString(1, idSupplierBaru);
                 statement.setString(2, namaSupplier);
