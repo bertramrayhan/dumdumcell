@@ -239,7 +239,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                         + "WHERE tj.tanggal_transaksi_jual BETWEEN ? AND ?";
             }
             else if (jenisLaporan.equals("laporan_kartu_stok")) {
-                sql = "SELECT COUNT(*) FROM kartu_stok WHERE tanggal BETWEEN ? AND ?";
+                sql = "SELECT COUNT(*) FROM ddckasir.kartu_stok WHERE tanggal BETWEEN ? AND ?";
             }
 
             PreparedStatement ps = null;
@@ -310,7 +310,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             }else if (paneLaporanKartuStok.isVisible()) {
                 tglAwal = dtPTanggalAwalKartu.getValue();
                 tglAkhir = dtPTanggalAkhirKartu.getValue();
-                pathReport = "/main/jasperReport/laporanKartuStokjasper";
+                pathReport = "/main/jasperReport/laporanKartuStok.jasper";
                 jenisLaporan = "laporan_kartu_stok";
             }
 
@@ -335,9 +335,13 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                         + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
                         + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
             } else if (jenisLaporan.equals("laporan_penjualan")) {
-                sql = "SELECT COUNT(*) FROM laporan_penjualan WHERE tanggal_transaksi_jual BETWEEN ? AND ?";
+               sql = "SELECT COUNT(*) FROM ddckasir.transaksi_jual tj "
+                        + "JOIN ddckasir.detail_transaksi_jual dtj ON dtj.id_transaksi_jual = tj.id_transaksi_jual "
+                        + "JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang "
+                        + "JOIN ddckasir.admin a ON tj.id_admin = a.id_admin "
+                        + "WHERE tj.tanggal_transaksi_jual BETWEEN ? AND ?";
             }
-             else if (jenisLaporan.equals("laporan_kartu_stok")) {
+            else if (jenisLaporan.equals("laporan_kartu_stok")) {
                 sql = "SELECT COUNT(*) FROM ddckasir.kartu_stok WHERE tanggal BETWEEN ? AND ?";
             }
 
