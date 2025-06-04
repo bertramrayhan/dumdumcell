@@ -122,16 +122,16 @@ public class HalamanDiskonPController implements Initializable {
         listDiskon.clear();
         String keyword = txtSearchBar.getText().trim();
         
-        String query = "SELECT * FROM diskon";
+        String query = "SELECT * FROM diskon WHERE is_deleted =FALSE";
         
         boolean isAngka = keyword != null && keyword.matches("\\d+"); // Deteksi angka
         boolean isSearch = keyword != null && !keyword.trim().isEmpty();
 
         if (isSearch) {
             if (isAngka) {
-                query += " WHERE (harga_diskon LIKE ? OR tanggal_mulai LIKE ? OR tanggal_berakhir LIKE ?)";
+                query += " AND (harga_diskon LIKE ? OR tanggal_mulai LIKE ? OR tanggal_berakhir LIKE ?)";
             } else {
-                query += " WHERE (nama_diskon LIKE ? OR jenis_diskon LIKE ? OR status LIKE ?)";
+                query += " AND (nama_diskon LIKE ? OR jenis_diskon LIKE ? OR status LIKE ?)";
             }
         }
 
@@ -269,22 +269,37 @@ public class HalamanDiskonPController implements Initializable {
         }else if(potonganHarga.isEmpty() || potonganHarga.matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Potongan Harga", btnIyaTambahDiskon);
             return;
-        }else if(Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=?", namaDiskon)){
+        }else if(Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=? AND is_deleted=FALSE", namaDiskon)){
             Session.animasiPanePesan(true, "Diskon Sudah Ada", btnIyaTambahDiskon);
             return;
         }
         
+        boolean adaDiskonSamaDeleted = Session.cekDataSama("SELECT * FROM diskon WHERE is_deleted=TRUE AND nama_diskon=?", namaDiskon);
+        
         String idDiskonBaru = Session.membuatIdBaru("diskon", "id_diskon", "dsk", 2);
         try {
-            String query = "INSERT INTO diskon VALUES (?,?,?,?,?,?,?)";
-            PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setString(1, idDiskonBaru);
-            statement.setString(2, namaDiskon);
-            statement.setString(3, jenisDiskon);
-            statement.setString(4, potonganHarga);
-            statement.setString(5, tanggalMulai);
-            statement.setString(6, tanggalBerakhir);
-            statement.setString(7, "aktif");
+            String query;
+            PreparedStatement statement = null;
+            if(adaDiskonSamaDeleted){
+                query = "UPDATE diskon SET jenis_diskon=?, harga_diskon=?, tanggal_mulai=?, tanggal_berakhir=?,status='Aktif',is_deleted=FALSE"
+                        + "WHERE nama_diskon=? AND is_deleted=TRUE";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, jenisDiskon);
+                statement.setString(2, potonganHarga);
+                statement.setString(3, tanggalMulai);
+                statement.setString(4, tanggalBerakhir);
+                statement.setString(5, namaDiskon);
+            }else{
+                query = "INSERT INTO diskon VALUES (?,?,?,?,?,?,?,FALSE)";
+                statement = Koneksi.getCon().prepareStatement(query);
+                statement.setString(1, idDiskonBaru);
+                statement.setString(2, namaDiskon);
+                statement.setString(3, jenisDiskon);
+                statement.setString(4, potonganHarga);
+                statement.setString(5, tanggalMulai);
+                statement.setString(6, tanggalBerakhir);
+                statement.setString(7, "aktif");
+            }            
             statement.executeUpdate();
             
             getDataTabelDiskon();
@@ -450,7 +465,7 @@ public class HalamanDiskonPController implements Initializable {
     @FXML
     private void hapusDiskon(){
         try {
-            String query = "DELETE FROM diskon WHERE id_diskon=?";
+            String query = "UPDATE diskon SET is_deleted = TRUE WHERE id_diskon=?";
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
             statement.setString(1, idDiskonTerpilih);
             statement.executeUpdate();

@@ -345,7 +345,7 @@ public class HalamanJualKController implements Initializable, Pelengkap {
             setCbxProduk();
             
             //combo box diskon
-            query = "SELECT nama_diskon FROM diskon WHERE status='aktif'";
+            query = "SELECT nama_diskon FROM diskon WHERE status='aktif' AND is_deleted=FALSE";
             statement = Koneksi.getCon().prepareStatement(query);
             
             result = statement.executeQuery();
