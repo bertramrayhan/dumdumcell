@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ee2c05a-c907-4203-85c7-545b60208c69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="16"/>
+	<property name="ireport.y" value="13"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -215,7 +215,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[nama_barang]]></text>
+									<text><![CDATA[Nama Barang]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -233,7 +233,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[merek]]></text>
+									<text><![CDATA[Merek]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -251,7 +251,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[tanggal]]></text>
+									<text><![CDATA[Tanggal]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -269,7 +269,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[jumlah_masuk]]></text>
+									<text><![CDATA[Jumlah Masuk]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -287,7 +287,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[jumlah_keluar]]></text>
+									<text><![CDATA[Jumlah Keluar]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -305,7 +305,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[sisa]]></text>
+									<text><![CDATA[Sisa]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -323,7 +323,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[keterangan]]></text>
+									<text><![CDATA[Keterangan]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
@@ -360,7 +360,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
  Kec. Sumbersari, Kabupaten Jember, Jawa Timur ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="298" y="57" width="112" height="35" forecolor="#0077B6" uuid="9dedc6ab-8075-4e28-8c61-4fbda2a58c17"/>
+				<reportElement mode="Transparent" x="300" y="57" width="112" height="35" forecolor="#0077B6" uuid="9dedc6ab-8075-4e28-8c61-4fbda2a58c17"/>
 				<textElement>
 					<font fontName="SansSerif" size="24" isBold="false"/>
 				</textElement>
@@ -371,11 +371,11 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 				<imageExpression><![CDATA["D:\\GitHub\\ddckasir\\ddckasir2\\dumdumcell\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement mode="Transparent" x="168" y="10" width="256" height="41" forecolor="#0077B6" uuid="23860b7e-a1fe-4954-b74d-18e17a458ba4"/>
+				<reportElement mode="Transparent" x="171" y="10" width="256" height="41" forecolor="#0077B6" uuid="23860b7e-a1fe-4954-b74d-18e17a458ba4"/>
 				<textElement>
 					<font fontName="SansSerif" size="24" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Laporan Pembelian]]></text>
+				<text><![CDATA[Laporan Kartu Stok]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="176" y="144" width="234" height="20" uuid="c367ef1a-1974-4f76-b380-b33579460690"/>
@@ -385,7 +385,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 				<textFieldExpression><![CDATA["Periode : " + $P{tanggalAwal} + " s.d " + $P{tanggalAkhir}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="189" width="100" height="20" uuid="0c41fde0-759b-49d5-a381-f1bfd0ccd301"/>
+				<reportElement x="2" y="189" width="100" height="20" uuid="0c41fde0-759b-49d5-a381-f1bfd0ccd301"/>
 				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
 			</textField>
 			<textField>
