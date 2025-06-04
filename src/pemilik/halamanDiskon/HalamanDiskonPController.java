@@ -266,7 +266,7 @@ public class HalamanDiskonPController implements Initializable {
         if(namaDiskon.isEmpty()){
             Session.animasiPanePesan(true, "Masukkan Nama Diskon", btnIyaTambahDiskon);
             return;
-        }else if(potonganHarga.isEmpty()){
+        }else if(potonganHarga.isEmpty() || potonganHarga.matches("0+")){
             Session.animasiPanePesan(true, "Masukkan Potongan Harga", btnIyaTambahDiskon);
             return;
         }else if(Session.cekDataSama("SELECT * FROM diskon WHERE nama_diskon=?", namaDiskon)){

@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -190,12 +191,61 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
 
                 @Override
                 public void commitEdit(Integer newValue) {
-                    if(newValue != 0 || newValue == null){
-                        super.commitEdit(newValue);
-                        Barang barang = getTableView().getItems().get(getIndex());
-                        barang.setHarga(newValue);
-                        tabelBarang.refresh();
+                    if (newValue == null || newValue <= 0) {
+                        cancelEdit(); 
+                        return;
                     }
+
+                    Barang barang = getTableView().getItems().get(getIndex());
+                    String idBarang = barang.getIdBarang();
+                    int hargaJual = -1;
+
+                    try {
+                        String queryHargaJual = "SELECT harga_jual FROM barang WHERE id_barang = ? AND is_deleted = FALSE";
+                        PreparedStatement statementHargaJual = Koneksi.getCon().prepareStatement(queryHargaJual);
+                        statementHargaJual.setString(1, idBarang);
+                        ResultSet resultHargaJual = statementHargaJual.executeQuery();
+                        if (resultHargaJual.next()) {
+                            hargaJual = resultHargaJual.getInt("harga_jual");
+                        }
+                        resultHargaJual.close();
+                        statementHargaJual.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.err.println("Error saat mengambil harga jual untuk ID " + idBarang + ": " + e.getMessage());
+                        Session.animasiPanePesan(true, "Gagal mengambil data harga jual.", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi); // Contoh
+                        cancelEdit();
+                        return;
+                    }
+
+                    if (hargaJual == -1) {
+                         System.err.println("Harga jual tidak ditemukan untuk ID " + idBarang + ". Edit dibatalkan.");
+                         Session.animasiPanePesan(true, "Harga jual produk tidak ditemukan.", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi); // Contoh
+                         cancelEdit();
+                         return;
+                    }
+
+                    if (newValue >= hargaJual) {
+                        Session.animasiPanePesan(true, "Harga beli harus kurang dari harga jual", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                        cancelEdit(); // Batalkan edit jika validasi gagal
+                    } else {
+                        System.out.println("Validasi Sukses: Harga beli (" + newValue + ") < harga jual (" + hargaJual + "). Melakukan commit...");
+                        super.commitEdit(newValue);
+                        barang.setHarga(newValue); // Update nilai harga di objek Barang
+                        getTableView().refresh(); // Refresh tabel untuk menampilkan subtotal baru
+                    }
+                }
+                
+                @Override
+                public void cancelEdit() {
+                    super.cancelEdit();
+                    final Integer currentValue = getItem(); // Simpan nilai saat ini
+                    Platform.runLater(() -> {
+                        updateItem(currentValue, false); // Coba update tampilan cell dulu
+                        if (getTableView() != null) {
+                            getTableView().refresh(); // Kemudian refresh tabel untuk memastikan konsistensi
+                        }
+                    });
                 }
             };
         });
@@ -409,6 +459,28 @@ public class HalamanTransaksiBeliPController implements Initializable, Pelengkap
 
     private void tambahProduk(String identifier, int hargaBeli, int qty, boolean isBarcode) {
         try {
+            int hargaJual = -1;
+            String idBarangForValidation = null;
+            String queryHargaJual = "SELECT id_barang, harga_jual FROM barang WHERE " + (isBarcode ? "barcode = ?" : "merek = ?") + " AND is_deleted = FALSE";
+            PreparedStatement statementHargaJual = Koneksi.getCon().prepareStatement(queryHargaJual);
+            statementHargaJual.setString(1, identifier);
+            ResultSet resultHargaJual = statementHargaJual.executeQuery();
+
+            if (resultHargaJual.next()) {
+                hargaJual = resultHargaJual.getInt("harga_jual");
+                idBarangForValidation = resultHargaJual.getString("id_barang");
+            }
+            
+            if (hargaJual == -1 || idBarangForValidation == null) {
+                Session.animasiPanePesan(true, "Produk tidak ditemukan", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                return;
+            }
+
+            if (hargaBeli >= hargaJual) {
+                Session.animasiPanePesan(true, "Harga beli harus kurang dari harga jual", btnTambahProdukManual, btnTambahProdukBarcode, btnBatalTransaksi, btnKonfirmasiTransaksi);
+                return; 
+            }
+            
             boolean produkAda = false;
             for (Barang barang : listBarang) {
                 if (isBarcode) {

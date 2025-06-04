@@ -189,6 +189,9 @@ public class HalamanSupplierPController implements Initializable {
         }else if(Session.cekDataSama("SELECT * FROM supplier WHERE nama_toko=?", namaToko)){
             Session.animasiPanePesan(true, "Nama Toko sudah ada", btnIyaTambahSupplier);
             return;
+        }else if(Session.cekDataSama("SELECT * FROM supplier WHERE kontak=?", namaToko)){
+            Session.animasiPanePesan(true, "Kontak sudah ada", btnIyaTambahSupplier);
+            return;
         }
         
         String idSupplierBaru = Session.membuatIdBaru("supplier", "id_supplier", "spl", 2);

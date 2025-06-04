@@ -70,7 +70,7 @@
       </Pane>
       <TableView fx:id="tabelKas" layoutX="19.0" layoutY="475.0" prefHeight="257.0" prefWidth="964.0">
          <columns>
-            <TableColumn fx:id="colKaryawan" editable="false" prefWidth="203.3333396911621" text="Karyawan" />
+            <TableColumn fx:id="colKaryawan" editable="false" prefWidth="203.3333396911621" text="Pemilik" />
             <TableColumn fx:id="colTanggal" editable="false" prefWidth="203.3333396911621" text="Tanggal" />
             <TableColumn fx:id="colNominal" editable="false" prefWidth="288.6666717529297" text="Nominal" />
             <TableColumn fx:id="colDeskripsi" editable="false" prefWidth="403.3333740234375" text="Deskripsi" />
