@@ -99,7 +99,7 @@ public class HalamanKasPController implements Initializable {
                
                if(jenisKas.equals("Pemasukan")){
                    totalPemasukanKas += nominal;
-                    listKas.add(new Kas(karyawan, tanggal, Session.convertIntToRupiah(nominal), deskripsi));
+                listKas.add(new Kas(karyawan, tanggal, Session.convertIntToRupiah(nominal), deskripsi));
                }else{
                    totalPengeluaranKas += nominal;
                }
