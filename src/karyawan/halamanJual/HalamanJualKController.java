@@ -1,5 +1,6 @@
 package karyawan.halamanJual;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -543,11 +544,17 @@ public class HalamanJualKController implements Initializable, Pelengkap {
     }
     
     @FXML
-    private void cetakStruk(){
+    private void cetakStruk() {
         String reportPath = "src/main/struk.jasper";
-                   
+
+        // Ambil path gambar (contoh ambil dari folder relatif ke project)
+        String logoPath = new File("src/assets/logo/Logomark.png").getAbsolutePath();
+        String qrcodePath = new File("src/assets/dll/qrcode.png").getAbsolutePath();
+
         HashMap<String, Object> parameter = new HashMap<>();
         parameter.put("id_transaksi_jual", idTransaksiBaru);
+        parameter.put("logoPath", logoPath);
+        parameter.put("qrcodePath", qrcodePath);
 
         try {
             JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, Koneksi.getCon());
@@ -556,7 +563,7 @@ public class HalamanJualKController implements Initializable, Pelengkap {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         tutupCetakStruk();
     }
         
