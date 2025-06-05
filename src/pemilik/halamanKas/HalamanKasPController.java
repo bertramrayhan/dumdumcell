@@ -86,8 +86,6 @@ public class HalamanKasPController implements Initializable {
 
         try {
             PreparedStatement statement = Koneksi.getCon().prepareStatement(query);
-            statement.setTimestamp(1, timestampMulai);
-            statement.setTimestamp(2, timestampSelesai);
             ResultSet result = statement.executeQuery();
             int totalPemasukanKas = 0;
             int totalPengeluaranKas = 0;
@@ -110,13 +108,13 @@ public class HalamanKasPController implements Initializable {
             lblTotalPemasukanKas.setText(Session.convertIntToRupiah(totalPemasukanKas));
             lblTotalPengeluaranKas.setText(Session.convertIntToRupiah(totalPengeluaranKas));
 
-            query = "SELECT"
-                    + "SUM(CASE"
-                    + "WHEN jenis_kas = 'Pemasukan' THEN nominal"
-                    + "WHEN jenis_kas = 'Pengeluaran' THEN -nominal"
-                    + "ELSE 0"
-                    + "END) AS total_kas"
-                    + "FROM kas";
+            query = "SELECT\n"
+                    + "SUM(CASE\n"
+                    + "WHEN jenis_kas = 'Pemasukan' THEN nominal\n"
+                    + "WHEN jenis_kas = 'Pengeluaran' THEN -nominal\n"
+                    + "ELSE 0\n"
+                    + "END) AS total_kas\n"
+                    + "FROM kas\n";
             
             statement = Koneksi.getCon().prepareStatement(query);
             result = statement.executeQuery();

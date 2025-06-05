@@ -98,7 +98,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtKontakTambah" layoutX="236.0" layoutY="117.0" prefHeight="32.0" prefWidth="218.0" promptText="Masukkan Toko">
+            <TextField fx:id="txtKontakTambah" layoutX="236.0" layoutY="117.0" prefHeight="32.0" prefWidth="218.0" promptText="Masukkan Kontak">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
