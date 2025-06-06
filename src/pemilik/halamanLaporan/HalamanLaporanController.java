@@ -182,11 +182,11 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
         dtPTanggalAkhirKartu.setValue(LocalDate.now());
     }    
     
-    @FXML
+   @FXML
     private void handleBtnPDF(MouseEvent event) {
         try {
             Locale.setDefault(new Locale("id", "ID"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
             SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
             LocalDate tglAwal = null;
@@ -205,10 +205,10 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 pathReport = "/main/jasperReport/laporanPenjualan.jasper";
                 jenisLaporan = "laporan_penjualan";
             } else if (paneLaporanKartuStok.isVisible()) {
-              tglAwal = dtPTanggalAwalKartu.getValue();
-              tglAkhir = dtPTanggalAkhirKartu.getValue();
-              pathReport = "/main/jasperReport/laporanKartuStok.jasper";
-              jenisLaporan = "laporan_kartu_stok";
+                tglAwal = dtPTanggalAwalKartu.getValue();
+                tglAkhir = dtPTanggalAkhirKartu.getValue();
+                pathReport = "/main/jasperReport/laporanKartuStok.jasper";
+                jenisLaporan = "laporan_kartu_stok";
             }
 
             if (tglAwal == null || tglAkhir == null) {
@@ -216,29 +216,28 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 return;
             }
 
-            String strTglAwal = tglAwal.format(formatter);
-            String strTglAkhir = tglAkhir.format(formatter);
+            java.sql.Date sqlTglAwal = java.sql.Date.valueOf(tglAwal);
+            java.sql.Date sqlTglAkhir = java.sql.Date.valueOf(tglAkhir);
             String adminId = Session.getIdAdmin();
             String timeStamp = fileFormat.format(new Date());
 
-              // Cek data kosong dulu
+            // Cek data kosong dulu
             Connection con = Koneksi.getCon();
             String sql = "";
             if (jenisLaporan.equals("laporan_pembelian")) {
-                 sql = "SELECT COUNT(*) FROM ddckasir.transaksi_beli tb "
+                sql = "SELECT COUNT(*) FROM ddckasir.transaksi_beli tb "
                         + "JOIN ddckasir.detail_transaksi_beli dtb ON dtb.id_transaksi_beli = tb.id_transaksi_beli "
                         + "JOIN ddckasir.barang b ON dtb.id_barang = b.id_barang "
                         + "JOIN ddckasir.supplier s ON tb.id_supplier = s.id_supplier "
                         + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
                         + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
             } else if (jenisLaporan.equals("laporan_penjualan")) {
-               sql = "SELECT COUNT(*) FROM ddckasir.transaksi_jual tj "
+                sql = "SELECT COUNT(*) FROM ddckasir.transaksi_jual tj "
                         + "JOIN ddckasir.detail_transaksi_jual dtj ON dtj.id_transaksi_jual = tj.id_transaksi_jual "
                         + "JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang "
                         + "JOIN ddckasir.admin a ON tj.id_admin = a.id_admin "
                         + "WHERE tj.tanggal_transaksi_jual BETWEEN ? AND ?";
-            }
-            else if (jenisLaporan.equals("laporan_kartu_stok")) {
+            } else if (jenisLaporan.equals("laporan_kartu_stok")) {
                 sql = "SELECT COUNT(*) FROM ddckasir.kartu_stok WHERE tanggal BETWEEN ? AND ?";
             }
 
@@ -246,8 +245,8 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             ResultSet rs = null;
             try {
                 ps = con.prepareStatement(sql);
-                ps.setString(1, strTglAwal);
-                ps.setString(2, strTglAkhir);
+                ps.setDate(1, sqlTglAwal);
+                ps.setDate(2, sqlTglAkhir);
                 rs = ps.executeQuery();
                 if (rs.next()) {
                     int count = rs.getInt(1);
@@ -262,15 +261,15 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             }
 
             Map<String, Object> params = new HashMap<>();
-            params.put("tanggalAwal", strTglAwal);
-            params.put("tanggalAkhir", strTglAkhir);
+            params.put("tanggalAwal", sqlTglAwal);
+            params.put("tanggalAkhir", sqlTglAkhir);
             params.put("admin", adminId);
 
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
             params.put("printTime", sdf.format(new Date()));
 
             InputStream reportStream = getClass().getResourceAsStream(pathReport);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, Koneksi.getCon());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, con);
 
             String userHome = System.getProperty("user.home");
             String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".pdf";
@@ -285,123 +284,122 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             System.out.println("Gagal generate PDF");
         }
     }
-   @FXML
-    private void handleBtnEXCEL(MouseEvent event) {
-        try {
-            Locale.setDefault(new Locale("id", "ID"));
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
-            LocalDate tglAwal = null;
-            LocalDate tglAkhir = null;
-            String pathReport = "";
-            String jenisLaporan = "";
+  @FXML
+private void handleBtnEXCEL(MouseEvent event) {
+    try {
+        Locale.setDefault(new Locale("id", "ID"));
 
-            if (paneLaporanPembelian.isVisible()) {
-                tglAwal = dtPTanggalAwal.getValue();
-                tglAkhir = dtPTanggalAkhir.getValue();
-                pathReport = "/main/jasperReport/laporanPembelian.jasper";
-                jenisLaporan = "laporan_pembelian";
-            } else if (paneLaporanPenjualan.isVisible()) {
-                tglAwal = dtPTanggalAwalPenjualan.getValue();
-                tglAkhir = dtPTanggalAkhirPenjualan.getValue();
-                pathReport = "/main/jasperReport/laporanPenjualan.jasper";
-                jenisLaporan = "laporan_penjualan";
-            }else if (paneLaporanKartuStok.isVisible()) {
-                tglAwal = dtPTanggalAwalKartu.getValue();
-                tglAkhir = dtPTanggalAkhirKartu.getValue();
-                pathReport = "/main/jasperReport/laporanKartuStok.jasper";
-                jenisLaporan = "laporan_kartu_stok";
-            }
+        SimpleDateFormat fileFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
-            if (tglAwal == null || tglAkhir == null) {
-                Session.animasiPanePesan(true, "Silakan pilih tanggal awal dan akhir terlebih dahulu.");
-                return;
-            }
+        LocalDate tglAwal = null;
+        LocalDate tglAkhir = null;
+        String pathReport = "";
+        String jenisLaporan = "";
 
-            String strTglAwal = tglAwal.format(formatter);
-            String strTglAkhir = tglAkhir.format(formatter);
-            String adminId = Session.getIdAdmin();
-            String timeStamp = fileFormat.format(new Date());
-
-             // Cek data kosong dulu
-            Connection con = Koneksi.getCon();
-            String sql = "";
-            if (jenisLaporan.equals("laporan_pembelian")) {
-                sql = "SELECT COUNT(*) FROM ddckasir.transaksi_beli tb "
-                        + "JOIN ddckasir.detail_transaksi_beli dtb ON dtb.id_transaksi_beli = tb.id_transaksi_beli "
-                        + "JOIN ddckasir.barang b ON dtb.id_barang = b.id_barang "
-                        + "JOIN ddckasir.supplier s ON tb.id_supplier = s.id_supplier "
-                        + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
-                        + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
-            } else if (jenisLaporan.equals("laporan_penjualan")) {
-               sql = "SELECT COUNT(*) FROM ddckasir.transaksi_jual tj "
-                        + "JOIN ddckasir.detail_transaksi_jual dtj ON dtj.id_transaksi_jual = tj.id_transaksi_jual "
-                        + "JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang "
-                        + "JOIN ddckasir.admin a ON tj.id_admin = a.id_admin "
-                        + "WHERE tj.tanggal_transaksi_jual BETWEEN ? AND ?";
-            }
-            else if (jenisLaporan.equals("laporan_kartu_stok")) {
-                sql = "SELECT COUNT(*) FROM ddckasir.kartu_stok WHERE tanggal BETWEEN ? AND ?";
-            }
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            try {
-                ps = con.prepareStatement(sql);
-                ps.setString(1, strTglAwal);
-                ps.setString(2, strTglAkhir);
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    int count = rs.getInt(1);
-                    if (count == 0) {
-                        Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.");
-                        return;
-                    }
-                }
-            } finally {
-                if (rs != null) try { rs.close(); } catch (Exception ex) {}
-                if (ps != null) try { ps.close(); } catch (Exception ex) {}
-            }
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("tanggalAwal", strTglAwal);
-            params.put("tanggalAkhir", strTglAkhir);
-            params.put("admin", adminId);
-
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
-            params.put("printTime", sdf.format(new Date()));
-
-            InputStream reportStream = getClass().getResourceAsStream(pathReport);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, Koneksi.getCon());
-
-            String userHome = System.getProperty("user.home");
-            String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".xlsx";
-
-            JRXlsxExporter exporter = new JRXlsxExporter();
-            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputPath));
-
-            SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
-            config.setDetectCellType(true);
-            config.setOnePagePerSheet(false);
-            config.setCollapseRowSpan(false);
-            exporter.setConfiguration(config);
-
-            exporter.exportReport();
-
-            System.out.println("Excel berhasil disimpan di: " + outputPath);
-
-            File excelFile = new File(outputPath);
-            if (excelFile.exists()) {
-                Desktop.getDesktop().open(excelFile);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Gagal generate Excel");
+        if (paneLaporanPembelian.isVisible()) {
+            tglAwal = dtPTanggalAwal.getValue();
+            tglAkhir = dtPTanggalAkhir.getValue();
+            pathReport = "/main/jasperReport/laporanPembelian.jasper";
+            jenisLaporan = "laporan_pembelian";
+        } else if (paneLaporanPenjualan.isVisible()) {
+            tglAwal = dtPTanggalAwalPenjualan.getValue();
+            tglAkhir = dtPTanggalAkhirPenjualan.getValue();
+            pathReport = "/main/jasperReport/laporanPenjualan.jasper";
+            jenisLaporan = "laporan_penjualan";
+        } else if (paneLaporanKartuStok.isVisible()) {
+            tglAwal = dtPTanggalAwalKartu.getValue();
+            tglAkhir = dtPTanggalAkhirKartu.getValue();
+            pathReport = "/main/jasperReport/laporanKartuStok.jasper";
+            jenisLaporan = "laporan_kartu_stok";
         }
+
+        if (tglAwal == null || tglAkhir == null) {
+            Session.animasiPanePesan(true, "Silakan pilih tanggal awal dan akhir terlebih dahulu.");
+            return;
+        }
+
+        java.sql.Date sqlTglAwal = java.sql.Date.valueOf(tglAwal);
+        java.sql.Date sqlTglAkhir = java.sql.Date.valueOf(tglAkhir);
+        String adminId = Session.getIdAdmin();
+        String timeStamp = fileFormat.format(new Date());
+
+        Connection con = Koneksi.getCon();
+        String sql = "";
+        if (jenisLaporan.equals("laporan_pembelian")) {
+            sql = "SELECT COUNT(*) FROM ddckasir.transaksi_beli tb "
+                + "JOIN ddckasir.detail_transaksi_beli dtb ON dtb.id_transaksi_beli = tb.id_transaksi_beli "
+                + "JOIN ddckasir.barang b ON dtb.id_barang = b.id_barang "
+                + "JOIN ddckasir.supplier s ON tb.id_supplier = s.id_supplier "
+                + "JOIN ddckasir.admin a ON tb.id_admin = a.id_admin "
+                + "WHERE tb.tanggal_transaksi_beli BETWEEN ? AND ?";
+        } else if (jenisLaporan.equals("laporan_penjualan")) {
+            sql = "SELECT COUNT(*) FROM ddckasir.transaksi_jual tj "
+                + "JOIN ddckasir.detail_transaksi_jual dtj ON dtj.id_transaksi_jual = tj.id_transaksi_jual "
+                + "JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang "
+                + "JOIN ddckasir.admin a ON tj.id_admin = a.id_admin "
+                + "WHERE tj.tanggal_transaksi_jual BETWEEN ? AND ?";
+        } else if (jenisLaporan.equals("laporan_kartu_stok")) {
+            sql = "SELECT COUNT(*) FROM ddckasir.kartu_stok WHERE tanggal BETWEEN ? AND ?";
+        }
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setDate(1, sqlTglAwal);
+            ps.setDate(2, sqlTglAkhir);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count == 0) {
+                    Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.");
+                    return;
+                }
+            }
+        } finally {
+            if (rs != null) try { rs.close(); } catch (Exception ex) {}
+            if (ps != null) try { ps.close(); } catch (Exception ex) {}
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("tanggalAwal", sqlTglAwal);
+        params.put("tanggalAkhir", sqlTglAkhir);
+        params.put("admin", adminId);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss 'WIB'", new Locale("id", "ID"));
+        params.put("printTime", sdf.format(new Date()));
+
+        InputStream reportStream = getClass().getResourceAsStream(pathReport);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, con);
+
+        String userHome = System.getProperty("user.home");
+        String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".xlsx";
+
+        JRXlsxExporter exporter = new JRXlsxExporter();
+        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputPath));
+
+        SimpleXlsxReportConfiguration config = new SimpleXlsxReportConfiguration();
+        config.setDetectCellType(true);
+        config.setOnePagePerSheet(false);
+        config.setCollapseRowSpan(false);
+        exporter.setConfiguration(config);
+
+        exporter.exportReport();
+
+        System.out.println("Excel berhasil disimpan di: " + outputPath);
+
+        File excelFile = new File(outputPath);
+        if (excelFile.exists()) {
+            Desktop.getDesktop().open(excelFile);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println("Gagal generate Excel");
     }
+}
     @FXML
     private void bukaLaporanPenjualan(){
         Session.setShowPane(paneLaporanPenjualan);
