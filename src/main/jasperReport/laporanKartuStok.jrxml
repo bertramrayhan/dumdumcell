@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ee2c05a-c907-4203-85c7-545b60208c69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="13"/>
+	<property name="ireport.y" value="48"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -84,11 +84,11 @@
 		</box>
 	</style>
 	<subDataset name="laporan_kartuStok" uuid="9d5edb78-57b6-4f67-a48d-3455858c48b5">
-		<parameter name="tanggalAwal" class="java.lang.String">
-			<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
+		<parameter name="tanggalAwal" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="tanggalAkhir" class="java.lang.String">
-			<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
+		<parameter name="tanggalAkhir" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
@@ -123,11 +123,11 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
-	<parameter name="tanggalAwal" class="java.lang.String">
-		<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
+	<parameter name="tanggalAwal" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="tanggalAkhir" class="java.lang.String">
-		<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
+	<parameter name="tanggalAkhir" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="admin" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Adm01"]]></defaultValueExpression>
@@ -173,7 +173,13 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 				<componentElement>
 					<reportElement key="table 3" style="table 3" x="0" y="0" width="360" height="50" uuid="bad20a77-3d91-4a42-b9af-b12e9e01e64d"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="laporan_kartuStok" uuid="350c87ec-35c0-469d-a9e5-3e2523364d11">
+						<datasetRun subDataset="laporan_kartuStok" uuid="044fd1a1-8a39-46ca-a41b-cb6c9a01dff1">
+							<datasetParameter name="tanggalAwal">
+								<datasetParameterExpression><![CDATA[$P{tanggalAwal}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="tanggalAkhir">
+								<datasetParameterExpression><![CDATA[$P{tanggalAkhir}]]></datasetParameterExpression>
+							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 						<jr:column width="35" uuid="51cd678a-6a1e-4a1e-8c65-3de59478ba7d">

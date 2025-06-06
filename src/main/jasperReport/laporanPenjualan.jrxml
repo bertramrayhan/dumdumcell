@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26095f73-95f0-4290-b74b-e9679cdb1211">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="42"/>
+	<property name="ireport.y" value="73"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -244,17 +244,11 @@
 		</box>
 	</style>
 	<subDataset name="laporanPenjualan" uuid="a02ac494-16c9-4447-be26-6bf681e84eee">
-		<parameter name="tanggalAwal" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{tanggalAwal}]]></defaultValueExpression>
+		<parameter name="tanggalAwal" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="tanggalAkhir" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{tanggalAkhir}]]></defaultValueExpression>
-		</parameter>
-		<parameter name="admin" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{admin}]]></defaultValueExpression>
-		</parameter>
-		<parameter name="printTime" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{printTime}]]></defaultValueExpression>
+		<parameter name="tanggalAkhir" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
@@ -287,11 +281,11 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</field>
 	</subDataset>
 	<subDataset name="total" uuid="39ddc3d1-3ca2-43a8-a436-f063491bebdd">
-		<parameter name="tanggalAwal" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{tanggalAwal}]]></defaultValueExpression>
+		<parameter name="tanggalAwal" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="tanggalAkhir" class="java.lang.String">
-			<defaultValueExpression><![CDATA[$P{tanggalAkhir}]]></defaultValueExpression>
+		<parameter name="tanggalAkhir" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
@@ -302,16 +296,16 @@ FROM
   transaksi_jual tj
 JOIN 
   detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
-WHERE tanggal_transaksi_jual BETWEEN $P{TanggalAwal} AND $P{TanggalAkhir}]]>
+WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</queryString>
 		<field name="total_transaksi" class="java.lang.Long"/>
 		<field name="total_barang" class="java.math.BigDecimal"/>
 		<field name="total_pembelian" class="java.math.BigDecimal"/>
 	</subDataset>
-	<parameter name="tanggalAwal" class="java.lang.String">
+	<parameter name="tanggalAwal" class="java.util.Date">
 		<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="tanggalAkhir" class="java.lang.String">
+	<parameter name="tanggalAkhir" class="java.util.Date">
 		<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="admin" class="java.lang.String">
@@ -355,7 +349,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 				<componentElement>
 					<reportElement key="table 10" style="table 10" x="12" y="0" width="409" height="50" uuid="52032881-a02c-4e62-930b-35468da96c00"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="laporanPenjualan" uuid="479df9ab-0259-430c-8568-ef2294473438">
+						<datasetRun subDataset="laporanPenjualan" uuid="b91e55cc-bd23-4201-8e61-42785af23ba1">
 							<datasetParameter name="tanggalAwal">
 								<datasetParameterExpression><![CDATA[$P{tanggalAwal}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -577,7 +571,13 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 			<componentElement>
 				<reportElement key="table 11" style="table 11" x="282" y="8" width="273" height="50" uuid="4b2969c2-a287-4408-9a2f-7e8c4ac8cff0"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="total" uuid="f426c478-4d56-4826-ab2e-507924c20080">
+					<datasetRun subDataset="total" uuid="8d6cb978-e2ab-4e48-b2c6-e9737d2f75c3">
+						<datasetParameter name="tanggalAwal">
+							<datasetParameterExpression><![CDATA[$P{tanggalAwal}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="tanggalAkhir">
+							<datasetParameterExpression><![CDATA[$P{tanggalAkhir}]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="90" uuid="8ba66579-3919-46ec-a85a-e80c6def3999">
