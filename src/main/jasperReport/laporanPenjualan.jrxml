@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26095f73-95f0-4290-b74b-e9679cdb1211">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="42"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -245,10 +245,16 @@
 	</style>
 	<subDataset name="laporanPenjualan" uuid="a02ac494-16c9-4447-be26-6bf681e84eee">
 		<parameter name="tanggalAwal" class="java.lang.String">
-			<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[$P{tanggalAwal}]]></defaultValueExpression>
 		</parameter>
 		<parameter name="tanggalAkhir" class="java.lang.String">
-			<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[$P{tanggalAkhir}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="admin" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{admin}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="printTime" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{printTime}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
@@ -281,11 +287,11 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</field>
 	</subDataset>
 	<subDataset name="total" uuid="39ddc3d1-3ca2-43a8-a436-f063491bebdd">
-		<parameter name="TanggalAwal" class="java.lang.String">
-			<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
+		<parameter name="tanggalAwal" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{tanggalAwal}]]></defaultValueExpression>
 		</parameter>
-		<parameter name="TanggalAkhir" class="java.lang.String">
-			<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
+		<parameter name="tanggalAkhir" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{tanggalAkhir}]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
@@ -349,7 +355,13 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 				<componentElement>
 					<reportElement key="table 10" style="table 10" x="12" y="0" width="409" height="50" uuid="52032881-a02c-4e62-930b-35468da96c00"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="laporanPenjualan" uuid="571c2af5-aa89-43ff-8198-4d0ab3f9c81c">
+						<datasetRun subDataset="laporanPenjualan" uuid="479df9ab-0259-430c-8568-ef2294473438">
+							<datasetParameter name="tanggalAwal">
+								<datasetParameterExpression><![CDATA[$P{tanggalAwal}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="tanggalAkhir">
+								<datasetParameterExpression><![CDATA[$P{tanggalAkhir}]]></datasetParameterExpression>
+							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 						<jr:column width="35" uuid="e3e25b6e-60e0-4223-8d61-0b907174c434">
@@ -561,7 +573,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="59" splitType="Stretch">
+		<band height="72" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table 11" style="table 11" x="282" y="8" width="273" height="50" uuid="4b2969c2-a287-4408-9a2f-7e8c4ac8cff0"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
