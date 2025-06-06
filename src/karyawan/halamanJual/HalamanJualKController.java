@@ -1,5 +1,7 @@
 package karyawan.halamanJual;
 
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
@@ -36,8 +39,11 @@ import javafx.util.converter.IntegerStringConverter;
 import main.Koneksi;
 import main.Pelengkap;
 import main.Session;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class HalamanJualKController implements Initializable, Pelengkap {
@@ -543,20 +549,51 @@ public class HalamanJualKController implements Initializable, Pelengkap {
     }
     
     @FXML
-    private void cetakStruk(){
-        String reportPath = "src/main/struk.jasper";
-                   
+    private void cetakStruk() {
+        String reportPath = "/main/jasperReport/struk.jasper";
+
+        // Ambil path gambar (contoh ambil dari folder relatif ke project)
+        String logoPath = "/assets/logo/Logomark.png"; 
+        String qrcodePath = "/assets/dll/qrcode.png";
+
         HashMap<String, Object> parameter = new HashMap<>();
         parameter.put("id_transaksi_jual", idTransaksiBaru);
 
+        InputStream reportStream = null;
+        InputStream logoStream = null; 
+        InputStream qrcodeStream = null; 
         try {
-            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, Koneksi.getCon());
+            reportStream = HalamanJualKController.class.getResourceAsStream(reportPath);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
+            
+            logoStream = HalamanJualKController.class.getResourceAsStream(logoPath);
+            qrcodeStream = HalamanJualKController.class.getResourceAsStream(qrcodePath);
+            parameter.put("logoPath", logoStream);
+            parameter.put("qrcodePath", qrcodeStream);
+            
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameter, Koneksi.getCon());
             JasperViewer viewer = new JasperViewer(print, false);
             viewer.setVisible(true);
+            
+            reportStream.close();
+            qrcodeStream.close();
+            logoStream.close();
+        } catch (JRException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Terjadi Kesalahan");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage()); // atau bisa custom kayak "Gagal menyimpan data"
+            alert.showAndWait();
+            e.printStackTrace();
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Terjadi Kesalahan");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage()); // atau bisa custom kayak "Gagal menyimpan data"
+            alert.showAndWait();
             e.printStackTrace();
         }
-        
+
         tutupCetakStruk();
     }
         
@@ -784,24 +821,42 @@ public class HalamanJualKController implements Initializable, Pelengkap {
         int barisTerpilih = tabelTransaksi.getSelectionModel().getSelectedIndex();
         Transaksi transaksiTerpilih = listTransaksi.get(barisTerpilih);
         idTransaksiTerpilih = transaksiTerpilih.getIdTransaksi();
-        String reportPath = "src/main/struk.jasper";
-
+        
+        String reportPath = "/main/jasperReport/struk.jasper";
+        String logoPath = "/assets/logo/Logomark.png"; 
+        String qrcodePath = "/assets/dll/qrcode.png";
+        
         HashMap<String, Object> parameter = new HashMap<>();
         parameter.put("id_transaksi_jual", idTransaksiTerpilih);
-
+        
+        InputStream reportStream = null;
+        InputStream logoStream = null; 
+        InputStream qrcodeStream = null; 
         try {
-            JasperPrint print = JasperFillManager.fillReport(reportPath, parameter, Koneksi.getCon());
-
-            // Menambahkan pengaturan DPI
-            System.out.println(print.getPageHeight());
-            System.out.println(print.getPageWidth());
-//            print.setPageHeight((int) (print.getPageHeight() * 203 / 72)); // Mengatur tinggi halaman
-//            print.setPageWidth((int) (print.getPageWidth() * 203 / 72));   // Mengatur lebar halaman
+            reportStream = HalamanJualKController.class.getResourceAsStream(reportPath);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
+            
+            logoStream = HalamanJualKController.class.getResourceAsStream(logoPath);
+            qrcodeStream = HalamanJualKController.class.getResourceAsStream(qrcodePath);
+            parameter.put("logoPath", logoStream);
+            parameter.put("qrcodePath", qrcodeStream);
+            
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, parameter, Koneksi.getCon());
 
             JasperViewer viewer = new JasperViewer(print, false);
             viewer.setVisible(true);
+        } catch (JRException e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Terjadi Kesalahan");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage()); // atau bisa custom kayak "Gagal menyimpan data"
+            alert.showAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Terjadi Kesalahan");
+            alert.setHeaderText(null);
+            alert.setContentText(e.getMessage()); // atau bisa custom kayak "Gagal menyimpan data"
+            alert.showAndWait();
         }
     }
 
