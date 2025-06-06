@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="210" pageHeight="440" columnWidth="200" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" isIgnorePagination="true" uuid="8e8e97c6-9ac5-4aeb-89c2-7af16a3e7323">
-	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="480"/>
+	<property name="ireport.y" value="107"/>
 	<parameter name="id_transaksi_jual" class="java.lang.String">
 		<defaultValueExpression><![CDATA["jual0022"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logoPath" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="qrcodePath" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT 
@@ -104,7 +110,7 @@ WHERE tj.id_transaksi_jual = $P{id_transaksi_jual}]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="51" height="51" uuid="dad790ea-7940-4318-ae6f-dabc0def0191"/>
-				<imageExpression><![CDATA["C:\\Users\\bertr\\Desktop\\projek\\dumdumcell\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -392,7 +398,7 @@ WHERE tj.id_transaksi_jual = $P{id_transaksi_jual}]]>
 			</staticText>
 			<image>
 				<reportElement x="67" y="36" width="60" height="60" uuid="f5c54e91-c332-42ca-bdc7-c3b8f06baf1c"/>
-				<imageExpression><![CDATA["C:\\Users\\bertr\\Desktop\\projek\\dumdumcell\\src\\assets\\dll\\qrcode.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{qrcodePath}]]></imageExpression>
 			</image>
 		</band>
 	</pageFooter>
