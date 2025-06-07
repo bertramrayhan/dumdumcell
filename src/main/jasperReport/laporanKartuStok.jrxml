@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ee2c05a-c907-4203-85c7-545b60208c69">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="48"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -84,24 +84,25 @@
 		</box>
 	</style>
 	<subDataset name="laporan_kartuStok" uuid="9d5edb78-57b6-4f67-a48d-3455858c48b5">
-		<parameter name="tanggalAwal" class="java.util.Date">
+		<parameter name="tanggalAwal" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="tanggalAkhir" class="java.util.Date">
+		<parameter name="tanggalAkhir" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
   b.nama_barang,
   b.merek,
-  DATE_FORMAT(ks.tanggal, '%d-%m-%Y') AS tanggal, 
+  DATE_FORMAT(ks.tanggal, '%d-%m-%Y') AS tanggal,
+  TIME(ks.tanggal) AS waktu,
   ks.jumlah_masuk, 
   ks.jumlah_keluar, 
   ks.sisa, 
   ks.keterangan 
 FROM kartu_stok ks
 JOIN barang b ON b.id_barang = ks.id_barang
-WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
+WHERE DATE(ks.tanggal) BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</queryString>
 		<field name="nama_barang" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -110,6 +111,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 		<field name="tanggal" class="java.lang.String"/>
+		<field name="waktu" class="java.sql.Time"/>
 		<field name="jumlah_masuk" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
@@ -123,11 +125,11 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
 	</subDataset>
-	<parameter name="tanggalAwal" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	<parameter name="tanggalAwal" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2025-01-01"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="tanggalAkhir" class="java.util.Date">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	<parameter name="tanggalAkhir" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2025-06-06"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="admin" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Adm01"]]></defaultValueExpression>
@@ -135,36 +137,13 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 	<parameter name="printTime" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Senin, 01 Mei 2023 12:00:00 WIB"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="logoPath" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT 
-  ks.id_barang,
-  b.nama_barang,
-  DATE_FORMAT(ks.tanggal, '%d-%m-%Y') AS tanggal, 
-  ks.jumlah_masuk, 
-  ks.jumlah_keluar, 
-  ks.sisa, 
-  ks.keterangan 
-FROM kartu_stok ks
-JOIN barang b ON b.id_barang = ks.id_barang
-WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
+		<![CDATA[SELECT nama FROM admin WHERE id_admin = $P{admin}]]>
 	</queryString>
-	<field name="id_barang" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="nama_barang" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="tanggal" class="java.lang.String"/>
-	<field name="jumlah_masuk" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="jumlah_keluar" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="sisa" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="keterangan" class="java.lang.String">
+	<field name="nama" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<group name="grop_table">
@@ -264,7 +243,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 								<textField>
 									<reportElement x="0" y="0" width="75" height="30" uuid="814f5f8c-74f9-4f15-ab41-3c23f068518c"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
-									<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{tanggal} + "\n" + $F{waktu}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -304,10 +283,10 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="4a6877b7-84a5-4466-9fec-cb322ea959d9">
+						<jr:column width="54" uuid="4a6877b7-84a5-4466-9fec-cb322ea959d9">
 							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="6a1e0e77-0d36-489d-b27a-4cddb30c59a3"/>
+									<reportElement x="0" y="0" width="54" height="30" uuid="6a1e0e77-0d36-489d-b27a-4cddb30c59a3"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
@@ -316,16 +295,16 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="f8ab2409-db5b-45bf-ba61-cbce68fc1c5a"/>
+									<reportElement x="0" y="0" width="54" height="30" uuid="f8ab2409-db5b-45bf-ba61-cbce68fc1c5a"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{sisa}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="75" uuid="23878b0c-fbfa-4de3-a0db-9744b8aaa94d">
+						<jr:column width="102" uuid="23878b0c-fbfa-4de3-a0db-9744b8aaa94d">
 							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="75" height="30" uuid="f741998f-5a39-47ed-8afe-ec7ad59fe14b"/>
+									<reportElement x="0" y="0" width="102" height="30" uuid="f741998f-5a39-47ed-8afe-ec7ad59fe14b"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
@@ -334,7 +313,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 							</jr:columnHeader>
 							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="75" height="30" uuid="e789d582-0928-4c7f-99d8-159badb5e872"/>
+									<reportElement x="0" y="0" width="102" height="30" uuid="e789d582-0928-4c7f-99d8-159badb5e872"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
 								</textField>
@@ -351,7 +330,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 	<title>
 		<band height="222" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Transparent" x="182" y="55" width="114" height="37" forecolor="#023E8A" uuid="926a153c-04d6-423a-b2d9-5598266cbd6a"/>
+				<reportElement mode="Transparent" x="198" y="56" width="107" height="37" forecolor="#023E8A" uuid="926a153c-04d6-423a-b2d9-5598266cbd6a"/>
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>
@@ -366,7 +345,7 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
  Kec. Sumbersari, Kabupaten Jember, Jawa Timur ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="300" y="57" width="112" height="35" forecolor="#0077B6" uuid="9dedc6ab-8075-4e28-8c61-4fbda2a58c17"/>
+				<reportElement mode="Transparent" x="305" y="56" width="84" height="37" forecolor="#0077B6" uuid="9dedc6ab-8075-4e28-8c61-4fbda2a58c17"/>
 				<textElement>
 					<font fontName="SansSerif" size="24" isBold="false"/>
 				</textElement>
@@ -374,28 +353,28 @@ WHERE ks.tanggal BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 			</staticText>
 			<image>
 				<reportElement mode="Opaque" x="10" y="58" width="101" height="78" uuid="71998cb8-7018-4db2-abf6-3851e05a7dd8"/>
-				<imageExpression><![CDATA["D:\\GitHub\\ddckasir\\ddckasir2\\dumdumcell\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement mode="Transparent" x="171" y="10" width="256" height="41" forecolor="#0077B6" uuid="23860b7e-a1fe-4954-b74d-18e17a458ba4"/>
-				<textElement>
+				<reportElement mode="Transparent" x="2" y="0" width="553" height="41" forecolor="#0077B6" uuid="23860b7e-a1fe-4954-b74d-18e17a458ba4"/>
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="24" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Laporan Kartu Stok]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="176" y="144" width="234" height="20" uuid="c367ef1a-1974-4f76-b380-b33579460690"/>
-				<textElement>
+				<reportElement x="2" y="144" width="553" height="20" uuid="c367ef1a-1974-4f76-b380-b33579460690"/>
+				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Periode : " + $P{tanggalAwal} + " s.d " + $P{tanggalAkhir}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="189" width="100" height="20" uuid="0c41fde0-759b-49d5-a381-f1bfd0ccd301"/>
-				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
+				<reportElement x="2" y="196" width="100" height="20" uuid="0c41fde0-759b-49d5-a381-f1bfd0ccd301"/>
+				<textFieldExpression><![CDATA["Dicetak oleh : "+ $F{nama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="360" y="189" width="175" height="20" uuid="1d923082-bb88-4508-9c5c-5c68ee248e67"/>
+				<reportElement x="380" y="196" width="175" height="20" uuid="1d923082-bb88-4508-9c5c-5c68ee248e67"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 		</band>

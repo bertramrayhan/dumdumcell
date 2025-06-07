@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26095f73-95f0-4290-b74b-e9679cdb1211">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="73"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -244,31 +244,29 @@
 		</box>
 	</style>
 	<subDataset name="laporanPenjualan" uuid="a02ac494-16c9-4447-be26-6bf681e84eee">
-		<parameter name="tanggalAwal" class="java.util.Date">
+		<parameter name="tanggalAwal" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="tanggalAkhir" class="java.util.Date">
+		<parameter name="tanggalAkhir" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
-    tj.id_transaksi_jual AS id_transaksi_jual,
     DATE_FORMAT(tj.tanggal_transaksi_jual, '%d-%m-%Y') AS tanggal_transaksi_jual,
+    TIME(tj.tanggal_transaksi_jual) AS waktu_transaksi_jual,
     a.nama AS nama_admin,
-    b.nama_barang AS nama_barang,
+    b.merek AS nama_barang,
     dtj.jumlah_barang AS jumlah_barang,
-    dtj.subtotal AS subtotal
+    CONCAT('Rp', REPLACE(FORMAT(dtj.subtotal, 0), ',', '.')) AS subtotal
 FROM 
     ddckasir.transaksi_jual tj
     JOIN ddckasir.admin a ON tj.id_admin = a.id_admin
     JOIN ddckasir.detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
     JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang
-WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
+WHERE DATE(tanggal_transaksi_jual) BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</queryString>
-		<field name="id_transaksi_jual" class="java.lang.String">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
 		<field name="tanggal_transaksi_jual" class="java.lang.String"/>
+		<field name="waktu_transaksi_jual" class="java.sql.Time"/>
 		<field name="nama_admin" class="java.lang.String"/>
 		<field name="nama_barang" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -276,36 +274,34 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		<field name="jumlah_barang" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="subtotal" class="java.lang.Integer">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="subtotal" class="java.lang.String"/>
 	</subDataset>
 	<subDataset name="total" uuid="39ddc3d1-3ca2-43a8-a436-f063491bebdd">
-		<parameter name="tanggalAwal" class="java.util.Date">
+		<parameter name="tanggalAwal" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
-		<parameter name="tanggalAkhir" class="java.util.Date">
+		<parameter name="tanggalAkhir" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT 
   COUNT(DISTINCT tj.id_transaksi_jual) AS total_transaksi,
   SUM(dtj.jumlah_barang) AS total_barang,
-  SUM(tj.total_transaksi_jual) AS total_pembelian
+  CONCAT('Rp', REPLACE(FORMAT(SUM(tj.total_transaksi_jual), 0), ',', '.')) AS total_pembelian
 FROM 
   transaksi_jual tj
 JOIN 
   detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
-WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
+WHERE DATE(tanggal_transaksi_jual) BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 		</queryString>
 		<field name="total_transaksi" class="java.lang.Long"/>
 		<field name="total_barang" class="java.math.BigDecimal"/>
-		<field name="total_pembelian" class="java.math.BigDecimal"/>
+		<field name="total_pembelian" class="java.lang.String"/>
 	</subDataset>
-	<parameter name="tanggalAwal" class="java.util.Date">
+	<parameter name="tanggalAwal" class="java.lang.String">
 		<defaultValueExpression><![CDATA["2025-05-01"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="tanggalAkhir" class="java.util.Date">
+	<parameter name="tanggalAkhir" class="java.lang.String">
 		<defaultValueExpression><![CDATA["2025-05-31"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="admin" class="java.lang.String">
@@ -314,33 +310,13 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 	<parameter name="printTime" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Senin, 01 Mei 2023 12:00:00 WIB"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="logoPath" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT 
-    tj.id_transaksi_jual AS id_transaksi_jual,
-    DATE_FORMAT(tj.tanggal_transaksi_jual, '%d-%m-%Y') AS tanggal_transaksi_jual,
-    a.nama AS nama_admin,
-    b.nama_barang AS nama_barang,
-    dtj.jumlah_barang AS jumlah_barang,
-    dtj.subtotal AS subtotal
-FROM 
-    ddckasir.transaksi_jual tj
-    JOIN ddckasir.admin a ON tj.id_admin = a.id_admin
-    JOIN ddckasir.detail_transaksi_jual dtj ON tj.id_transaksi_jual = dtj.id_transaksi_jual
-    JOIN ddckasir.barang b ON dtj.id_barang = b.id_barang
-WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
+		<![CDATA[SELECT nama FROM admin WHERE id_admin = $P{admin}]]>
 	</queryString>
-	<field name="id_transaksi_jual" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="tanggal_transaksi_jual" class="java.lang.String"/>
-	<field name="nama_admin" class="java.lang.String"/>
-	<field name="nama_barang" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="jumlah_barang" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="subtotal" class="java.lang.Integer">
+	<field name="nama" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<group name="group_table">
@@ -390,23 +366,9 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="84" uuid="a2c2d565-7aa9-4080-9d71-cd804f835303">
-							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
-								<staticText>
-									<reportElement x="0" y="0" width="84" height="30" uuid="2a076920-56f6-47f2-ba47-6d3599319dbf"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle">
-										<font isBold="true"/>
-									</textElement>
-									<text><![CDATA[Id Transaksi]]></text>
-								</staticText>
-							</jr:columnHeader>
-							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
-								<textField>
-									<reportElement x="0" y="0" width="84" height="31" uuid="59b34fbd-3d50-4733-b866-b25a8aca4e45"/>
-									<textElement textAlignment="Center" verticalAlignment="Middle"/>
-									<textFieldExpression><![CDATA[$F{id_transaksi_jual}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
+						<jr:column width="0" uuid="a2c2d565-7aa9-4080-9d71-cd804f835303">
+							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table 10_TD" height="31" rowSpan="1"/>
 						</jr:column>
 						<jr:column width="84" uuid="5beab5d9-23fa-4a3e-bd11-0077052b5d23">
 							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
@@ -422,7 +384,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 								<textField>
 									<reportElement x="0" y="0" width="84" height="31" uuid="e6fcfffb-99d5-4dab-8cf4-f05e4e95076a"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
-									<textFieldExpression><![CDATA[$F{tanggal_transaksi_jual}]]></textFieldExpression>
+									<textFieldExpression><![CDATA[$F{tanggal_transaksi_jual} + "\n" + $F{waktu_transaksi_jual}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -444,10 +406,10 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="84" uuid="7e7c95b1-ec7a-422a-a75d-fc45b5840315">
+						<jr:column width="167" uuid="7e7c95b1-ec7a-422a-a75d-fc45b5840315">
 							<jr:columnHeader style="table 10_CH" height="30" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="84" height="30" uuid="38f8238b-bcdf-4738-b92f-46c0b7196785"/>
+									<reportElement x="0" y="0" width="167" height="30" uuid="38f8238b-bcdf-4738-b92f-46c0b7196785"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
@@ -456,7 +418,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 							</jr:columnHeader>
 							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="84" height="31" uuid="aef85614-eb59-4e38-813d-b32d5fb1c1ee"/>
+									<reportElement x="0" y="0" width="167" height="31" uuid="aef85614-eb59-4e38-813d-b32d5fb1c1ee"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{nama_barang}]]></textFieldExpression>
 								</textField>
@@ -487,11 +449,11 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 									<textElement textAlignment="Center" verticalAlignment="Middle">
 										<font isBold="true"/>
 									</textElement>
-									<text><![CDATA[subtotal]]></text>
+									<text><![CDATA[Subtotal]]></text>
 								</staticText>
 							</jr:columnHeader>
 							<jr:detailCell style="table 10_TD" height="31" rowSpan="1">
-								<textField pattern="Rp #,##0">
+								<textField pattern="">
 									<reportElement x="0" y="0" width="84" height="31" uuid="c0ebacb5-d659-4a48-b799-a11d45fcf1e2"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
@@ -517,15 +479,15 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
  Kec. Sumbersari, Kabupaten Jember, Jawa Timur]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="188" y="10" width="211" height="41" forecolor="#0077B6" uuid="7d5642d6-2579-46d1-8280-4c54c20b5d32"/>
-				<textElement>
+				<reportElement mode="Transparent" x="0" y="0" width="555" height="41" forecolor="#0077B6" uuid="7d5642d6-2579-46d1-8280-4c54c20b5d32"/>
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="24" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Laporan Penjualan]]></text>
 			</staticText>
 			<image>
 				<reportElement x="24" y="56" width="103" height="82" uuid="bddeb96e-ea5a-444b-9c4c-bf6eb838e80b"/>
-				<imageExpression><![CDATA["D:\\GitHub\\ddckasir\\ddckasir2\\dumdumcell\\src\\assets\\logo\\Logomark.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{logoPath}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="193" y="145" width="234" height="20" uuid="2a98bf79-7e9c-4d95-adeb-6af3e29912c2"/>
@@ -535,7 +497,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 				<textFieldExpression><![CDATA["Periode : " + $P{tanggalAwal} + " s.d " + $P{tanggalAkhir}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="204" y="54" width="108" height="39" forecolor="#023E8A" uuid="7faaa8c8-15dd-4604-af6e-c92949c7501e"/>
+				<reportElement mode="Transparent" x="207" y="55" width="108" height="38" forecolor="#023E8A" uuid="7faaa8c8-15dd-4604-af6e-c92949c7501e"/>
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>
@@ -550,7 +512,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 			</staticText>
 			<textField>
 				<reportElement x="12" y="177" width="100" height="20" uuid="83446722-7c13-4742-ae66-235256dd47e9"/>
-				<textFieldExpression><![CDATA["Dicetak oleh : "+$P{admin}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Dicetak oleh : "+$F{nama}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="355" y="175" width="200" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
@@ -569,7 +531,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 	<summary>
 		<band height="72" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 11" style="table 11" x="282" y="8" width="273" height="50" uuid="4b2969c2-a287-4408-9a2f-7e8c4ac8cff0"/>
+				<reportElement key="table 11" style="table 11" x="280" y="8" width="273" height="50" uuid="4b2969c2-a287-4408-9a2f-7e8c4ac8cff0"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="total" uuid="8d6cb978-e2ab-4e48-b2c6-e9737d2f75c3">
 						<datasetParameter name="tanggalAwal">
@@ -587,7 +549,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font isBold="true"/>
 								</textElement>
-								<text><![CDATA[total_transaksi]]></text>
+								<text><![CDATA[Total Transaksi]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 11_TD" height="20">
@@ -605,7 +567,7 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font isBold="true"/>
 								</textElement>
-								<text><![CDATA[total_barang]]></text>
+								<text><![CDATA[Total Barang]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 11_TD" height="20">
@@ -623,11 +585,11 @@ WHERE tanggal_transaksi_jual BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir};]]>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font isBold="true"/>
 								</textElement>
-								<text><![CDATA[total_pembelian]]></text>
+								<text><![CDATA[Total Pembelian]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 11_TD" height="20">
-							<textField pattern="Rp #,##0">
+							<textField pattern="">
 								<reportElement x="0" y="0" width="90" height="20" uuid="24f26ee3-e212-4d61-bad1-75118993e133"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{total_pembelian}]]></textFieldExpression>
