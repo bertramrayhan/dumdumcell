@@ -135,11 +135,6 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 pathReport = "/main/jasperReport/laporanKartuStok.jasper";
             }
 
-            if (tglAwal == null || tglAkhir == null) {
-                Session.animasiPanePesan(true, "Silakan pilih tanggal awal dan akhir terlebih dahulu.");
-                return;
-            }
-
             String adminId = Session.getIdAdmin();
             String timeStamp = fileFormat.format(new Date());
 
@@ -173,7 +168,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 if (rs.next()) {
                     int count = rs.getInt(1);
                     if (count == 0) {
-                        Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.");
+                        Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.", btnPDF, btnEXCEL, btnREFRESH);
                         return;
                     }
                 }
@@ -232,11 +227,6 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 pathReport = "/main/jasperReport/laporanKartuStok.jasper";
             }
 
-            if (tglAwal == null || tglAkhir == null) {
-                Session.animasiPanePesan(true, "Silakan pilih tanggal awal dan akhir terlebih dahulu.");
-                return;
-            }
-
             String adminId = Session.getIdAdmin();
             String timeStamp = fileFormat.format(new Date());
 
@@ -269,7 +259,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
                 if (rs.next()) {
                     int count = rs.getInt(1);
                     if (count == 0) {
-                        Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.");
+                        Session.animasiPanePesan(true, "Data laporan kosong, tidak ada yang bisa diekspor.", btnPDF, btnEXCEL, btnREFRESH);
                         return;
                     }
                 }
