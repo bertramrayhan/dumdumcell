@@ -374,7 +374,8 @@ WHERE DATE(ks.tanggal) BETWEEN $P{tanggalAwal} AND $P{tanggalAkhir}]]>
 				<textFieldExpression><![CDATA["Dicetak oleh : "+ $F{nama}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="196" width="175" height="20" uuid="1d923082-bb88-4508-9c5c-5c68ee248e67"/>
+				<reportElement x="305" y="196" width="250" height="20" uuid="1d923082-bb88-4508-9c5c-5c68ee248e67"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 		</band>

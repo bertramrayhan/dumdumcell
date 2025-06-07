@@ -192,7 +192,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, con);
 
             String userHome = System.getProperty("user.home");
-            String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".pdf";
+            String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + timeStamp + ".pdf";
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
             JasperViewer.viewReport(jasperPrint, false);
@@ -282,7 +282,7 @@ public class HalamanLaporanController implements Initializable, Pelengkap {
             JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, con);
 
             String userHome = System.getProperty("user.home");
-            String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + adminId + "_" + timeStamp + ".xlsx";
+            String outputPath = userHome + "/Documents/" + jenisLaporan + "_" + timeStamp + ".xlsx";
 
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));

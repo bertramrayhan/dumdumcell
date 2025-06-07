@@ -534,7 +534,8 @@ WHERE DATE(tb.tanggal_transaksi_beli) BETWEEN $P{tanggalAwal} AND $P{tanggalAkhi
 				<textFieldExpression><![CDATA["Periode : " + $P{tanggalAwal} + " s.d " + $P{tanggalAkhir}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="352" y="182" width="197" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
+				<reportElement x="260" y="182" width="289" height="20" uuid="4efae876-8e5a-4e04-b966-14994f3a3ad0"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Tanggal : " + $P{printTime}]]></textFieldExpression>
 			</textField>
 			<textField>
