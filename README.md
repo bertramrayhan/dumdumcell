@@ -2,7 +2,7 @@
 
 <p align="justify"><b>Aplikasi Kasir DumDumCell</b> adalah aplikasi kasir yang dirancang untuk menunjang operasional bisnis DumDum Cellular secara efisien dan modern. Aplikasi ini mendukung proses transaksi penjualan, pemantauan stok barang, hingga penyajian laporan penjualan secara otomatis. Dengan dua level akses, yaitu karyawan dan pemilik, sistem ini memastikan pengelolaan data lebih aman dan terstruktur. Fitur-fitur seperti login menggunakan RFID, pemindaian barcode produk, serta pencetakan struk secara otomatis turut hadir untuk mempercepat dan mempermudah operasional. Tampilan yang user-friendly juga memudahkan pengguna dalam menavigasi setiap halaman yang tersedia.</p>
 
----
+<br/>
 
 ## 🖼️ Tampilan Aplikasi
 
@@ -33,7 +33,7 @@ Berikut beberapa tampilan dari aplikasi kasir DumDumCell:
   </table>
 </div>
 
----
+<br/>
 
 ## ✨ Fitur Unggulan
 
@@ -44,7 +44,7 @@ Berikut beberapa tampilan dari aplikasi kasir DumDumCell:
 - 📷 **Pemindaian barcode produk** untuk transaksi cepat
 - 🖥️ **Tampilan user-friendly** memudahkan navigasi dan penggunaan
 
----
+<br/>
 
 ## 🎥 Demo Aplikasi
 
@@ -59,13 +59,13 @@ Berikut beberapa tampilan dari aplikasi kasir DumDumCell:
 
 </div>
 
----
+<br/>
 
 ## 🧩 Versi
 
 Versi saat ini: **v1.0.0**
 
----
+<br/>
 
 ## 📬 Kontak
 📧 bertramrayhan1357@gmail.com
