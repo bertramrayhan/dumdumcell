@@ -67,5 +67,13 @@ Versi saat ini: **v1.0.0**
 
 <br/>
 
+## 📥 Download
+
+Klik tombol di bawah untuk mengunduh aplikasi versi terbaru:
+
+[![Download Aplikasi](https://img.shields.io/badge/⬇️ Download-DumDumCell-blue?style=for-the-badge)](https://github.com/bertramrayhan/dumdumcell/releases/latest)
+
+<br/>
+
 ## 📬 Kontak
 📧 bertramrayhan1357@gmail.com
