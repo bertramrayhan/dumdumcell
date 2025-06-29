@@ -13,21 +13,21 @@ Berikut beberapa tampilan dari aplikasi kasir DumDumCell:
     <tr>
       <td align="center">
         <strong>🔐 Halaman Login</strong><br>
-        <img src="assets/halaman-login.png" alt="Halaman Login" width="300"/>
+        <img src="src/assets/demo/halaman-login.png" alt="Halaman Login" width="300"/>
       </td>
       <td align="center">
         <strong>🏠 Halaman Beranda</strong><br>
-        <img src="assets/halaman-beranda-pemilik.png" alt="Halaman Beranda" width="300"/>
+        <img src="src/assets/demo/halaman-beranda-pemilik.png" alt="Halaman Beranda" width="300"/>
       </td>
     </tr>
     <tr>
       <td align="center">
         <strong>🛒 Halaman Transaksi Jual</strong><br>
-        <img src="assets/halaman-transaksi-jual.png" alt="Halaman Transaksi Jual" width="300"/>
+        <img src="src/assets/demo/halaman-transaksi-jual.png" alt="Halaman Transaksi Jual" width="300"/>
       </td>
       <td align="center">
         <strong>📊 Halaman Laporan</strong><br>
-        <img src="assets/halaman-laporan.png" alt="Halaman Laporan" width="300"/>
+        <img src="src/assets/demo/halaman-laporan.png" alt="Halaman Laporan" width="300"/>
       </td>
     </tr>
   </table>
