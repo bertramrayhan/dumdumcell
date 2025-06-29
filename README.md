@@ -1,6 +1,6 @@
 <h1 align="center">Aplikasi Kasir DumDumCell</h1>
 
-**Aplikasi Kasir DumDumCell** adalah aplikasi kasir yang dirancang untuk menunjang operasional bisnis DumDum Cellular secara efisien dan modern. Aplikasi ini mendukung proses transaksi penjualan, pemantauan stok barang, hingga penyajian laporan penjualan secara otomatis. Dengan dua level akses, yaitu karyawan dan pemilik, sistem ini memastikan pengelolaan data lebih aman dan terstruktur. Fitur-fitur seperti login menggunakan RFID, pemindaian barcode produk, serta pencetakan struk secara otomatis turut hadir untuk mempercepat dan mempermudah operasional. Tampilan yang user-friendly juga memudahkan pengguna dalam menavigasi setiap halaman yang tersedia.
+<p align="justify"><b>Aplikasi Kasir DumDumCell</b> adalah aplikasi kasir yang dirancang untuk menunjang operasional bisnis DumDum Cellular secara efisien dan modern. Aplikasi ini mendukung proses transaksi penjualan, pemantauan stok barang, hingga penyajian laporan penjualan secara otomatis. Dengan dua level akses, yaitu karyawan dan pemilik, sistem ini memastikan pengelolaan data lebih aman dan terstruktur. Fitur-fitur seperti login menggunakan RFID, pemindaian barcode produk, serta pencetakan struk secara otomatis turut hadir untuk mempercepat dan mempermudah operasional. Tampilan yang user-friendly juga memudahkan pengguna dalam menavigasi setiap halaman yang tersedia.</p>
 
 ---
 
@@ -13,7 +13,7 @@ Berikut beberapa tampilan dari aplikasi kasir DumDumCell:
     <tr>
       <td align="center">
         <strong>🔐 Halaman Login</strong><br>
-        <img src="src/assets/demo/halaman-login.png" alt="Halaman Login" width="300"/>
+        <img src="src/assets/demo/halaman-login.PNG" alt="Halaman Login" width="300"/>
       </td>
       <td align="center">
         <strong>🏠 Halaman Beranda</strong><br>
@@ -48,9 +48,16 @@ Berikut beberapa tampilan dari aplikasi kasir DumDumCell:
 
 ## 🎥 Demo Aplikasi
 
-Klik gambar di bawah untuk menonton demo aplikasi di YouTube:
+<div align="center">
 
-[![Tonton Demo Aplikasi di YouTube](https://img.youtube.com/vi/HUCxY801T1A/0.jpg)](https://youtu.be/HUCxY801T1A)
+<a href="https://youtu.be/HUCxY801T1A">
+  <img src="https://img.youtube.com/vi/HUCxY801T1A/0.jpg" alt="Tonton Demo Aplikasi di YouTube" width="480">
+</a>
+
+<br/>
+<em>Klik gambar di atas untuk menonton demo aplikasi di YouTube</em>
+
+</div>
 
 ---
 
